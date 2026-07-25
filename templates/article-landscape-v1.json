@@ -1,0 +1,31 @@
+{
+  "id": "article-landscape-v1",
+  "name": "Article landscape",
+  "canvas": "16:9",
+  "size": {
+    "width": 1536,
+    "height": 864
+  },
+  "default_style": "editorial-handdrawn",
+  "layout": "Place the character and one concrete metaphor across the middle 40-60% of the canvas. Keep at least 35% calm negative space. The character must physically cause, repair, move, sort or inspect the central relationship.",
+  "text_policy": "Prefer no generated text. If the user explicitly requests integrated labels, use at most one short phrase and keep it secondary to the visual action.",
+  "constraints": [
+    "Use a true horizontal composition, not a crop from a square or portrait image.",
+    "Preserve every continuity anchor from the supplied profile.",
+    "Express one content judgment with one main physical metaphor.",
+    "Keep the image suitable for inline article reading on a phone.",
+    "Do not include calls to action, codes, logos or watermarks."
+  ],
+  "negative_prompt": [
+    "unauthorized third-party character",
+    "character used as a corner sticker",
+    "presentation slide",
+    "dense infographic",
+    "large cover headline",
+    "complex software interface",
+    "code block",
+    "logo",
+    "watermark",
+    "cropped face or hands"
+  ]
+}

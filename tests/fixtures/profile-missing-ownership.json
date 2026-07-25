@@ -1,0 +1,22 @@
+{
+  "schema": "ip-profile/v1",
+  "identity": {
+    "name": "Lumo",
+    "description": "A fictional cloud mechanic."
+  },
+  "appearance": {
+    "description": "Rounded cloud silhouette with a utility vest.",
+    "signature_features": [
+      "spiral forelock"
+    ]
+  },
+  "personality": {
+    "traits": [
+      "curious"
+    ]
+  },
+  "continuity_anchors": [
+    "rounded cloud silhouette"
+  ],
+  "references": []
+}

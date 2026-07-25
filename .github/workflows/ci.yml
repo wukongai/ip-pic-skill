@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12", "3.14"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run unit and cold-start tests
+        run: python -m unittest discover -s tests -p 'test_*.py'
+      - name: Verify public release boundary
+        run: python scripts/verify_release.py --root . --manifest public-release-manifest.json
+      - name: Compile the public example
+        run: |
+          output_dir="$(mktemp -d)"
+          python scripts/compile_ip_illustration.py \
+            --profile examples/ip-profile.example.json \
+            --brief examples/brief.example.json \
+            --output-dir "$output_dir"
+          test -f "$output_dir/prompt.md"
+          test -f "$output_dir/render-request.json"
+          test -f "$output_dir/run-manifest.json"

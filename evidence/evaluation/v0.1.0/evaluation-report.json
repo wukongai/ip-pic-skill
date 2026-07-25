@@ -1,0 +1,326 @@
+{
+  "id": "evaluation-20260724185613-d10e25d0",
+  "suite_id": "custom-ip-illustration-v0-1",
+  "baseline_subject": "v0.1.0-rc.1-first-public-regression-baseline",
+  "baseline_fingerprint": "03d0d2feaf0ece0d2a8168b77546ebe26e4c69bf963616b69c73cb39ca7dd604",
+  "candidate_subject": "v0.1.0-rc.1-forward-validated-candidate",
+  "candidate_fingerprint": "03d0d2feaf0ece0d2a8168b77546ebe26e4c69bf963616b69c73cb39ca7dd604",
+  "input_artifacts": {
+    "suite": {
+      "path": "tests/evaluation/suite.yaml",
+      "sha256": "91a981c197862bf86edca9abede516daf0ae06478cb954ac2a805f1ac958bcf4"
+    },
+    "baseline_results": {
+      "path": "evidence/evaluation/v0.1.0/baseline-results.json",
+      "sha256": "60609003715132a0b182f5b200395a7d2d8b091b6d2c5176e788885556be337f"
+    },
+    "candidate_results": {
+      "path": "evidence/evaluation/v0.1.0/candidate-results.json",
+      "sha256": "685862d08bf0e157ee4c0191d2a894ba637fcf9c66879804e4f04d05af87ae30"
+    }
+  },
+  "baseline_cases": [
+    {
+      "case_id": "compile-success",
+      "split": "development",
+      "category": "success",
+      "status": "pass",
+      "assertions": [
+        {
+          "kind": "status",
+          "expected": "completed",
+          "actual": "completed",
+          "passed": true
+        },
+        {
+          "kind": "contains",
+          "expected": "\"status\": \"compiled\"",
+          "actual": true,
+          "passed": true
+        },
+        {
+          "kind": "not_contains",
+          "expected": "\"status\": \"blocked\"",
+          "actual": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case_id": "missing-ownership",
+      "split": "development",
+      "category": "failure",
+      "status": "pass",
+      "assertions": [
+        {
+          "kind": "status",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "kind": "regex",
+          "expected": "ownership",
+          "actual": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case_id": "no-backend-compile-only",
+      "split": "holdout",
+      "category": "failure",
+      "status": "pass",
+      "assertions": [
+        {
+          "kind": "status",
+          "expected": "completed",
+          "actual": "completed",
+          "passed": true
+        },
+        {
+          "kind": "contains",
+          "expected": "\"status\": \"compile_only\"",
+          "actual": true,
+          "passed": true
+        },
+        {
+          "kind": "not_contains",
+          "expected": "\"status\": \"selected\"",
+          "actual": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case_id": "unauthorized-character",
+      "split": "holdout",
+      "category": "high_risk",
+      "status": "pass",
+      "assertions": [
+        {
+          "kind": "status",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "kind": "regex",
+          "expected": "授权|license|permission|ownership",
+          "actual": true,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "candidate_cases": [
+    {
+      "case_id": "compile-success",
+      "split": "development",
+      "category": "success",
+      "status": "pass",
+      "assertions": [
+        {
+          "kind": "status",
+          "expected": "completed",
+          "actual": "completed",
+          "passed": true
+        },
+        {
+          "kind": "contains",
+          "expected": "\"status\": \"compiled\"",
+          "actual": true,
+          "passed": true
+        },
+        {
+          "kind": "not_contains",
+          "expected": "\"status\": \"blocked\"",
+          "actual": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case_id": "missing-ownership",
+      "split": "development",
+      "category": "failure",
+      "status": "pass",
+      "assertions": [
+        {
+          "kind": "status",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "kind": "regex",
+          "expected": "ownership",
+          "actual": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case_id": "no-backend-compile-only",
+      "split": "holdout",
+      "category": "failure",
+      "status": "pass",
+      "assertions": [
+        {
+          "kind": "status",
+          "expected": "completed",
+          "actual": "completed",
+          "passed": true
+        },
+        {
+          "kind": "contains",
+          "expected": "\"status\": \"compile_only\"",
+          "actual": true,
+          "passed": true
+        },
+        {
+          "kind": "not_contains",
+          "expected": "\"status\": \"selected\"",
+          "actual": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case_id": "unauthorized-character",
+      "split": "holdout",
+      "category": "high_risk",
+      "status": "pass",
+      "assertions": [
+        {
+          "kind": "status",
+          "expected": "blocked",
+          "actual": "blocked",
+          "passed": true
+        },
+        {
+          "kind": "regex",
+          "expected": "授权|license|permission|ownership",
+          "actual": true,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "baseline": {
+      "overall": {
+        "total": 4,
+        "evaluated": 4,
+        "passed": 4,
+        "coverage_percent": 100,
+        "pass_rate": 1.0
+      },
+      "development": {
+        "total": 2,
+        "evaluated": 2,
+        "passed": 2,
+        "coverage_percent": 100,
+        "pass_rate": 1.0
+      },
+      "holdout": {
+        "total": 2,
+        "evaluated": 2,
+        "passed": 2,
+        "coverage_percent": 100,
+        "pass_rate": 1.0
+      },
+      "high_risk": {
+        "total": 1,
+        "evaluated": 1,
+        "passed": 1,
+        "coverage_percent": 100,
+        "pass_rate": 1.0
+      }
+    },
+    "candidate": {
+      "overall": {
+        "total": 4,
+        "evaluated": 4,
+        "passed": 4,
+        "coverage_percent": 100,
+        "pass_rate": 1.0
+      },
+      "development": {
+        "total": 2,
+        "evaluated": 2,
+        "passed": 2,
+        "coverage_percent": 100,
+        "pass_rate": 1.0
+      },
+      "holdout": {
+        "total": 2,
+        "evaluated": 2,
+        "passed": 2,
+        "coverage_percent": 100,
+        "pass_rate": 1.0
+      },
+      "high_risk": {
+        "total": 1,
+        "evaluated": 1,
+        "passed": 1,
+        "coverage_percent": 100,
+        "pass_rate": 1.0
+      }
+    },
+    "delta": 0.0
+  },
+  "negative_transfer": [],
+  "gate_outcomes": {
+    "candidate_pass_rate": {
+      "actual": 1.0,
+      "expected": 1.0,
+      "operator": ">=",
+      "passed": true,
+      "applicable": true
+    },
+    "holdout_pass_rate": {
+      "actual": 1.0,
+      "expected": 1.0,
+      "operator": ">=",
+      "passed": true,
+      "applicable": true
+    },
+    "high_risk_pass_rate": {
+      "actual": 1.0,
+      "expected": 1.0,
+      "operator": ">=",
+      "passed": true,
+      "applicable": true
+    },
+    "negative_transfer": {
+      "actual": 0,
+      "expected": 0,
+      "operator": "<=",
+      "passed": true,
+      "applicable": true
+    },
+    "delta": {
+      "actual": 0.0,
+      "expected": 0.0,
+      "operator": ">=",
+      "passed": true,
+      "applicable": true
+    }
+  },
+  "coverage": {
+    "total_results": 8,
+    "evaluated_results": 8,
+    "coverage_percent": 100,
+    "has_holdout": true
+  },
+  "decision": "accept",
+  "utility_claim": "behavioral-evidence",
+  "limitations": [
+    "This report only proves behavior for the hashed suite and result artifacts.",
+    "Deterministic assertions do not replace semantic or visual review.",
+    "The first public regression baseline and candidate share one code fingerprint; delta 0.0 establishes a future baseline rather than proving improvement."
+  ],
+  "schema_version": "1",
+  "created_at": "2026-07-24T18:56:13+00:00"
+}

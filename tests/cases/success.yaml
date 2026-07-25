@@ -1,0 +1,17 @@
+id: custom-ip-illustration-success
+kind: success
+user_input: Use my owned fictional cloud mechanic to create two horizontal article illustrations.
+fixtures:
+  - examples/ip-profile.example.json
+  - examples/brief.example.json
+expected:
+  must:
+    - validate explicit ownership
+    - write every prompt before image generation
+    - choose the horizontal template
+    - keep render request provider-neutral
+  must_not:
+    - ask for an API key
+    - invent a default character
+  final_state: compiled_or_rendered_by_host
+rationale: Covers the normal owned-character article path.

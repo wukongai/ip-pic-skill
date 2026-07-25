@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/wukongai/custom-ip-illustration-skill/blob/main/schemas/ip-illustration-brief.schema.json",
+  "title": "IP Illustration Brief",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "title",
+    "content",
+    "canvas",
+    "image_count"
+  ],
+  "properties": {
+    "schema": {
+      "const": "ip-illustration-brief/v1"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "content": {
+      "type": "string",
+      "minLength": 1
+    },
+    "content_points": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "canvas": {
+      "enum": [
+        "16:9",
+        "1:1",
+        "9:16"
+      ]
+    },
+    "image_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 12
+    },
+    "style": {
+      "type": "string",
+      "minLength": 1
+    },
+    "output_dir": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

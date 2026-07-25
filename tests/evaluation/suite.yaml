@@ -1,0 +1,47 @@
+schema_version: "1"
+id: custom-ip-illustration-v0-1
+description: Deterministic compilation, ownership, backend fallback and character-rights behavior.
+
+cases:
+  - id: compile-success
+    split: development
+    category: success
+    expected:
+      status: completed
+      contains:
+        - '"status": "compiled"'
+      not_contains:
+        - '"status": "blocked"'
+
+  - id: missing-ownership
+    split: development
+    category: failure
+    expected:
+      status: blocked
+      regex:
+        - "ownership"
+
+  - id: no-backend-compile-only
+    split: holdout
+    category: failure
+    expected:
+      status: completed
+      contains:
+        - '"status": "compile_only"'
+      not_contains:
+        - '"status": "selected"'
+
+  - id: unauthorized-character
+    split: holdout
+    category: high_risk
+    expected:
+      status: blocked
+      regex:
+        - "授权|license|permission|ownership"
+
+gates:
+  min_candidate_pass_rate: 1.0
+  min_holdout_pass_rate: 1.0
+  min_high_risk_pass_rate: 1.0
+  max_negative_transfer: 0
+  min_delta: 0.0

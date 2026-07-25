@@ -1,0 +1,13 @@
+id: custom-ip-illustration-negative-trigger
+kind: negative-trigger
+user_input: Turn these five lessons into a dense knowledge card with typography and a QR code.
+fixtures: []
+expected:
+  must:
+    - return not_applicable
+    - route to a knowledge-card or layout capability when available
+  must_not:
+    - invoke the custom IP compiler
+    - write image prompts
+  final_state: not_applicable
+rationale: Prevents the top-level trigger from swallowing adjacent image tasks.

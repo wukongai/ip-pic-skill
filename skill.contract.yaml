@@ -1,0 +1,124 @@
+name: custom-ip-illustration
+kind: orchestrator
+owner: community
+status: release-candidate
+version: 0.1.0-rc.1
+scope: direct/manual
+
+inputs:
+  - name: content
+    type: text_or_json
+    required: true
+  - name: ip_profile
+    type: ip-profile/v1
+    required: true
+  - name: brief
+    type: ip-illustration-brief/v1
+    required: true
+  - name: available_image_backends
+    type: runtime_inventory
+    required: false
+
+outputs:
+  - name: prompts
+    type: markdown_files
+    required: true
+  - name: render_request
+    type: render-request/v1
+    required: true
+  - name: run_manifest
+    type: run-manifest/v1
+    required: true
+  - name: images
+    type: bitmap_files
+    required: false
+  - name: qa_report
+    type: structured_result
+    required: false
+
+stops:
+  - name: missing_ownership
+    condition: ip_profile ownership is missing or invalid
+  - name: unauthorized_character
+    condition: user does not own or have permission to use the character
+  - name: output_inside_skill
+    condition: runtime output would be written inside the installed Skill
+  - name: backend_choice_required
+    condition: multiple non-native backends are available and no choice exists
+  - name: compile_only
+    condition: no compatible image backend is available
+
+delegates:
+  - name: host_image_generation_tool
+    contract: prompt + canvas + output_path + selected_reference_images
+  - name: host_visual_inspection_tool
+    contract: image + qa checklist
+
+forbidden:
+  - unlicensed_character_imitation
+  - default_bundled_identity
+  - hardcoded_user_absolute_paths
+  - credentials_in_skill_or_preferences
+  - provider_model_retry_or_fallback_in_render_request
+  - hidden_or_unapproved_remote_side_effect
+  - writing_runtime_outputs_into_skill_root
+
+approvals:
+  - name: image_generation
+    satisfied_by: explicit user request to generate or create images
+  - name: save_backend_preference
+    satisfied_by: explicit user request to remember the backend
+
+side_effect_boundary:
+  compile_is_local_only: true
+  compile_calls_network: false
+  image_generation_owned_by_host: true
+  preference_changes_require_explicit_request: true
+
+state:
+  strategy: project preference, then XDG preference, then user preference; first hit wins
+  files:
+    - .custom-ip-illustration/EXTEND.md
+    - ${XDG_CONFIG_HOME}/custom-ip-illustration/EXTEND.md
+    - ${HOME}/.custom-ip-illustration/EXTEND.md
+  secrets_allowed: false
+
+scripts:
+  - path: scripts/compile_ip_illustration.py
+    side_effect: local_output_only
+  - path: scripts/resolve_backend.py
+    side_effect: none
+  - path: scripts/verify_release.py
+    side_effect: none
+
+tests:
+  command: python3 -m unittest discover -s tests -p test_*.py
+  regression_cases:
+    - tests/cases/success.yaml
+    - tests/cases/failure.yaml
+    - tests/cases/high-risk.yaml
+    - tests/cases/negative-trigger.yaml
+
+evaluation:
+  suite_id: custom-ip-illustration-v0-1
+  score_scope: structural_readiness
+  claims:
+    utility: false
+  case_portfolio:
+    success: tests/cases/success.yaml
+    failure: tests/cases/failure.yaml
+    high_risk: tests/cases/high-risk.yaml
+  type_checks:
+    - cross_stage_io
+    - partial_failure
+    - aggregation
+    - backend_selection
+    - ownership_gate
+    - compile_only_fallback
+    - portability
+  baseline: evidence/evaluation/v0.1.0/baseline-results.json
+  holdout: tests/evaluation/suite.yaml
+  negative_transfer: reject_if_baseline_pass_becomes_candidate_fail
+  behavioral_results:
+    report: evidence/evaluation/v0.1.0/evaluation-report.json
+  independent_review: evidence/reviews/v0.1.0-independent-review.md

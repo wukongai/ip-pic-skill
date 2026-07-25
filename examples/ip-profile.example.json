@@ -1,0 +1,33 @@
+{
+  "schema": "ip-profile/v1",
+  "ownership": {
+    "status": "user_owned",
+    "basis": "Original fictional character created by the user."
+  },
+  "identity": {
+    "name": "Lumo",
+    "description": "A curious adult cloud mechanic who explains ideas by repairing small weather machines."
+  },
+  "appearance": {
+    "description": "Soft rounded cloud silhouette, teal utility vest and compact copper tool bag.",
+    "signature_features": [
+      "single spiral forelock",
+      "teal vest with two square pockets",
+      "small copper tool bag"
+    ]
+  },
+  "personality": {
+    "traits": [
+      "curious",
+      "patient",
+      "dryly humorous"
+    ]
+  },
+  "continuity_anchors": [
+    "adult proportions",
+    "rounded cloud silhouette",
+    "teal vest",
+    "copper tool bag"
+  ],
+  "references": []
+}

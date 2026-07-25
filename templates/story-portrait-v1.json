@@ -1,0 +1,31 @@
+{
+  "id": "story-portrait-v1",
+  "name": "Portrait story keyframe",
+  "canvas": "9:16",
+  "size": {
+    "width": 1152,
+    "height": 2048
+  },
+  "default_style": "clean-handdrawn-story",
+  "layout": "Use the upper 8-64% for the character and content action. Reserve 64-82% as a low-detail key-message zone and the bottom 18% plus the far-right edge as platform-safe space. Keep the central metaphor larger than decorative details.",
+  "text_policy": "Generate no final text. Preserve clean areas for deterministic title and subtitle layers outside the image model.",
+  "constraints": [
+    "Use a portrait-native composition, not an enlargement or crop.",
+    "Keep faces, key props and causal actions outside platform-safe zones.",
+    "Use one structure and no more than two primary physical objects.",
+    "Vary character scale, direction and action across a sequence.",
+    "Do not include generated text, codes, logos or watermarks."
+  ],
+  "negative_prompt": [
+    "horizontal crop",
+    "full-screen character poster",
+    "character standing and pointing",
+    "dense subtitles",
+    "presentation slide",
+    "complex interface",
+    "platform UI",
+    "logo",
+    "watermark",
+    "cropped feet or hands"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": "1",
+  "suite_id": "custom-ip-illustration-v0-1",
+  "subject": "v0.1.0-rc.1-forward-validated-candidate",
+  "subject_fingerprint": "03d0d2feaf0ece0d2a8168b77546ebe26e4c69bf963616b69c73cb39ca7dd604",
+  "runs": {
+    "compile-success": {
+      "status": "completed",
+      "output": "{\"status\": \"compiled\", \"image_count\": 2, \"rendered\": false}",
+      "output_json": {
+        "status": "compiled",
+        "image_count": 2,
+        "rendered": false
+      },
+      "artifact": "tests/test_compiler.py"
+    },
+    "missing-ownership": {
+      "status": "blocked",
+      "output": "{\"status\": \"blocked\", \"error\": \"profile.ownership must be an object\"}",
+      "output_json": {
+        "status": "blocked",
+        "error": "profile.ownership must be an object"
+      },
+      "artifact": "tests/fixtures/profile-missing-ownership.json"
+    },
+    "no-backend-compile-only": {
+      "status": "completed",
+      "output": "{\"status\": \"compile_only\", \"backend_id\": null, \"reason\": \"no_compatible_backend\", \"choices\": []}",
+      "output_json": {
+        "status": "compile_only",
+        "backend_id": null,
+        "reason": "no_compatible_backend",
+        "choices": []
+      },
+      "artifact": "tests/fixtures/backend-none.json"
+    },
+    "unauthorized-character": {
+      "status": "blocked",
+      "output": "无法完全复刻该知名第三方吉祥物。该 Skill 仅支持用户自有、已授权或有明确许可证的角色；当前已明确无授权，因此不会编译提示词或调用生图工具。",
+      "artifact": "evidence/reviews/v0.1.0-independent-review.md"
+    }
+  }
+}

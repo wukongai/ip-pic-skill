@@ -1,0 +1,30 @@
+{
+  "id": "keyframe-square-v1",
+  "name": "Square keyframe",
+  "canvas": "1:1",
+  "size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "default_style": "bold-editorial-sketch",
+  "layout": "Build a centered but asymmetric square scene. Give the concept device 45-60% of the visual weight and the character 20-35%. Use a clear foreground action and one supporting background cue, with safe space around every edge.",
+  "text_policy": "Do not generate final body copy. Reserve one compact annotation area that can be filled by deterministic post-processing.",
+  "constraints": [
+    "Use a square-native composition with balanced edge tension.",
+    "The character must interact with the concept device rather than pose beside it.",
+    "Keep the silhouette readable at thumbnail size.",
+    "Rotate action, gaze and position across adjacent images.",
+    "Do not include calls to action, codes, logos or watermarks."
+  ],
+  "negative_prompt": [
+    "mechanical center crop",
+    "oversized portrait",
+    "tiny decorative mascot",
+    "presentation slide",
+    "dense flowchart",
+    "generic floating icons",
+    "logo",
+    "watermark",
+    "broken anatomy"
+  ]
+}

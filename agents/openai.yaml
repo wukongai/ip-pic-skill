@@ -1,0 +1,4 @@
+interface:
+  display_name: "通用 IP 配图"
+  short_description: "用自有角色资料规划并生成角色一致的文章与关键帧配图"
+  default_prompt: "Use $custom-ip-illustration to turn my article and authorized character references into a consistent IP illustration plan."

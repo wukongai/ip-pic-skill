@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/wukongai/custom-ip-illustration-skill/blob/main/schemas/template.schema.json",
+  "title": "Custom IP Illustration Template",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "canvas",
+    "size",
+    "default_style",
+    "layout",
+    "text_policy",
+    "constraints",
+    "negative_prompt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "canvas": {
+      "enum": [
+        "16:9",
+        "1:1",
+        "9:16"
+      ]
+    },
+    "size": {
+      "type": "object"
+    },
+    "default_style": {
+      "type": "string"
+    },
+    "layout": {
+      "type": "string"
+    },
+    "text_policy": {
+      "type": "string"
+    },
+    "constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "negative_prompt": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/wukongai/custom-ip-illustration-skill/blob/main/schemas/run-manifest.schema.json",
+  "title": "Compilation Run Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "rendered",
+    "image_count",
+    "template_id",
+    "canvas",
+    "artifacts"
+  ],
+  "properties": {
+    "schema": {
+      "const": "run-manifest/v1"
+    },
+    "status": {
+      "const": "compiled"
+    },
+    "rendered": {
+      "const": false
+    },
+    "image_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "template_id": {
+      "type": "string"
+    },
+    "canvas": {
+      "enum": [
+        "16:9",
+        "1:1",
+        "9:16"
+      ]
+    },
+    "artifacts": {
+      "type": "object"
+    }
+  }
+}

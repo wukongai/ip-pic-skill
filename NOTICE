@@ -1,0 +1,14 @@
+Custom IP Illustration
+Copyright (c) 2026 Custom IP Illustration contributors
+
+The first release candidate was designed from clean, generic contracts and
+does not bundle third-party character images, sample compositions, fonts, or
+source code.
+
+Workflow inspiration was informed by public image-illustration Skills:
+
+- https://github.com/JimLiu/baoyu-skills
+- https://github.com/op7418/guizang-social-card-skill
+
+Those projects are not included in this distribution. Their names and links
+are provided for attribution and research transparency only.

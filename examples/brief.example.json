@@ -1,0 +1,13 @@
+{
+  "schema": "ip-illustration-brief/v1",
+  "title": "Small feedback loops beat delayed plans",
+  "content": "A plan becomes more reliable when each small step produces visible feedback. Long silent execution hides errors until they are expensive.",
+  "content_points": [
+    "Small steps create visible feedback.",
+    "Long silent execution allows errors to accumulate."
+  ],
+  "canvas": "16:9",
+  "image_count": 2,
+  "style": "editorial-handdrawn",
+  "output_dir": "imgs"
+}

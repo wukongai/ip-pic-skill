@@ -1,0 +1,14 @@
+id: custom-ip-illustration-holdout
+kind: holdout
+user_input: Compile a portrait keyframe from a licensed text-only profile in a project path containing Unicode and spaces, with no image backend available.
+fixtures: []
+expected:
+  must:
+    - preserve the portrait-native layout
+    - write outputs only to the requested project path
+    - report compile_only
+  must_not:
+    - claim that an image was generated
+    - write into the Skill root
+  final_state: compile_only
+rationale: Checks portability and honest fallback without a reference bitmap.
