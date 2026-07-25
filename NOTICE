@@ -1,9 +1,14 @@
 Custom IP Illustration
 Copyright (c) 2026 Custom IP Illustration contributors
 
-The first release candidate was designed from clean, generic contracts and
-does not bundle third-party character images, sample compositions, fonts, or
-source code.
+The release was designed from clean, generic contracts and does not bundle
+third-party character images, sample compositions, fonts, or source code.
+
+The fictional tutorial character Mira and examples/demo-character.svg are
+original assets created by contributors for this repository. Permission to
+use, copy, modify, and distribute those demo assets is granted under the same
+MIT License included in this repository. No rights to third-party characters,
+brands, or likenesses are granted.
 
 Workflow inspiration was informed by public image-illustration Skills:
 

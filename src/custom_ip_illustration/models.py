@@ -101,9 +101,6 @@ def validate_brief(brief: Any) -> dict[str, Any]:
     for index, point in enumerate(points):
         _require_text(point, f"brief.content_points[{index}]")
 
-    output_dir = data.get("output_dir")
-    if output_dir is not None:
-        _require_text(output_dir, "brief.output_dir")
     return data
 
 

@@ -1,6 +1,6 @@
 ---
 name: custom-ip-illustration
-description: 为文章、段落、脚本和关键帧规划并生成用户自有或获授权的固定 IP 角色配图；负责角色 onboarding、内容锚点、动作表演、镜头构图、三种画幅、prompt 编译、图片后端自动选择和视觉 QA。用户提出 IP 配图、固定角色配图、角色一致性文章插图或用自己的角色参考图生成内容配图时使用；不用于无角色的普通配图、完整知识卡片生产、封面排版、视频编辑、配音或未获授权的角色仿制。
+description: 为文章、脚本和关键帧规划并生成用户自有或获授权的固定 IP 角色配图，负责角色 onboarding、动作构图、prompt 编译、图片后端自动选择和视觉 QA。Use when users ask for custom IP illustrations, consistent character art for articles or keyframes, or images based on owned or authorized character references. Do not use for generic non-character art, knowledge cards, covers, video or audio work, or unlicensed character imitation.
 ---
 
 # Custom IP Illustration
@@ -19,15 +19,25 @@ description: 为文章、段落、脚本和关键帧规划并生成用户自有�
 ## 工作流
 
 1. 判断请求是否命中本 Skill；普通无角色配图、知识卡片、封面海报、视频剪辑和音频任务交给对应能力。
-2. 读取用户内容、目标画幅、输出目录和角色资料。缺少角色资料时读取 [IP onboarding](references/ip-onboarding.md)，一次只收集必要信息。
+2. 按顺序发现角色资料：用户本次明确提供的资料或路径、当前项目 `.custom-ip-illustration/ip-profile.json`。两处都没有时进入下方“首次使用引导”，不得猜测角色。
 3. 验证 `ownership.status`。缺失、未知或明确无授权时立即停止，不编译、不调用图片工具。
 4. 读取第一份存在的偏好文件：项目级 `.custom-ip-illustration/EXTEND.md`、XDG 配置、用户级配置。没有时使用 `auto` 默认值。
 5. 按 [内容导演工作流](references/workflow.md) 选择认知锚点、物理隐喻、角色动作、表情、镜头和画幅模板。一张图只解释一个判断或转折。
-6. 在用户工作目录运行 `scripts/compile_ip_illustration.py`。每张图必须先落盘 `prompts/NN-*.md`，再考虑生图。
+6. 以用户项目为工作目录，先从当前 `SKILL.md` 定位已安装 Skill 根目录，再运行 `python3 <skill-root>/scripts/compile_ip_illustration.py`。不得假设脚本位于用户项目。每张图必须先落盘 `prompts/NN-*.md`，再考虑生图。
 7. 按下方唯一一份后端规则解析图片工具。
 8. 用户已经明确要求“生成、制作、出图”时，该请求即授权本次图片生成；只要求规划、prompt 或 dry-run 时不得调用后端。
 9. 每张图片独立调用选定后端，传递 prompt、画幅、输出路径和本次选中的参考图。不得传递 provider 路由字段。
 10. 按 [QA playbook](references/qa-playbook.md) 分开执行技术检查、Agent 视觉检查和用户最终确认。部分失败必须逐张报告。
+
+## 首次使用引导
+
+缺少角色资料时读取 [IP onboarding](references/ip-onboarding.md)，按以下状态推进：
+
+1. 用一句话说明需要先建立获授权的角色资料，然后一次只问一个选择：使用仓库虚构人物跑教程，还是建立用户自己的角色。
+2. 用户选择教程时，明确说明 Mira 是本仓库原创的虚构示例、只用于本次教程，不是默认角色；读取 `examples/ip-profile.example.json` 和 `examples/brief.example.json`。不得把示例资料保存为用户资料。
+3. 用户选择自己的角色时，一次只问一个关键问题，依次收集 ownership、identity、appearance、personality、continuity anchors 和可选参考图。
+4. 收集完成后先展示人类可读摘要和拟保存位置。只有用户明确确认后，才把资料保存到项目 `.custom-ip-illustration/ip-profile.json`；覆盖既有资料也必须再次确认。
+5. 再确认内容、图片数量、画幅、输出目录，以及本次是只编译还是生成图片。不要询问 Router、provider、模型、服务地址或 API 凭证。
 
 ## Image Generation Tools
 
@@ -46,10 +56,11 @@ description: 为文章、段落、脚本和关键帧规划并生成用户自有�
 
 - 内容：文章、段落、脚本或结构化要点。
 - `ip-profile/v1`：ownership、identity、appearance、personality、continuity anchors 和可选授权参考图。
-- `ip-illustration-brief/v1`：标题、内容、画幅、风格、图片数量和输出目录。
+- `ip-illustration-brief/v1`：标题、内容、画幅、风格和图片数量。
+- 输出目录：独立的 CLI / Agent 运行参数，不写进 brief。
 - 可选偏好：风格、画幅、输出目录、批量数、语言和 backend id。
 
-示例位于 `examples/`。不要把示例角色误认为默认角色。
+示例位于 `examples/`。示例人物只可在用户明确选择教程时使用，不得误认为默认角色。
 
 ## 输出
 

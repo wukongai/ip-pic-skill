@@ -8,9 +8,9 @@ from custom_ip_illustration.models import validate_brief, validate_profile
 
 
 class ProfileValidationTests(unittest.TestCase):
-    def test_owned_profile_passes(self) -> None:
+    def test_licensed_demo_profile_passes(self) -> None:
         profile = validate_profile(example_profile())
-        self.assertEqual(profile["ownership"]["status"], "user_owned")
+        self.assertEqual(profile["ownership"]["status"], "licensed")
 
     def test_missing_ownership_fails_closed(self) -> None:
         profile = example_profile()

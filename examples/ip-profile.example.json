@@ -1,33 +1,35 @@
 {
   "schema": "ip-profile/v1",
   "ownership": {
-    "status": "user_owned",
-    "basis": "Original fictional character created by the user."
+    "status": "licensed",
+    "basis": "Original fictional tutorial character and SVG created by repository contributors and licensed for reuse with this repository; see LICENSE and NOTICE."
   },
   "identity": {
-    "name": "Lumo",
-    "description": "A curious adult cloud mechanic who explains ideas by repairing small weather machines."
+    "name": "Mira",
+    "description": "A fictional adult workshop guide who makes abstract ideas visible with simple paper models."
   },
   "appearance": {
-    "description": "Soft rounded cloud silhouette, teal utility vest and compact copper tool bag.",
+    "description": "Human adult with short side-swept dark hair, round clear glasses, an ochre overshirt and a small green notebook.",
     "signature_features": [
-      "single spiral forelock",
-      "teal vest with two square pockets",
-      "small copper tool bag"
+      "short side-swept dark hair",
+      "round clear glasses",
+      "ochre overshirt",
+      "small green notebook"
     ]
   },
   "personality": {
     "traits": [
       "curious",
       "patient",
-      "dryly humorous"
+      "practical"
     ]
   },
   "continuity_anchors": [
     "adult proportions",
-    "rounded cloud silhouette",
-    "teal vest",
-    "copper tool bag"
+    "short side-swept dark hair",
+    "round clear glasses",
+    "ochre overshirt",
+    "green notebook"
   ],
   "references": []
 }

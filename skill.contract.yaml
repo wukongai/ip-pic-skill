@@ -2,7 +2,7 @@ name: custom-ip-illustration
 kind: orchestrator
 owner: community
 status: release-candidate
-version: 0.1.0-rc.1
+version: 0.1.0-rc.2
 scope: direct/manual
 
 inputs:
@@ -66,6 +66,8 @@ forbidden:
 approvals:
   - name: image_generation
     satisfied_by: explicit user request to generate or create images
+  - name: save_or_replace_ip_profile
+    satisfied_by: explicit user confirmation after profile preview
   - name: save_backend_preference
     satisfied_by: explicit user request to remember the backend
 
@@ -73,11 +75,15 @@ side_effect_boundary:
   compile_is_local_only: true
   compile_calls_network: false
   image_generation_owned_by_host: true
+  profile_changes_require_explicit_confirmation: true
   preference_changes_require_explicit_request: true
 
 state:
-  strategy: project preference, then XDG preference, then user preference; first hit wins
-  files:
+  profile_discovery:
+    - explicit profile, attachment or path from the current request
+    - .custom-ip-illustration/ip-profile.json
+  preference_strategy: project preference, then XDG preference, then user preference; first hit wins
+  preference_files:
     - .custom-ip-illustration/EXTEND.md
     - ${XDG_CONFIG_HOME}/custom-ip-illustration/EXTEND.md
     - ${HOME}/.custom-ip-illustration/EXTEND.md
@@ -119,6 +125,4 @@ evaluation:
   baseline: evidence/evaluation/v0.1.0/baseline-results.json
   holdout: tests/evaluation/suite.yaml
   negative_transfer: reject_if_baseline_pass_becomes_candidate_fail
-  behavioral_results:
-    report: evidence/evaluation/v0.1.0/evaluation-report.json
   independent_review: evidence/reviews/v0.1.0-independent-review.md

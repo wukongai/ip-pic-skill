@@ -1,11 +1,12 @@
 {
   "schema": "public-release-files/v1",
-  "version": "0.1.0-rc.1",
+  "version": "0.1.0-rc.2",
   "default_policy": "deny",
   "allow_binary_images": false,
   "allowed_domains": [
     "github.com",
-    "json-schema.org"
+    "json-schema.org",
+    "www.w3.org"
   ],
   "files": [
     ".github/workflows/ci.yml",
@@ -16,6 +17,7 @@
     "LICENSE",
     "NOTICE",
     "README.md",
+    "README.en.md",
     "SECURITY.md",
     "SKILL.md",
     "VERSION",
@@ -25,6 +27,7 @@
     "evidence/evaluation/v0.1.0/evaluation-report.json",
     "evidence/reviews/v0.1.0-independent-review.md",
     "examples/brief.example.json",
+    "examples/demo-character.svg",
     "examples/ip-profile.example.json",
     "public-release-manifest.json",
     "pyproject.toml",
@@ -64,6 +67,7 @@
     "tests/test_backend.py",
     "tests/test_cold_start.py",
     "tests/test_compiler.py",
+    "tests/test_documentation.py",
     "tests/test_models.py",
     "tests/test_preferences.py",
     "tests/test_release.py"

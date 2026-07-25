@@ -1,13 +1,13 @@
 {
   "schema": "ip-profile/v1",
   "identity": {
-    "name": "Lumo",
-    "description": "A fictional cloud mechanic."
+    "name": "Mira",
+    "description": "A fictional adult workshop guide."
   },
   "appearance": {
-    "description": "Rounded cloud silhouette with a utility vest.",
+    "description": "Human adult with short dark hair and round clear glasses.",
     "signature_features": [
-      "spiral forelock"
+      "round clear glasses"
     ]
   },
   "personality": {
@@ -16,7 +16,7 @@
     ]
   },
   "continuity_anchors": [
-    "rounded cloud silhouette"
+    "round clear glasses"
   ],
   "references": []
 }

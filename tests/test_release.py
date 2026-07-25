@@ -83,6 +83,30 @@ class ReleaseValidationTests(unittest.TestCase):
             any("binary image assets" in item for item in result["findings"])
         )
 
+    def test_svg_is_scanned_as_text(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "sample.svg").write_text(
+                "<svg><text>/" + "Users" + "/private-project</text></svg>",
+                encoding="utf-8",
+            )
+            manifest = root / "manifest.json"
+            manifest.write_text(
+                json.dumps(
+                    {
+                        "schema": "public-release-files/v1",
+                        "allowed_domains": [],
+                        "files": ["sample.svg", "manifest.json"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            result = validate_release(root, manifest)
+        self.assertEqual(result["status"], "fail")
+        self.assertTrue(
+            any("private pattern" in item for item in result["findings"])
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

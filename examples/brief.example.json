@@ -8,6 +8,5 @@
   ],
   "canvas": "16:9",
   "image_count": 2,
-  "style": "editorial-handdrawn",
-  "output_dir": "imgs"
+  "style": "editorial-handdrawn"
 }
