@@ -10,7 +10,14 @@ Open a private security report through the repository hosting platform. Do not i
 
 ## Credential boundary
 
-This Skill never needs an API key. Image credentials belong to the host image backend and must remain outside the Skill, preference files, examples, prompts and render requests.
+Most backends keep image credentials in the host and do not expose them to this Skill. The optional direct OpenAI API backend requires a user-level key supplied through the current process environment or `~/.custom-ip-illustration/.env`. It must never be stored in the Skill, repository, preference files, examples, prompts, render requests, logs, or chat.
+
+### Revoke, rotate or delete a direct API key
+
+- Revoke a key from the OpenAI API Keys page when it should no longer work.
+- To rotate it, revoke the old key, create a replacement, then run `configure` again or update the current process environment.
+- To delete the local copy, remove only `~/.custom-ip-illustration/.env`; this does not revoke the key at OpenAI.
+- Never publish either the old or replacement key in an issue or diagnostic log.
 
 ## Character rights
 

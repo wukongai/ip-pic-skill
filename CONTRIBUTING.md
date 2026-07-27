@@ -5,7 +5,7 @@
 - Keep the root `SKILL.md` concise and route detailed knowledge to `references/`.
 - Keep compilation provider-neutral and dependency-free.
 - Do not add default people, brands, private reference images or customer data.
-- Do not add API credentials, provider routing, retry policy or model selection.
+- Keep API credentials, provider routing, retry policy, and model selection out of the compiler and render request. The fixed GPT Image 2 direct adapter is isolated and may read only its documented user-level credential source.
 - Add or update deterministic tests for every behavior change.
 
 ## Development

@@ -12,9 +12,13 @@ sys.path.insert(0, str(ROOT / "src"))
 def example_profile() -> dict:
     return deepcopy(
         json.loads(
-            (ROOT / "examples" / "ip-profile.example.json").read_text(
-                encoding="utf-8"
-            )
+            (
+                ROOT
+                / "examples"
+                / "characters"
+                / "wukong"
+                / "profile.json"
+            ).read_text(encoding="utf-8")
         )
     )
 

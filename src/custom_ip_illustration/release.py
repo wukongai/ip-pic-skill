@@ -3,13 +3,14 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import struct
+import zlib
 from pathlib import Path
 from typing import Any, Iterable
 from urllib.parse import urlparse
 
 
 TEXT_SUFFIXES = {
-    "",
     ".gitignore",
     ".json",
     ".md",
@@ -20,8 +21,21 @@ TEXT_SUFFIXES = {
     ".yaml",
     ".yml",
 }
-BINARY_IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
+TEXT_FILENAMES = {"LICENSE", "NOTICE", "VERSION"}
 IGNORED_NAMES = {".git", "__pycache__", ".pytest_cache"}
+PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+SAFE_PNG_CHUNKS = {
+    b"IHDR",
+    b"PLTE",
+    b"IDAT",
+    b"IEND",
+    b"cHRM",
+    b"gAMA",
+    b"iCCP",
+    b"sBIT",
+    b"sRGB",
+    b"tRNS",
+}
 
 
 def sha256_file(path: Path) -> str:
@@ -40,7 +54,6 @@ def _private_patterns() -> list[str]:
         "布" + "丁",
         "content" + "-factory",
         "image" + "-factory",
-        "ai" + "-router",
         "fei" + "shu",
         "ob" + "sidian",
         ".skill" + "-engineering",
@@ -48,6 +61,7 @@ def _private_patterns() -> list[str]:
         "/" + "Users" + "/",
         "/" + "home" + "/",
         "C:" + "\\Users\\",
+        "mi" + "ra",
         "#7A" + "2638",
         "#172" + "33B",
     ]
@@ -69,7 +83,16 @@ def _secret_patterns() -> list[re.Pattern[str]]:
         re.compile(r"\b" + "s" + r"k-[A-Za-z0-9_-]{20,}\b"),
         re.compile(r"\b" + "gh" + r"p_[A-Za-z0-9]{20,}\b"),
         re.compile(
-            r"(?i)\b(api[_-]?key|token|secret|password)\b\s*[:=]\s*[\"']?[A-Za-z0-9_./+-]{12,}"
+            r"(?i)(?<![A-Za-z0-9_])[\"']?(?:openai[_-]?)?"
+            r"(?:api[_-]?key|token|secret|password)[\"']?"
+            r"(?![A-Za-z0-9_])\s*[:=]\s*"
+            r"[\"'][A-Za-z0-9_./+-]{12,}[\"']"
+        ),
+        re.compile(
+            r"(?im)^\s*(?:export\s+)?(?<![A-Za-z0-9_])(?:openai[_-]?)?"
+            r"(?:api[_-]?key|token|secret|password)"
+            r"(?![A-Za-z0-9_])\s*=\s*"
+            r"[A-Za-z0-9_./+-]{12,}\s*$"
         ),
         re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     ]
@@ -92,7 +115,87 @@ def _load_manifest(path: Path) -> dict[str, Any]:
     files = data.get("files")
     if not isinstance(files, list) or not all(isinstance(item, str) for item in files):
         raise ValueError("manifest.files must be a list of paths")
+    binary_assets = data.get("binary_assets", {})
+    if not isinstance(binary_assets, dict) or not all(
+        isinstance(relative, str)
+        and isinstance(digest, str)
+        and re.fullmatch(r"[0-9a-f]{64}", digest)
+        for relative, digest in binary_assets.items()
+    ):
+        raise ValueError(
+            "manifest.binary_assets must map paths to lowercase SHA-256 digests"
+        )
     return data
+
+
+def _check_png(path: Path, relative: str) -> list[str]:
+    findings: list[str] = []
+    payload = path.read_bytes()
+    if not payload.startswith(PNG_SIGNATURE):
+        return [f"{relative}: invalid PNG signature"]
+
+    offset = len(PNG_SIGNATURE)
+    chunks: list[tuple[bytes, int]] = []
+    while offset < len(payload):
+        if len(payload) - offset < 12:
+            findings.append(f"{relative}: truncated PNG chunk")
+            return findings
+        length = struct.unpack(">I", payload[offset : offset + 4])[0]
+        chunk_type = payload[offset + 4 : offset + 8]
+        chunk_end = offset + 12 + length
+        if chunk_end > len(payload):
+            findings.append(f"{relative}: truncated PNG chunk")
+            return findings
+        chunk_data = payload[offset + 8 : offset + 8 + length]
+        expected_crc = struct.unpack(
+            ">I", payload[offset + 8 + length : chunk_end]
+        )[0]
+        actual_crc = zlib.crc32(chunk_type + chunk_data) & 0xFFFFFFFF
+        if actual_crc != expected_crc:
+            findings.append(f"{relative}: PNG chunk CRC mismatch")
+        if chunk_type not in SAFE_PNG_CHUNKS:
+            name = chunk_type.decode("ascii", errors="replace")
+            findings.append(f"{relative}: PNG chunk is not allowed: {name}")
+        chunks.append((chunk_type, length))
+        offset = chunk_end
+        if chunk_type == b"IEND":
+            break
+
+    chunk_types = [chunk_type for chunk_type, _ in chunks]
+    if not chunk_types or chunk_types[0] != b"IHDR":
+        findings.append(f"{relative}: PNG must start with IHDR")
+    if chunk_types.count(b"IHDR") != 1:
+        findings.append(f"{relative}: PNG must contain exactly one IHDR")
+    elif chunks[chunk_types.index(b"IHDR")][1] != 13:
+        findings.append(f"{relative}: PNG structure is invalid: IHDR length")
+    if b"IDAT" not in chunk_types:
+        findings.append(f"{relative}: PNG must contain IDAT")
+    if chunk_types.count(b"IEND") != 1:
+        findings.append(f"{relative}: PNG must contain exactly one IEND")
+    else:
+        iend_index = chunk_types.index(b"IEND")
+        if chunks[iend_index][1] != 0:
+            findings.append(f"{relative}: PNG structure is invalid: IEND length")
+        if chunk_types[-1] != b"IEND" or offset != len(payload):
+            findings.append(f"{relative}: PNG must end with IEND and no trailing data")
+
+    plte_indices = [
+        index for index, chunk_type in enumerate(chunk_types)
+        if chunk_type == b"PLTE"
+    ]
+    idat_indices = [
+        index for index, chunk_type in enumerate(chunk_types)
+        if chunk_type == b"IDAT"
+    ]
+    if len(plte_indices) > 1:
+        findings.append(f"{relative}: PNG structure is invalid: duplicate PLTE")
+    if plte_indices and idat_indices and plte_indices[0] > idat_indices[0]:
+        findings.append(f"{relative}: PNG structure is invalid: PLTE after IDAT")
+    if idat_indices and idat_indices != list(
+        range(idat_indices[0], idat_indices[-1] + 1)
+    ):
+        findings.append(f"{relative}: PNG structure is invalid: discontinuous IDAT")
+    return findings
 
 
 def _check_markdown_links(path: Path, text: str, root: Path) -> list[str]:
@@ -123,6 +226,7 @@ def validate_release(
     findings: list[str] = []
     actual: set[str] = set()
     allowed_domains = set(manifest.get("allowed_domains", ["github.com"]))
+    binary_assets = manifest.get("binary_assets", {})
 
     extra_private_patterns: list[str] = []
     if private_patterns_path is not None:
@@ -140,14 +244,28 @@ def validate_release(
         if path.is_symlink():
             findings.append(f"{relative}: symlink is not allowed")
             continue
-        if path.suffix.lower() in BINARY_IMAGE_SUFFIXES:
-            findings.append(f"{relative}: binary image assets are not allowed in v0.1")
+        suffix = (
+            path.suffix.lower()
+            or (path.name if path.name.startswith(".") else "")
+        )
+        is_text = suffix in TEXT_SUFFIXES or path.name in TEXT_FILENAMES
+        is_binary = relative in binary_assets or not is_text
+        if is_binary:
+            expected_hash = binary_assets.get(relative)
+            if expected_hash is None:
+                findings.append(f"{relative}: binary asset is not allowlisted")
+            elif path.suffix.lower() != ".png":
+                findings.append(f"{relative}: only exact allowlisted PNG assets are allowed")
+            else:
+                actual_hash = sha256_file(path)
+                if actual_hash != expected_hash:
+                    findings.append(f"{relative}: binary asset SHA-256 mismatch")
+                findings.extend(_check_png(path, relative))
         if "/../" in f"/{relative}/" or relative.startswith("../"):
             findings.append(f"{relative}: non-canonical path")
-
-        suffix = path.suffix.lower() or (path.name if path.name.startswith(".") else "")
-        if suffix not in TEXT_SUFFIXES:
+        if is_binary:
             continue
+
         try:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
@@ -186,6 +304,11 @@ def validate_release(
 
     missing = sorted(allowed - actual)
     unlisted = sorted(actual - allowed)
+    binary_paths = set(binary_assets)
+    for relative in sorted(binary_paths - allowed):
+        findings.append(f"{relative}: binary asset is not in manifest.files")
+    for relative in sorted(binary_paths - actual):
+        findings.append(f"{relative}: allowlisted binary asset is missing")
     for relative in missing:
         findings.append(f"{relative}: allowlisted file is missing")
     for relative in unlisted:

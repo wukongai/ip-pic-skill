@@ -1,13 +1,18 @@
 {
   "schema": "public-release-files/v1",
-  "version": "0.1.0-rc.2",
+  "version": "0.1.0-rc.3",
   "default_policy": "deny",
-  "allow_binary_images": false,
   "allowed_domains": [
+    "api.openai.com",
+    "developers.openai.com",
     "github.com",
     "json-schema.org",
-    "www.w3.org"
+    "platform.openai.com"
   ],
+  "binary_assets": {
+    "examples/characters/moon-rabbit/preview.png": "ef9cdaeb16a63ceaf5f64230877ab128dd1648cce7824b60858ee3e3d6d8aa24",
+    "examples/characters/wukong/preview.png": "172b4cd0236477b1f3cfbcd68118728e8317b78cb45fd8868266fdb3cde5a350"
+  },
   "files": [
     ".github/workflows/ci.yml",
     ".gitignore",
@@ -27,8 +32,10 @@
     "evidence/evaluation/v0.1.0/evaluation-report.json",
     "evidence/reviews/v0.1.0-independent-review.md",
     "examples/brief.example.json",
-    "examples/demo-character.svg",
-    "examples/ip-profile.example.json",
+    "examples/characters/moon-rabbit/preview.png",
+    "examples/characters/moon-rabbit/profile.json",
+    "examples/characters/wukong/preview.png",
+    "examples/characters/wukong/profile.json",
     "public-release-manifest.json",
     "pyproject.toml",
     "references/backend-selection.md",
@@ -42,6 +49,7 @@
     "schemas/run-manifest.schema.json",
     "schemas/template.schema.json",
     "scripts/compile_ip_illustration.py",
+    "scripts/openai_backend.py",
     "scripts/resolve_backend.py",
     "scripts/verify_release.py",
     "skill.contract.yaml",
@@ -50,6 +58,7 @@
     "src/custom_ip_illustration/compiler.py",
     "src/custom_ip_illustration/errors.py",
     "src/custom_ip_illustration/models.py",
+    "src/custom_ip_illustration/openai_direct.py",
     "src/custom_ip_illustration/preferences.py",
     "src/custom_ip_illustration/release.py",
     "templates/article-landscape-v1.json",
@@ -69,6 +78,7 @@
     "tests/test_compiler.py",
     "tests/test_documentation.py",
     "tests/test_models.py",
+    "tests/test_openai_direct.py",
     "tests/test_preferences.py",
     "tests/test_release.py"
   ]

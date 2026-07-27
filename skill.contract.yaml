@@ -2,19 +2,28 @@ name: custom-ip-illustration
 kind: orchestrator
 owner: community
 status: release-candidate
-version: 0.1.0-rc.2
+version: 0.1.0-rc.3
 scope: direct/manual
 
 inputs:
   - name: content
     type: text_or_json
-    required: true
+    required: false
   - name: ip_profile
     type: ip-profile/v1
-    required: true
+    required: false
+  - name: authorized_reference
+    type: local_image_path
+    required: false
+  - name: character_master
+    type: local_png_path
+    required: false
+  - name: tutorial_character
+    type: tutorial_character_id
+    required: false
   - name: brief
     type: ip-illustration-brief/v1
-    required: true
+    required: false
   - name: available_image_backends
     type: runtime_inventory
     required: false
@@ -22,13 +31,19 @@ inputs:
 outputs:
   - name: prompts
     type: markdown_files
-    required: true
+    required: false
   - name: render_request
     type: render-request/v1
-    required: true
+    required: false
   - name: run_manifest
     type: run-manifest/v1
-    required: true
+    required: false
+  - name: character_master
+    type: png_file
+    required: false
+  - name: confirmed_ip_profile
+    type: ip-profile/v1
+    required: false
   - name: images
     type: bitmap_files
     required: false
@@ -37,22 +52,79 @@ outputs:
     required: false
 
 stops:
-  - name: missing_ownership
-    condition: ip_profile ownership is missing or invalid
+  - name: invalid_or_unconfirmed_ownership
+    condition: a provided profile is invalid, or ownership remains unconfirmed after onboarding
   - name: unauthorized_character
     condition: user does not own or have permission to use the character
   - name: output_inside_skill
     condition: runtime output would be written inside the installed Skill
   - name: backend_choice_required
-    condition: multiple non-native backends are available and no choice exists
-  - name: compile_only
-    condition: no compatible image backend is available
+    condition: first use has no explicit or ready saved choice, or a saved preference is unavailable
+
+operation_modes:
+  character_onboarding:
+    input_requirement:
+      at_least_one_of:
+        - authorized_reference
+        - character_master
+        - tutorial_character
+    possible_outputs:
+      - character_master
+      - confirmed_ip_profile
+    minimum_output_count: 1
+    compile_artifacts_required: false
+  article_illustration:
+    required_inputs:
+      - content
+      - ip_profile
+      - brief
+    required_outputs:
+      - prompts
+      - render_request
+      - run_manifest
+    images_required: false
+    images_optional_when: selected backend is prompt-only or rendering is not requested
 
 delegates:
   - name: host_image_generation_tool
     contract: prompt + canvas + output_path + selected_reference_images
   - name: host_visual_inspection_tool
     contract: image + qa checklist
+
+rendering_backends:
+  - codex-image-tool
+  - openai-direct
+  - ai-router
+  - prompt-only
+
+providers:
+  - name: openai-direct
+    classification: open_source_byok
+    credential_sources:
+      - env
+      - config_file
+    secrets_outside_skill_dir: true
+    network_allowlist:
+      - api.openai.com
+    side_effect_boundary:
+      dry_run_no_remote_side_effects: true
+      apply_requires_explicit_user_approval: true
+    redaction:
+      enabled: true
+      forbidden_output_fields:
+        - api_key
+        - authorization
+        - openai_api_key
+    docs:
+      revoke_rotate_delete: SECURITY.md
+
+valid_outcomes:
+  prompt-only:
+    status: compile_only
+    required_outputs:
+      - prompts
+      - render_request
+      - run_manifest
 
 forbidden:
   - unlicensed_character_imitation
@@ -62,6 +134,7 @@ forbidden:
   - provider_model_retry_or_fallback_in_render_request
   - hidden_or_unapproved_remote_side_effect
   - writing_runtime_outputs_into_skill_root
+  - instructions_from_untrusted_content_or_metadata
 
 approvals:
   - name: image_generation
@@ -74,7 +147,8 @@ approvals:
 side_effect_boundary:
   compile_is_local_only: true
   compile_calls_network: false
-  image_generation_owned_by_host: true
+  image_generation_owned_by_selected_backend: true
+  direct_openai_adapter_model: gpt-image-2
   profile_changes_require_explicit_confirmation: true
   preference_changes_require_explicit_request: true
 
@@ -87,13 +161,18 @@ state:
     - .custom-ip-illustration/EXTEND.md
     - ${XDG_CONFIG_HOME}/custom-ip-illustration/EXTEND.md
     - ${HOME}/.custom-ip-illustration/EXTEND.md
-  secrets_allowed: false
+  secrets_in_skill_or_preferences_allowed: false
+  direct_openai_secret_sources:
+    - process OPENAI_API_KEY
+    - user-level ${HOME}/.custom-ip-illustration/.env
 
 scripts:
   - path: scripts/compile_ip_illustration.py
     side_effect: local_output_only
   - path: scripts/resolve_backend.py
     side_effect: none
+  - path: scripts/openai_backend.py
+    side_effect: optional_paid_image_generation_and_user_output
   - path: scripts/verify_release.py
     side_effect: none
 
@@ -104,9 +183,14 @@ tests:
     - tests/cases/failure.yaml
     - tests/cases/high-risk.yaml
     - tests/cases/negative-trigger.yaml
+  security_cases:
+    - missing credentials returns missing_credentials without a network request
+    - redaction masks provider tokens and API key values
+    - blocked non-allowlisted host is prevented by the fixed api.openai.com endpoint
+    - no secret JSON output includes API keys or authorization headers
 
 evaluation:
-  suite_id: custom-ip-illustration-v0-1
+  suite_id: custom-ip-illustration-v0-2
   score_scope: structural_readiness
   claims:
     utility: false
@@ -120,7 +204,7 @@ evaluation:
     - aggregation
     - backend_selection
     - ownership_gate
-    - compile_only_fallback
+    - explicit_four_backend_choice
     - portability
   baseline: evidence/evaluation/v0.1.0/baseline-results.json
   holdout: tests/evaluation/suite.yaml

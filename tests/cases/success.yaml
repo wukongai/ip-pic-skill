@@ -1,18 +1,20 @@
 id: custom-ip-illustration-success
 kind: success
-user_input: Use the licensed fictional tutorial guide to compile two horizontal article illustrations.
+user_input: Use Wukong Knowledge Maker for this tutorial only. With Codex Image Tool, create two horizontal illustrations for the article and check each result.
 fixtures:
-  - examples/ip-profile.example.json
+  - examples/characters/wukong/profile.json
   - examples/brief.example.json
 expected:
   must:
+    - record the user's explicit codex-image-tool choice
     - validate explicit ownership
     - write every prompt before image generation
-    - choose the horizontal template
-    - keep render request provider-neutral
+    - keep the render request provider-neutral
+    - report real image files only after they are written
   must_not:
     - ask for an API key
-    - invent a default character
+    - invent or silently select a character
     - save the tutorial profile as the user's profile
-  final_state: compiled_or_rendered_by_host
-rationale: Covers the normal owned-character article path.
+    - save the backend as a future default
+  final_state: rendered_by_selected_host_tool
+rationale: Covers the four-step tutorial path with an explicit no-key rendering choice.

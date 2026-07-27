@@ -31,7 +31,13 @@ def main() -> int:
     except (OSError, json.JSONDecodeError, CustomIPIllustrationError) as exc:
         print(
             json.dumps(
-                {"status": "blocked", "backend_id": None, "reason": str(exc), "choices": []},
+                {
+                    "status": "blocked",
+                    "backend_id": None,
+                    "reason": str(exc),
+                    "choices": [],
+                    "choice_details": [],
+                },
                 ensure_ascii=False,
             )
         )

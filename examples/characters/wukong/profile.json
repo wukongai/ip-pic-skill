@@ -1,0 +1,39 @@
+{
+  "schema": "ip-profile/v1",
+  "ownership": {
+    "status": "licensed",
+    "basis": "Original fictional tutorial character created for this repository and licensed for reuse under the repository MIT License; see LICENSE and NOTICE."
+  },
+  "identity": {
+    "name": "悟空知识工匠 / Wukong Knowledge Maker",
+    "description": "An original young monkey knowledge-maker who turns difficult ideas into clear visual explanations."
+  },
+  "appearance": {
+    "description": "A lively monkey character with warm brown fur, a cloud-shaped deep-red hair tuft, teal workwear, a coral-red scarf, a utility tool belt, and a long-handled brass paintbrush staff.",
+    "signature_features": [
+      "warm brown fur",
+      "cloud-shaped deep-red hair tuft",
+      "teal workwear",
+      "coral-red scarf",
+      "utility tool belt",
+      "long-handled brass paintbrush staff"
+    ]
+  },
+  "personality": {
+    "traits": [
+      "curious",
+      "inventive",
+      "energetic"
+    ]
+  },
+  "continuity_anchors": [
+    "young monkey proportions",
+    "warm brown fur",
+    "cloud-shaped deep-red hair tuft",
+    "teal workwear",
+    "coral-red scarf",
+    "utility tool belt",
+    "long-handled brass paintbrush staff"
+  ],
+  "references": []
+}

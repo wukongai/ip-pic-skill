@@ -30,7 +30,7 @@ jobs:
         run: |
           output_dir="$(mktemp -d)"
           python scripts/compile_ip_illustration.py \
-            --profile examples/ip-profile.example.json \
+            --profile examples/characters/wukong/profile.json \
             --brief examples/brief.example.json \
             --output-dir "$output_dir"
           test -f "$output_dir/render-request.json"

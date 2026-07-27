@@ -1,0 +1,41 @@
+{
+  "schema": "ip-profile/v1",
+  "ownership": {
+    "status": "licensed",
+    "basis": "Original fictional tutorial character created for this repository and licensed for reuse under the repository MIT License; see LICENSE and NOTICE."
+  },
+  "identity": {
+    "name": "月兔地图师 / Moon Rabbit Mapmaker",
+    "description": "An original moon-rabbit cartographer who maps complex journeys into calm, approachable visual stories."
+  },
+  "appearance": {
+    "description": "A gentle rabbit character with ivory-white fur, long ears, a crescent-shaped forelock, a midnight-blue short jacket, a mustard-yellow map satchel, a brass moon-phase compass, and a rolled star map.",
+    "signature_features": [
+      "ivory-white fur",
+      "long ears",
+      "crescent-shaped forelock",
+      "midnight-blue short jacket",
+      "mustard-yellow map satchel",
+      "brass moon-phase compass",
+      "rolled star map"
+    ]
+  },
+  "personality": {
+    "traits": [
+      "thoughtful",
+      "gentle",
+      "observant"
+    ]
+  },
+  "continuity_anchors": [
+    "compact rabbit proportions",
+    "ivory-white fur",
+    "long ears",
+    "crescent-shaped forelock",
+    "midnight-blue short jacket",
+    "mustard-yellow map satchel",
+    "brass moon-phase compass",
+    "rolled star map"
+  ],
+  "references": []
+}

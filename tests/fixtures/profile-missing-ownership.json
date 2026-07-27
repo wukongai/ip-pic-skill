@@ -1,8 +1,8 @@
 {
   "schema": "ip-profile/v1",
   "identity": {
-    "name": "Mira",
-    "description": "A fictional adult workshop guide."
+    "name": "Nova",
+    "description": "A fictional adult learning guide."
   },
   "appearance": {
     "description": "Human adult with short dark hair and round clear glasses.",

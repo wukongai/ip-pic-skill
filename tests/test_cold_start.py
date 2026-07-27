@@ -48,36 +48,51 @@ class ColdStartTests(unittest.TestCase):
                     encoding="utf-8"
                 )
             )
-            for canvas in ("16:9", "1:1", "9:16"):
-                brief = dict(source_brief)
-                brief["canvas"] = canvas
-                brief["image_count"] = 1
-                brief_path = work / f"brief-{canvas.replace(':', 'x')}.json"
-                brief_path.write_text(
-                    json.dumps(brief, ensure_ascii=False),
-                    encoding="utf-8",
-                )
-                output = work / f"output-{canvas.replace(':', 'x')}"
-                completed = subprocess.run(
-                    [
-                        sys.executable,
-                        str(installed / "scripts" / "compile_ip_illustration.py"),
-                        "--profile",
-                        str(installed / "examples" / "ip-profile.example.json"),
-                        "--brief",
-                        str(brief_path),
-                        "--output-dir",
-                        str(output),
-                    ],
-                    cwd=work,
-                    env=environment,
-                    check=False,
-                    capture_output=True,
-                    text=True,
-                )
-                self.assertEqual(completed.returncode, 0, completed.stderr)
-                self.assertTrue((output / "render-request.json").is_file())
-                self.assertTrue((output / "run-manifest.json").is_file())
+            for character in ("wukong", "moon-rabbit"):
+                for canvas in ("16:9", "1:1", "9:16"):
+                    brief = dict(source_brief)
+                    brief["canvas"] = canvas
+                    brief["image_count"] = 1
+                    slug = canvas.replace(":", "x")
+                    brief_path = work / f"brief-{character}-{slug}.json"
+                    brief_path.write_text(
+                        json.dumps(brief, ensure_ascii=False),
+                        encoding="utf-8",
+                    )
+                    output = work / f"output-{character}-{slug}"
+                    profile = (
+                        installed
+                        / "examples"
+                        / "characters"
+                        / character
+                        / "profile.json"
+                    )
+                    completed = subprocess.run(
+                        [
+                            sys.executable,
+                            str(
+                                installed
+                                / "scripts"
+                                / "compile_ip_illustration.py"
+                            ),
+                            "--profile",
+                            str(profile),
+                            "--brief",
+                            str(brief_path),
+                            "--output-dir",
+                            str(output),
+                        ],
+                        cwd=work,
+                        env=environment,
+                        check=False,
+                        capture_output=True,
+                        text=True,
+                    )
+                    self.assertEqual(completed.returncode, 0, completed.stderr)
+                    self.assertTrue(
+                        (output / "render-request.json").is_file()
+                    )
+                    self.assertTrue((output / "run-manifest.json").is_file())
 
             self.assertEqual(release_hashes(installed), before)
 

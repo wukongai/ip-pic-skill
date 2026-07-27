@@ -1,34 +1,83 @@
 schema_version: "1"
-id: custom-ip-illustration-v0-1
-description: Deterministic compilation, ownership, backend fallback and character-rights behavior.
+id: custom-ip-illustration-v0-2
+description: Four-step onboarding, explicit rendering choice, credential boundaries, ownership, and truthful result claims.
+
+baseline_rc_2:
+  observed_failure: With no host image backend, the first run fell directly to compile_only without offering an executable setup path.
+  required_delta:
+    - show all four rendering choices before character onboarding
+    - distinguish unavailable, needs_setup, selected, and compile_only
+    - never silently select a paid backend
 
 cases:
-  - id: compile-success
+  - id: first-run-choice
+    split: development
+    category: success
+    expected:
+      status: needs_user_choice
+      contains:
+        - codex-image-tool
+        - openai-direct
+        - ai-router
+        - prompt-only
+      not_contains:
+        - '"status": "selected"'
+
+  - id: explicit-prompt-only
     split: development
     category: success
     expected:
       status: completed
       contains:
-        - '"status": "compiled"'
+        - '"status": "compile_only"'
       not_contains:
-        - '"status": "blocked"'
+        - image_written
 
-  - id: missing-ownership
-    split: development
-    category: failure
-    expected:
-      status: blocked
-      regex:
-        - "ownership"
-
-  - id: no-backend-compile-only
+  - id: missing-direct-api-credentials
     split: holdout
     category: failure
     expected:
+      status: needs_setup
+      contains:
+        - missing_credentials
+      not_contains:
+        - OPENAI_API_KEY=
+        - fallback
+
+  - id: unavailable-saved-backend
+    split: holdout
+    category: failure
+    expected:
+      status: needs_user_choice
+      contains:
+        - saved_preference_unavailable
+      not_contains:
+        - '"status": "selected"'
+
+  - id: unsupported-direct-platform
+    split: holdout
+    category: failure
+    expected:
+      status: needs_user_choice
+      contains:
+        - unsupported_platform
+        - codex-image-tool
+        - ai-router
+        - prompt-only
+      not_contains:
+        - fallback
+        - image_written
+
+  - id: prompt-only-character-master
+    split: holdout
+    category: success
+    expected:
       status: completed
       contains:
-        - '"status": "compile_only"'
+        - character-master prompt
+        - external image tool
       not_contains:
+        - image_written
         - '"status": "selected"'
 
   - id: unauthorized-character

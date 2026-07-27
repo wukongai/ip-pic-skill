@@ -1,9 +1,16 @@
 # Changelog
 
+## 0.1.0-rc.3
+
+- Added explicit rendering choices, direct GPT Image 2 support, and original Wukong and Moon Rabbit tutorial characters.
+- Added deterministic public-release verification with an exact file allowlist and pinned PNG hashes.
+- Linked the direct API guidance to the official [GPT Image documentation](https://developers.openai.com/api/docs/guides/image-generation).
+- Hardened direct rendering with project-root file-descriptor anchoring, no-clobber output writes, bounded authorized references, prompt-data trust boundaries, and complete PNG stream validation.
+
 ## 0.1.0-rc.2
 
 - Added complete Simplified Chinese and English installation and first-run tutorials.
-- Replaced the non-human sample with Mira, an original fictional adult demo character and SVG preview.
+- Introduced a temporary original adult demo character and SVG preview, later superseded before the rc.3 release.
 - Added progressive first-run onboarding with explicit tutorial and own-character paths.
 - Added project profile discovery and confirmation gates before saving or replacing a profile.
 - Added documentation contract tests and UTF-8 privacy scanning for SVG assets.
