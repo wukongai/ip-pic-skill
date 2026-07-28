@@ -7,7 +7,7 @@
 按顺序寻找：
 
 1. 用户在本次请求中明确提供的角色资料、附件或路径；
-2. 当前项目 `.custom-ip-illustration/ip-profile.json`。
+2. 当前项目 `.ip-pic/ip-profile.json`。
 
 都不存在时才进入 onboarding。不要搜索其他私人目录，不要自动复制仓库示例。
 
@@ -64,9 +64,9 @@
 - 外观、签名特征和连续性锚点；
 - 性格；
 - 已授权参考图数量；
-- 拟保存位置 `.custom-ip-illustration/ip-profile.json`。
+- 拟保存位置 `.ip-pic/ip-profile.json`。
 
-提醒用户该文件是明文 JSON，可能被 Git 或云盘同步；不希望同步时，把 `.custom-ip-illustration/` 加入项目 `.gitignore`，或本次只保留在对话中。
+提醒用户该文件是明文 JSON，可能被 Git 或云盘同步；不希望同步时，把 `.ip-pic/` 加入项目 `.gitignore`，或本次只保留在对话中。
 
 只有用户明确确认后才保存。若文件已存在，先说明将覆盖并再次确认。角色资料不得包含凭证、provider、model、服务地址或与角色无关的私人知识库。
 

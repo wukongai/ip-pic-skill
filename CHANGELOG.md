@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.0-rc.4
+
+- Renamed the public Skill, repository, Python package, configuration paths, schemas, evaluation IDs, and documentation to `ip-pic`.
+- Added read-only migration discovery for the former preference and user-key locations; all new writes use `.ip-pic/`.
+
 ## 0.1.0-rc.3
 
 - Added explicit rendering choices, direct GPT Image 2 support, and original Wukong and Moon Rabbit tutorial characters.

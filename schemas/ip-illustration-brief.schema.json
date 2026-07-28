@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/wukongai/custom-ip-illustration-skill/blob/main/schemas/ip-illustration-brief.schema.json",
+  "$id": "https://github.com/wukongai/ip-pic-skill/blob/main/schemas/ip-illustration-brief.schema.json",
   "title": "IP Illustration Brief",
   "type": "object",
   "additionalProperties": false,

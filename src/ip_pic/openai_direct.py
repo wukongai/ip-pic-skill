@@ -7,6 +7,7 @@ import os
 import secrets
 import stat
 import struct
+import warnings
 import zlib
 from contextlib import contextmanager
 from pathlib import Path
@@ -57,6 +58,10 @@ _UNLINK_SUPPORTS_DIR_FD = os.unlink in os.supports_dir_fd
 
 
 def _user_config_path() -> Path:
+    return Path.home() / ".ip-pic" / ".env"
+
+
+def _legacy_user_config_path() -> Path:
     return Path.home() / ".custom-ip-illustration" / ".env"
 
 
@@ -77,14 +82,26 @@ def load_api_key(
     if key is not None:
         return key
 
-    path = config_path or _user_config_path()
-    try:
-        contents = path.read_text(encoding="utf-8")
-    except FileNotFoundError:
-        return None
-    for line in contents.splitlines():
-        if line.startswith("OPENAI_API_KEY="):
-            return _valid_key(line[len("OPENAI_API_KEY=") :])
+    candidates = (
+        ((config_path, False),)
+        if config_path is not None
+        else ((_user_config_path(), False), (_legacy_user_config_path(), True))
+    )
+    for path, is_legacy in candidates:
+        try:
+            contents = path.read_text(encoding="utf-8")
+        except FileNotFoundError:
+            continue
+        if is_legacy:
+            warnings.warn(
+                "Legacy custom-ip-illustration credentials are read-only; "
+                "run configure to save them under ~/.ip-pic/.env.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+        for line in contents.splitlines():
+            if line.startswith("OPENAI_API_KEY="):
+                return _valid_key(line[len("OPENAI_API_KEY=") :])
     return None
 
 
@@ -249,7 +266,7 @@ def _multipart(
     fields: dict[str, str],
     references: list[tuple[str, str, bytes]],
 ) -> tuple[str, bytes]:
-    boundary = f"----custom-ip-illustration-{uuid4().hex}"
+    boundary = f"----ip-pic-{uuid4().hex}"
     chunks: list[bytes] = []
     for name, value in fields.items():
         chunks.extend(

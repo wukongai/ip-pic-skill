@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import warnings
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -87,6 +88,21 @@ def preference_candidates(
     xdg = Path(env.get("XDG_CONFIG_HOME", str(home / ".config"))).expanduser()
     candidates: list[Path] = []
     if project_root is not None:
+        candidates.append(project_root.resolve() / ".ip-pic" / "EXTEND.md")
+    candidates.append(xdg / "ip-pic" / "EXTEND.md")
+    candidates.append(home / ".ip-pic" / "EXTEND.md")
+    return candidates
+
+
+def legacy_preference_candidates(
+    project_root: Path | None = None,
+    environment: Mapping[str, str] | None = None,
+) -> list[Path]:
+    env = dict(os.environ if environment is None else environment)
+    home = Path(env.get("HOME", str(Path.home()))).expanduser()
+    xdg = Path(env.get("XDG_CONFIG_HOME", str(home / ".config"))).expanduser()
+    candidates: list[Path] = []
+    if project_root is not None:
         candidates.append(
             project_root.resolve()
             / ".custom-ip-illustration"
@@ -103,5 +119,14 @@ def resolve_preferences(
 ) -> tuple[dict[str, Any], Path | None]:
     for candidate in preference_candidates(project_root, environment):
         if candidate.is_file():
+            return parse_extend(candidate), candidate
+    for candidate in legacy_preference_candidates(project_root, environment):
+        if candidate.is_file():
+            warnings.warn(
+                "Legacy custom-ip-illustration preferences are read-only; "
+                "move them to the matching .ip-pic or ip-pic config path.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
             return parse_extend(candidate), candidate
     return dict(DEFAULT_PREFERENCES), None

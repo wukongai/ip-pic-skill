@@ -1,4 +1,4 @@
-id: custom-ip-illustration-failure
+id: ip-pic-failure
 kind: failure
 user_input: Use Direct OpenAI API now, but no credential is configured. Do not ask me anything and just switch to any paid image backend that works.
 fixtures: []

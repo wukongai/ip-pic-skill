@@ -1,4 +1,4 @@
-# Custom IP Illustration Skill
+# IP 配图 Skill
 
 [简体中文](README.md) | [English](README.en.md)
 
@@ -9,13 +9,13 @@
 在你的项目目录运行：
 
 ```bash
-npx skills add wukongai/custom-ip-illustration-skill
+npx skills add wukongai/ip-pic-skill
 ```
 
 安装器会询问目标 Agent 和安装范围。安装完成后，对 Agent 说：
 
 ```text
-使用 custom-ip-illustration。先检查安装，然后带我完成第一次使用。
+使用 ip-pic。先检查安装，然后带我完成第一次使用。
 ```
 
 Agent 会自行定位 Skill 和运行所需脚本；正常使用不需要你手动安装依赖。
@@ -39,7 +39,7 @@ Agent 会自行定位 Skill 和运行所需脚本；正常使用不需要你手�
 
 ### 直接 OpenAI API 的安全配置
 
-选择“直接 OpenAI API”后，让 Agent 运行 `doctor` 检查；缺少凭证时再运行 `configure`。`configure` 使用隐藏输入，并把 Key 保存到用户级 `~/.custom-ip-illustration/.env`，权限限制为当前用户读取。也可以只在当前进程环境中提供 `OPENAI_API_KEY`。
+选择“直接 OpenAI API”后，让 Agent 运行 `doctor` 检查；缺少凭证时再运行 `configure`。`configure` 使用隐藏输入，并把 Key 保存到用户级 `~/.ip-pic/.env`，权限限制为当前用户读取。也可以只在当前进程环境中提供 `OPENAI_API_KEY`。
 
 不要把 Key 粘贴到聊天、仓库、角色资料、`EXTEND.md` 或文章里。Agent 不应回显 Key。你可以从 [OpenAI API Keys](https://platform.openai.com/api-keys) 创建 Key；API 使用可能还需要账户额度或组织验证。
 
@@ -80,7 +80,7 @@ python3 <skill-root>/scripts/openai_backend.py master --reference <project-photo
 用这张卡通母版建立我的 ip-profile；一次只问一个问题，保存前先让我确认。
 ```
 
-Agent 会先确认权利来源，再提取角色身份、外观、性格和连续性锚点。只有你确认后，它才保存到项目的 `.custom-ip-illustration/ip-profile.json`。该文件可能含本地参考图路径；不希望同步到 Git 或云盘时，把 `.custom-ip-illustration/` 加入项目的 `.gitignore`。
+Agent 会先确认权利来源，再提取角色身份、外观、性格和连续性锚点。只有你确认后，它才保存到项目的 `.ip-pic/ip-profile.json`。该文件可能含本地参考图路径；不希望同步到 Git 或云盘时，把 `.ip-pic/` 加入项目的 `.gitignore`。
 
 不想上传照片，也可以用一个原创教程角色体验：
 
@@ -112,18 +112,28 @@ Agent 会先确认权利来源，再提取角色身份、外观、性格和连�
 Windows 仍可安装和使用其他出图方式；若直接 OpenAI API 报 `unsupported_platform`，请改选其他方式。PowerShell 使用单行安装命令：
 
 ```powershell
-npx skills add wukongai/custom-ip-illustration-skill
+npx skills add wukongai/ip-pic-skill
 ```
 
 ## 可选偏好
 
-需要长期保存画幅、风格或后端时，把 `EXTEND.example.md` 复制为项目 `.custom-ip-illustration/EXTEND.md`。偏好文件只能保存普通配置，不能保存 Key、token、cookie、服务地址或模型路由。
+需要长期保存画幅、风格或后端时，把 `EXTEND.example.md` 复制为项目 `.ip-pic/EXTEND.md`。偏好文件只能保存普通配置，不能保存 Key、token、cookie、服务地址或模型路由。
+
+## 从旧名称迁移
+
+`0.1.0-rc.4` 起，Skill、仓库和配置目录统一改名为 `ip-pic`。如果你安装过旧版 `custom-ip-illustration`：
+
+1. 用 Skill 管理器移除旧 Skill；
+2. 重新运行 `npx skills add wukongai/ip-pic-skill`；
+3. 如需保留本地角色与偏好，把项目 `.custom-ip-illustration/` 中的文件移动到 `.ip-pic/`。
+
+新版本只向 `.ip-pic/` 写入。运行时仍可只读发现旧偏好和旧用户级 Key，并提示迁移，不会继续写入旧目录。
 
 ## 开发者验证
 
 ```bash
-git clone https://github.com/wukongai/custom-ip-illustration-skill.git
-cd custom-ip-illustration-skill
+git clone https://github.com/wukongai/ip-pic-skill.git
+cd ip-pic-skill
 python3 -m unittest discover -s tests -p 'test_*.py'
 python3 scripts/verify_release.py --root . --manifest public-release-manifest.json
 ```

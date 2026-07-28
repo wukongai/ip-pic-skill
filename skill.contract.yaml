@@ -1,8 +1,8 @@
-name: custom-ip-illustration
+name: ip-pic
 kind: orchestrator
 owner: community
 status: release-candidate
-version: 0.1.0-rc.3
+version: 0.1.0-rc.4
 scope: direct/manual
 
 inputs:
@@ -155,16 +155,16 @@ side_effect_boundary:
 state:
   profile_discovery:
     - explicit profile, attachment or path from the current request
-    - .custom-ip-illustration/ip-profile.json
+    - .ip-pic/ip-profile.json
   preference_strategy: project preference, then XDG preference, then user preference; first hit wins
   preference_files:
-    - .custom-ip-illustration/EXTEND.md
-    - ${XDG_CONFIG_HOME}/custom-ip-illustration/EXTEND.md
-    - ${HOME}/.custom-ip-illustration/EXTEND.md
+    - .ip-pic/EXTEND.md
+    - ${XDG_CONFIG_HOME}/ip-pic/EXTEND.md
+    - ${HOME}/.ip-pic/EXTEND.md
   secrets_in_skill_or_preferences_allowed: false
   direct_openai_secret_sources:
     - process OPENAI_API_KEY
-    - user-level ${HOME}/.custom-ip-illustration/.env
+    - user-level ${HOME}/.ip-pic/.env
 
 scripts:
   - path: scripts/compile_ip_illustration.py
@@ -190,7 +190,7 @@ tests:
     - no secret JSON output includes API keys or authorization headers
 
 evaluation:
-  suite_id: custom-ip-illustration-v0-2
+  suite_id: ip-pic-v0-2
   score_scope: structural_readiness
   claims:
     utility: false

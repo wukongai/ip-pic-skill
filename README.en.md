@@ -1,4 +1,4 @@
-# Custom IP Illustration Skill
+# IP Pic Skill
 
 [简体中文](README.md) | [English](README.en.md)
 
@@ -9,13 +9,13 @@ Turn an article into a series of illustrations performed by one consistent, orig
 Run this from your project directory:
 
 ```bash
-npx skills add wukongai/custom-ip-illustration-skill
+npx skills add wukongai/ip-pic-skill
 ```
 
 The installer asks for the target Agent and installation scope. Then tell your Agent:
 
 ```text
-Use custom-ip-illustration. Check the installation, then guide me through my first run.
+Use ip-pic. Check the installation, then guide me through my first run.
 ```
 
 The Agent locates the installed Skill and runs its scripts. A normal user does not install dependencies manually.
@@ -39,7 +39,7 @@ The Agent saves a backend preference only when you explicitly say “use this by
 
 ### Safe direct OpenAI API setup
 
-After you choose Direct OpenAI API, ask the Agent to run `doctor`. If credentials are missing, it can run `configure`. `configure` uses hidden input and writes the key to the user-level `~/.custom-ip-illustration/.env` with user-only permissions. You may instead provide `OPENAI_API_KEY` in the current process environment.
+After you choose Direct OpenAI API, ask the Agent to run `doctor`. If credentials are missing, it can run `configure`. `configure` uses hidden input and writes the key to the user-level `~/.ip-pic/.env` with user-only permissions. You may instead provide `OPENAI_API_KEY` in the current process environment.
 
 Never paste the key into chat, this repository, a character profile, `EXTEND.md`, or an article. The Agent must not echo it. Create a key at [OpenAI API Keys](https://platform.openai.com/api-keys); API usage may also require account credit or organization verification.
 
@@ -80,7 +80,7 @@ When the master looks right, tell your Agent:
 Build my ip-profile from this cartoon master. Ask one question at a time and show it to me before saving.
 ```
 
-The Agent confirms the rights basis, then extracts identity, appearance, personality, and continuity anchors. It saves `.custom-ip-illustration/ip-profile.json` only after your confirmation. The file may contain local reference paths; add `.custom-ip-illustration/` to your project `.gitignore` if it should not sync to Git or cloud storage.
+The Agent confirms the rights basis, then extracts identity, appearance, personality, and continuity anchors. It saves `.ip-pic/ip-profile.json` only after your confirmation. The file may contain local reference paths; add `.ip-pic/` to your project `.gitignore` if it should not sync to Git or cloud storage.
 
 If you do not want to upload a photo, try one original tutorial character:
 
@@ -112,18 +112,28 @@ The Agent handles normal dependencies. If installation fails, check Node.js and 
 Windows can still install the Skill and use the other rendering methods. If Direct OpenAI API returns `unsupported_platform`, choose another method. Use this single-line PowerShell install command:
 
 ```powershell
-npx skills add wukongai/custom-ip-illustration-skill
+npx skills add wukongai/ip-pic-skill
 ```
 
 ## Optional preferences
 
-To retain a canvas, style, or rendering choice, copy `EXTEND.example.md` to `.custom-ip-illustration/EXTEND.md` in your project. Preferences may contain ordinary settings only—never a key, token, cookie, service URL, or model route.
+To retain a canvas, style, or rendering choice, copy `EXTEND.example.md` to `.ip-pic/EXTEND.md` in your project. Preferences may contain ordinary settings only—never a key, token, cookie, service URL, or model route.
+
+## Migrate from the previous name
+
+Starting with `0.1.0-rc.4`, the Skill, repository, and configuration directory use the single name `ip-pic`. If you installed the former `custom-ip-illustration` release:
+
+1. Remove the former Skill with your Skill manager.
+2. Run `npx skills add wukongai/ip-pic-skill`.
+3. To preserve local profiles and preferences, move the files from project `.custom-ip-illustration/` to `.ip-pic/`.
+
+The new release writes only to `.ip-pic/`. It may read the former preference or user-key location once and show a migration warning, but it never writes back to the former directory.
 
 ## Developer verification
 
 ```bash
-git clone https://github.com/wukongai/custom-ip-illustration-skill.git
-cd custom-ip-illustration-skill
+git clone https://github.com/wukongai/ip-pic-skill.git
+cd ip-pic-skill
 python3 -m unittest discover -s tests -p 'test_*.py'
 python3 scripts/verify_release.py --root . --manifest public-release-manifest.json
 ```

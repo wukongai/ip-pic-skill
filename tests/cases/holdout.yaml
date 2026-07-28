@@ -1,4 +1,4 @@
-id: custom-ip-illustration-holdout
+id: ip-pic-holdout
 kind: holdout
 user_input: Compile a portrait keyframe from a licensed text-only profile in a project path containing Unicode and spaces, with no image backend available.
 fixtures: []

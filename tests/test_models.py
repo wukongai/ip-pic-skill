@@ -3,8 +3,8 @@ from __future__ import annotations
 import unittest
 
 from _support import example_brief, example_profile
-from custom_ip_illustration.errors import ValidationError
-from custom_ip_illustration.models import validate_brief, validate_profile
+from ip_pic.errors import ValidationError
+from ip_pic.models import validate_brief, validate_profile
 
 
 class ProfileValidationTests(unittest.TestCase):

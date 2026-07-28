@@ -8,8 +8,8 @@ import unittest
 from pathlib import Path
 
 from _support import ROOT, example_brief, example_profile
-from custom_ip_illustration.compiler import compile_request
-from custom_ip_illustration.errors import SecurityError
+from ip_pic.compiler import compile_request
+from ip_pic.errors import SecurityError
 
 
 class CompilerTests(unittest.TestCase):

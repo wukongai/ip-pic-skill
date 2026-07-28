@@ -6,7 +6,7 @@ try:
     from _support import ROOT
 except ModuleNotFoundError:
     from tests._support import ROOT
-from custom_ip_illustration.backend import resolve_backend
+from ip_pic.backend import resolve_backend
 
 
 def inventory(*backends: dict) -> dict:

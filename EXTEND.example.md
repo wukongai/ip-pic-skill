@@ -1,4 +1,4 @@
-# Custom IP Illustration Preferences
+# IP 配图 Preferences
 
 ```yaml
 preferred_image_backend: auto
@@ -17,4 +17,4 @@ language: zh
 - `ai-router`；
 - `prompt-only`。
 
-只有用户明确要求“以后默认用这个”时才修改。只保存偏好，不要在此文件写入 API key、token、cookie、secret、服务地址或模型路由。直接 OpenAI API 的 Key 只允许位于进程环境或用户级 `~/.custom-ip-illustration/.env`。
+只有用户明确要求“以后默认用这个”时才修改。只保存偏好，不要在此文件写入 API key、token、cookie、secret、服务地址或模型路由。直接 OpenAI API 的 Key 只允许位于进程环境或用户级 `~/.ip-pic/.env`。

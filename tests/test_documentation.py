@@ -6,7 +6,7 @@ import sys
 import unittest
 
 from _support import ROOT
-from custom_ip_illustration.models import validate_profile
+from ip_pic.models import validate_profile
 
 RETIRED_TUTORIAL_NAME = "Mi" + "ra"
 
@@ -42,7 +42,7 @@ class DocumentationContractTests(unittest.TestCase):
         )
         for text, steps, troubleshooting_heading in journeys:
             self.assertIn(
-                "npx skills add wukongai/custom-ip-illustration-skill",
+                "npx skills add wukongai/ip-pic-skill",
                 text,
             )
             for step in steps:
@@ -53,7 +53,7 @@ class DocumentationContractTests(unittest.TestCase):
             main_path = text[: text.index(troubleshooting_heading)]
             self.assertNotIn("Python 3.10", main_path)
             self.assertNotIn("Node.js", main_path)
-            self.assertIn(".custom-ip-illustration/ip-profile.json", text)
+            self.assertIn(".ip-pic/ip-profile.json", text)
             self.assertIn("compile_only", text)
             self.assertNotIn("\\\n", text)
 
@@ -96,7 +96,7 @@ class DocumentationContractTests(unittest.TestCase):
             self.assertLess(max(choice_positions), text.index(api_heading))
             self.assertIn("GPT Image 2", text)
             self.assertIn("OPENAI_API_KEY", text)
-            self.assertIn("~/.custom-ip-illustration/.env", text)
+            self.assertIn("~/.ip-pic/.env", text)
             self.assertIn(prompt_only_claim, text)
             self.assertNotIn("Nano Banana", text)
 
@@ -123,7 +123,7 @@ class DocumentationContractTests(unittest.TestCase):
                 "examples/characters/moon-rabbit/profile.json",
                 text,
             )
-            self.assertIn(".custom-ip-illustration/ip-profile.json", text)
+            self.assertIn(".ip-pic/ip-profile.json", text)
             self.assertNotIn(RETIRED_TUTORIAL_NAME, text)
             self.assertNotIn("examples/ip-profile.example.json", text)
             self.assertNotIn("examples/demo-character.svg", text)
@@ -172,7 +172,7 @@ class DocumentationContractTests(unittest.TestCase):
             self.assertIn(backend_id, combined)
         self.assertIn("first_run_choice", combined)
         self.assertIn("GPT Image 2", combined)
-        self.assertIn("~/.custom-ip-illustration/.env", combined)
+        self.assertIn("~/.ip-pic/.env", combined)
         self.assertIn("doctor", combined)
         self.assertIn("configure", combined)
         self.assertIn("只有用户明确要求“以后默认", combined)
@@ -280,7 +280,7 @@ class DocumentationContractTests(unittest.TestCase):
 
         self.assertNotIn("This Skill never needs an API key", security)
         self.assertIn("optional direct OpenAI API", security)
-        self.assertIn("~/.custom-ip-illustration/.env", security)
+        self.assertIn("~/.ip-pic/.env", security)
         self.assertIn("user-level", security)
 
         profile_block = contract.split("- name: ip_profile", 1)[1].split(
@@ -296,7 +296,7 @@ class DocumentationContractTests(unittest.TestCase):
         ):
             self.assertIn(backend_id, contract)
         self.assertIn("scripts/openai_backend.py", contract)
-        self.assertIn("suite_id: custom-ip-illustration-v0-2", contract)
+        self.assertIn("suite_id: ip-pic-v0-2", contract)
         self.assertNotIn("image_generation_owned_by_host: true", contract)
         for required in (
             "classification: open_source_byok",
@@ -496,7 +496,7 @@ class DocumentationContractTests(unittest.TestCase):
         )
 
         self.assertIn("<skill-root>/scripts/compile_ip_illustration.py", skill)
-        self.assertIn('display_name: "Custom IP Illustration"', interface)
+        self.assertIn('display_name: "IP 配图"', interface)
         self.assertNotIn("output_dir", brief)
         self.assertNotIn("output_dir", brief_schema["properties"])
 

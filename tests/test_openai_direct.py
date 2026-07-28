@@ -20,15 +20,15 @@ try:
 except ModuleNotFoundError:
     from tests._support import ROOT
 
-from custom_ip_illustration.openai_direct import (
+from ip_pic.openai_direct import (
     CredentialError,
     doctor,
     load_api_key,
     render_request,
     write_user_api_key,
 )
-from custom_ip_illustration.errors import ValidationError
-import custom_ip_illustration.openai_direct as openai_direct
+from ip_pic.errors import ValidationError
+import ip_pic.openai_direct as openai_direct
 
 
 TEST_ERROR_DETAIL = "test-error-detail-must-not-leak"
@@ -50,6 +50,28 @@ def _png_chunk(chunk_type: bytes, contents: bytes) -> bytes:
 
 
 class OpenAICredentialTests(unittest.TestCase):
+    def test_default_config_prefers_new_ip_pic_location(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            home = Path(directory)
+            current = home / ".ip-pic" / ".env"
+            legacy = home / ".custom-ip-illustration" / ".env"
+            current.parent.mkdir()
+            legacy.parent.mkdir()
+            current.write_text("OPENAI_API_KEY=current-key\n", encoding="utf-8")
+            legacy.write_text("OPENAI_API_KEY=legacy-key\n", encoding="utf-8")
+            with mock.patch.object(Path, "home", return_value=home):
+                self.assertEqual(load_api_key(env={}), "current-key")
+
+    def test_default_config_reads_legacy_with_migration_warning(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            home = Path(directory)
+            legacy = home / ".custom-ip-illustration" / ".env"
+            legacy.parent.mkdir()
+            legacy.write_text("OPENAI_API_KEY=legacy-key\n", encoding="utf-8")
+            with mock.patch.object(Path, "home", return_value=home):
+                with self.assertWarnsRegex(DeprecationWarning, r"\.ip-pic"):
+                    self.assertEqual(load_api_key(env={}), "legacy-key")
+
     def test_explicit_environment_key_takes_precedence_over_user_config(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             config_path = Path(directory) / ".env"
@@ -145,11 +167,11 @@ class OpenAICredentialTests(unittest.TestCase):
                 piece = data[:2]
                 return original_write(fd, piece)
 
-            with mock.patch("custom_ip_illustration.openai_direct.os.write", side_effect=short_write):
+            with mock.patch("ip_pic.openai_direct.os.write", side_effect=short_write):
                 write_user_api_key(config_path, "short-write-key")
             self.assertEqual(load_api_key(env={}, config_path=config_path), "short-write-key")
             config_path.write_text("OPENAI_API_KEY=previous-key\n", encoding="utf-8")
-            with mock.patch("custom_ip_illustration.openai_direct.os.rename", side_effect=OSError("blocked")):
+            with mock.patch("ip_pic.openai_direct.os.rename", side_effect=OSError("blocked")):
                 with self.assertRaises(CredentialError) as raised:
                     write_user_api_key(config_path, TEST_ERROR_DETAIL)
             self.assertEqual(load_api_key(env={}, config_path=config_path), "previous-key")
@@ -193,7 +215,7 @@ class OpenAICredentialTests(unittest.TestCase):
                 return original_open(path, flags, mode, dir_fd=dir_fd)
 
             with mock.patch(
-                "custom_ip_illustration.openai_direct.os.open",
+                "ip_pic.openai_direct.os.open",
                 side_effect=swapping_open,
             ):
                 with self.assertRaises(CredentialError) as raised:

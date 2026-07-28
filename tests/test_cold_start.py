@@ -10,7 +10,7 @@ import unittest
 from pathlib import Path
 
 from _support import ROOT
-from custom_ip_illustration.release import sha256_file
+from ip_pic.release import sha256_file
 
 
 def release_hashes(root: Path) -> dict[str, str]:

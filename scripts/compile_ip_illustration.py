@@ -9,8 +9,8 @@ from pathlib import Path
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(SKILL_ROOT / "src"))
 
-from custom_ip_illustration.compiler import compile_request, load_json
-from custom_ip_illustration.errors import CustomIPIllustrationError
+from ip_pic.compiler import compile_request, load_json
+from ip_pic.errors import IpPicError
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -40,7 +40,7 @@ def main() -> int:
             template_id=args.template,
             write=not args.check,
         )
-    except CustomIPIllustrationError as exc:
+    except IpPicError as exc:
         print(json.dumps({"status": "blocked", "error": str(exc)}, ensure_ascii=False))
         return 1
     print(

@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "suite_id": "custom-ip-illustration-v0-1",
+  "suite_id": "ip-pic-v0-1",
   "subject": "v0.1.0-rc.1-first-public-regression-baseline",
   "subject_fingerprint": "03d0d2feaf0ece0d2a8168b77546ebe26e4c69bf963616b69c73cb39ca7dd604",
   "runs": {

@@ -10,13 +10,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from custom_ip_illustration.errors import (
+from ip_pic.errors import (
     CredentialError,
     RenderError,
     UnsupportedPlatformError,
     ValidationError,
 )
-from custom_ip_illustration.openai_direct import (
+from ip_pic.openai_direct import (
     doctor,
     load_api_key,
     render_character_master,
@@ -26,7 +26,7 @@ from custom_ip_illustration.openai_direct import (
 
 
 def _config_path() -> Path:
-    return Path.home() / ".custom-ip-illustration" / ".env"
+    return Path.home() / ".ip-pic" / ".env"
 
 
 def _parser() -> argparse.ArgumentParser:

@@ -9,8 +9,8 @@ from pathlib import Path
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(SKILL_ROOT / "src"))
 
-from custom_ip_illustration.backend import resolve_backend
-from custom_ip_illustration.errors import CustomIPIllustrationError
+from ip_pic.backend import resolve_backend
+from ip_pic.errors import IpPicError
 
 
 def main() -> int:
@@ -28,7 +28,7 @@ def main() -> int:
             requested=args.requested,
             preference=args.preference,
         )
-    except (OSError, json.JSONDecodeError, CustomIPIllustrationError) as exc:
+    except (OSError, json.JSONDecodeError, IpPicError) as exc:
         print(
             json.dumps(
                 {

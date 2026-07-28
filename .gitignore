@@ -6,7 +6,7 @@ __pycache__/
 .env
 .env.*
 EXTEND.md
-.custom-ip-illustration/
+.ip-pic/
 imgs/
 outputs/
 tasks/

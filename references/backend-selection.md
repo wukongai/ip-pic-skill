@@ -62,7 +62,7 @@
 1. Agent 运行 `python3 <skill-root>/scripts/openai_backend.py doctor`。
 2. `unsupported_platform` 时说明这一后端当前不可用，让用户重新选择；Windows 仍可安装 Skill 并使用其他后端。
 3. `missing_credentials` 时，说明费用和凭证位置；用户确认后运行 `configure`。
-4. `configure` 使用隐藏输入，只写用户级 `~/.custom-ip-illustration/.env`，权限为当前用户可读；也可读取进程 `OPENAI_API_KEY`。
+4. `configure` 使用隐藏输入，只写用户级 `~/.ip-pic/.env`，权限为当前用户可读；也可读取进程 `OPENAI_API_KEY`。
 5. Agent 不在聊天、命令参数、日志、profile 或 `EXTEND.md` 中接收或回显 Key。
 6. 建立真人卡通母版时，保持用户项目为工作目录，运行 `python3 <skill-root>/scripts/openai_backend.py master --reference <project-photo-path> --output <project-character-master.png>`；输入和输出不得位于 Skill 安装目录。
    输出必须使用 `.png` 后缀。如果输出文件已存在，命令会在付费请求前停止；让用户改用新的输出文件名，不会覆盖已有母版。

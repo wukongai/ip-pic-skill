@@ -9,8 +9,8 @@ import zlib
 from pathlib import Path
 
 from _support import ROOT
-import custom_ip_illustration
-from custom_ip_illustration.release import validate_release
+import ip_pic
+from ip_pic.release import validate_release
 
 
 def _png_chunk(chunk_type: bytes, payload: bytes) -> bytes:
@@ -53,18 +53,18 @@ def _idat_payload() -> bytes:
 
 
 class ReleaseValidationTests(unittest.TestCase):
-    def test_public_package_version_matches_rc3(self) -> None:
-        self.assertEqual(custom_ip_illustration.__version__, "0.1.0rc3")
+    def test_public_package_version_matches_rc4(self) -> None:
+        self.assertEqual(ip_pic.__version__, "0.1.0rc4")
 
-    def test_rc3_release_metadata_has_consistent_versions_and_domains(self) -> None:
+    def test_rc4_release_metadata_has_consistent_versions_and_domains(self) -> None:
         manifest = json.loads(
             (ROOT / "public-release-manifest.json").read_text(encoding="utf-8")
         )
 
-        self.assertEqual((ROOT / "VERSION").read_text(encoding="utf-8").strip(), "0.1.0-rc.3")
-        self.assertIn('version = "0.1.0rc3"', (ROOT / "pyproject.toml").read_text(encoding="utf-8"))
-        self.assertIn("version: 0.1.0-rc.3", (ROOT / "skill.contract.yaml").read_text(encoding="utf-8"))
-        self.assertEqual(manifest["version"], "0.1.0-rc.3")
+        self.assertEqual((ROOT / "VERSION").read_text(encoding="utf-8").strip(), "0.1.0-rc.4")
+        self.assertIn('version = "0.1.0rc4"', (ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+        self.assertIn("version: 0.1.0-rc.4", (ROOT / "skill.contract.yaml").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["version"], "0.1.0-rc.4")
         self.assertEqual(
             set(manifest["allowed_domains"]),
             {

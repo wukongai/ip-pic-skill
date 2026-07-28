@@ -1,4 +1,4 @@
 interface:
-  display_name: "Custom IP Illustration"
+  display_name: "IP 配图"
   short_description: "Consistent art for owned or authorized characters"
-  default_prompt: "Use $custom-ip-illustration. First show me the four rendering choices, then help me create or choose an authorized character and illustrate my article."
+  default_prompt: "Use $ip-pic. First show me the four rendering choices, then help me create or choose an authorized character and illustrate my article."
