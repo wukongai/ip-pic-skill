@@ -2,114 +2,162 @@
 
 [简体中文](README.md) | [English](README.en.md)
 
-把一篇文章变成由同一个原创 IP 角色出演的系列配图。你不需要先理解脚本、JSON 或模型参数，按下面四步走即可。
+这是 IP 配图 Skill 的安装与使用指南。照着下面的顺序安装、配好一种出图方式，再用教程角色完成两次测试。跑通以后，再换成你自己的角色。
+
+正常使用很简单：你只需要说“给这段文字配图”或“给这篇文章配图”。文章分析、配图点选择、图片数量建议、brief、prompt、出图和检查都由 Agent 自动完成。
 
 ## 1. 安装 Skill
 
-在你的项目目录运行：
+在你准备写文章的项目目录运行：
 
 ```bash
 npx skills add wukongai/ip-pic-skill
 ```
 
-安装器会询问目标 Agent 和安装范围。安装完成后，对 Agent 说：
+安装器会询问目标 Agent 和安装范围。安装完成后，重新打开任务并说：
 
 ```text
-使用 ip-pic。先检查安装，然后带我完成第一次使用。
+使用 ip-pic，检查安装并带我完成第一次使用。
 ```
 
-Agent 会自行定位 Skill 和运行所需脚本；正常使用不需要你手动安装依赖。
+Agent 会自行定位 Skill 和脚本。正常使用不需要你研究 JSON、脚本路径或安装依赖。
 
-## 2. 选择出图方式
+## 2. 配好一种出图方式
 
-第一次运行时，Agent 必须先展示下面四种方式，由你选择，不会静默替你决定：
+IP 配图有三种真实出图方式，首次配置一次，之后直接说“配图”即可。
 
-1. **Codex Image Tool / 内置 `imagegen`（推荐）**：使用 GPT Image 2；由 Codex 提供图片工具，不需要你配置或提供 API Key。
-2. **直接 OpenAI API**：本 Skill 自带 GPT Image 2 调用脚本；需要你自己的 `OPENAI_API_KEY`，图片费用进入你的 OpenAI API 账户。若检查结果为 `unsupported_platform`，这一方式当前不可用，请改选其他方式。
-3. **已有 `ai-router`**：只适合已经安装并注册 `ai_router.generate_image` 的用户；Key、provider 和 model 都继续留在 Router 内。
-4. **`prompt-only`**：只编译 prompt、render request 和 manifest，不会生成图片，结果状态为 `compile_only`。
+1. **Codex Image Tool / 内置 `imagegen`（推荐）**：使用 GPT Image 2；由 Codex 提供，不需要你配置 API Key。
+2. **直接 OpenAI API**：使用 Skill 自带的 GPT Image 2 renderer；需要你自己的 `OPENAI_API_KEY`，费用进入你的 OpenAI API 账户。
+3. **已有 `ai-router`**：适合已经安装并注册 `ai_router.generate_image` 的用户；Key、provider、model、重试和 fallback 都留在 Router 内。
 
-可以直接说：
+首次选择后，可以让 Agent 设为当前项目默认。以后它会复用这个方式；只有后端失效或你要求更换时才重新选择。
 
-```text
-这次用 Codex Image Tool。只作用于这次任务，不要保存为默认偏好。
-```
-
-只有你明确说“以后默认用这个”，Agent 才会保存后端偏好。已保存方式失效时，Agent 会重新让你选择，不会悄悄切到可能收费的方式。
+`prompt-only` 是非出图兜底，不是独立的真实出图方式。它只生成 prompt、`render-request.json` 和 manifest，不会生成图片，结果为 `compile_only`。
 
 ### 直接 OpenAI API 的安全配置
 
-选择“直接 OpenAI API”后，让 Agent 运行 `doctor` 检查；缺少凭证时再运行 `configure`。`configure` 使用隐藏输入，并把 Key 保存到用户级 `~/.ip-pic/.env`，权限限制为当前用户读取。也可以只在当前进程环境中提供 `OPENAI_API_KEY`。
+如果选择直接 OpenAI API，让 Agent 依次运行：
 
-不要把 Key 粘贴到聊天、仓库、角色资料、`EXTEND.md` 或文章里。Agent 不应回显 Key。你可以从 [OpenAI API Keys](https://platform.openai.com/api-keys) 创建 Key；API 使用可能还需要账户额度或组织验证。
+```bash
+python3 <skill-root>/scripts/openai_backend.py doctor
+python3 <skill-root>/scripts/openai_backend.py configure
+```
 
-直接 renderer 严格使用编译请求中的精确尺寸：`16:9 = 1536x864`、`1:1 = 1024x1024`、`9:16 = 1152x2048`。宽高都必须是 16 的倍数并满足 GPT Image 2 的边长、宽高比和总像素限制；renderer 不会替换为近似尺寸。每次 `render` 都应使用尚不存在的输出文件名；若任一目标已存在，会在调用 API 前停止并保留原文件。
+只有 `doctor` 返回 `missing_credentials` 时才需要 `configure`。它使用隐藏输入，把 Key 写入用户级 `~/.ip-pic/.env`；也可以在当前进程提供 `OPENAI_API_KEY`。
+
+不要把 Key 粘贴到聊天、文章、仓库、角色资料或 `EXTEND.md`。可以从 [OpenAI API Keys](https://platform.openai.com/api-keys) 创建 Key；API 使用可能需要账户额度或组织验证。若返回 `unsupported_platform`，改选 Codex Image Tool 或已有 `ai-router`。
+
+直接 renderer 使用精确尺寸：`16:9 = 1536x864`、`1:1 = 1024x1024`、`9:16 = 1152x2048`。宽高必须是 16 的倍数。若输出文件已存在，调用会在付费请求前停止；请使用新的输出文件名，不会覆盖原文件。
 
 ### 已有 ai-router
 
-这个入口只连接宿主已经提供的 `ai_router.generate_image`。本项目不引导下载任何私有 Router 仓库，也不读取 Router 的环境文件；连接、凭证、模型选择、重试和 fallback 都由你的 Router 管理。
+AI Router 是宿主中已经安装并通过 MCP 暴露图片能力的统一入口。`ip-pic` 只调用现成的 `ai_router.generate_image`，不读取 Router 的 `.env`，也不接管它的凭证、模型和容错配置。本项目不引导下载任何私有 Router 仓库。
 
-## 3. 建立你的卡通 IP
+## 3. 先用教程角色跑通
 
-如果要建立自己的角色，先准备一张本人或已获授权的真人照片，以及这段母版提示词：
+第一次不要急着建立自己的角色。先从三个原创教程角色中选一个：
+
+| 悟空知识工匠 | 月兔地图师 | 学习向导阿拓 |
+|---|---|---|
+| ![悟空知识工匠](examples/characters/wukong/preview.png) | ![月兔地图师](examples/characters/moon-rabbit/preview.png) | ![学习向导阿拓](examples/characters/ato/preview.png) |
+| [角色资料](examples/characters/wukong/profile.json) | [角色资料](examples/characters/moon-rabbit/profile.json) | [角色资料](examples/characters/ato/profile.json) |
+
+阿拓还提供一张 [合成源照片](examples/characters/ato/source-synthetic-photo.png)，用于演示“真人风格照片 → 原创卡通母版”。它是项目生成的教程素材，不是真人照片。
+
+例如：
 
 ```text
-把这张本人或已获授权的真人照片转成原创卡通 IP 角色母版。保留可识别的发型、脸型、眼镜等非敏感外观锚点，但不要推断敏感属性；设计为全身角色，干净中性背景，同时展示正面、侧面、背面等多视角和 4 个常用表情。造型简洁，适合文章系列配图并能跨图保持一致。无文字、水印或 logo，不模仿任何第三方角色特征。
+这次教程使用学习向导阿拓。
 ```
 
-根据第 2 步的选择继续：
+三个角色都不会自动保存成你的 `.ip-pic/ip-profile.json`。
 
-- **Codex Image Tool 或已有 `ai-router`**：在对话中附加真人照片和上面的母版提示词，让已选工具生成 `character-master.png`。
-- **直接 OpenAI API**：先完成 `doctor / configure`，再让 Agent 保持在你的用户项目目录，用 `<skill-root>` 定位已安装脚本：
+## 4. 用一段短文字测试
+
+先复制下面这段文字：
+
+> 很多人以为效率来自把计划写得更细，但真正让项目变快的是缩短反馈周期。先交付一个可以检查的小结果，再根据反馈继续调整，比长时间闭门完成一个大版本更可靠。
+
+然后只说：
+
+```text
+用学习向导阿拓给下面这段文字配 1 张图：
+<粘贴上面的文字>
+```
+
+Agent 会自动提炼核心判断、选择画面、生成图片并检查角色一致性。成功标准是：真正得到图片，角色没有明显漂移，画面能表达文字含义，并且没有乱码、水印或无意义文字。
+
+## 5. 给一篇长文自动配图
+
+短文字成功以后，把完整文章交给 Agent：
+
+```text
+用学习向导阿拓给下面这篇文章配图：
+<粘贴文章>
+```
+
+就这一句。Agent 会自动分析标题、章节和语义转折，选择值得视觉化的内容，决定合理数量，再完成编译、出图和逐张检查。它不会机械地每段配一张，也不会要求你先写配图点或 prompt。
+
+如果你想覆盖默认值，可以额外指定，例如“做 3 张 16:9 配图”。不指定时，让 Skill 自己判断。
+
+真实后端成功时，结果包括图片、prompt、`render-request.json` 和运行清单。选择 `prompt-only` 时只有编译产物，必须明确显示 `compile_only`，不能声称已经出图。
+
+## 6. 换成你自己的角色
+
+前两次测试跑通后，再准备一张本人或已获授权的真人照片。建议单人、清晰、光线均匀，发型、脸型、眼镜和服装锚点清楚可见。
+
+使用 Codex Image Tool 或已有 `ai-router` 时，附加真人照片，并使用这段母版提示词：
+
+```text
+把这张本人或已获授权的真人照片转成原创卡通 IP 角色母版。保留可识别的发型、脸型、眼镜等非敏感外观锚点，但不要推断敏感属性；设计为全身角色，使用干净中性背景，同时展示正面、侧面、背面等多视角和 4 个常用表情。造型简洁，适合文章系列配图并能跨图保持一致。无文字、水印或 logo，不模仿任何第三方角色特征。
+```
+
+如果使用直接 OpenAI API，让 Agent 保持在你的用户项目目录运行：
 
 ```bash
 python3 <skill-root>/scripts/openai_backend.py master --reference <project-photo-path> --output <project-character-master.png>
 ```
 
-`<project-photo-path>` 和 `<project-character-master.png>` 都应位于你的项目中，不要把输入或输出写进 Skill 安装目录。母版输出必须使用 `.png` 后缀。
+输入和输出都应位于你的项目，不能写入 Skill 安装目录。如果输出文件已存在，请换一个新的输出文件名；调用不会覆盖已有母版。
 
-如果输出文件已存在，命令会在调用图片 API 前停止；请改用新的输出文件名，不会覆盖已有母版。
+如果使用 `prompt-only`，Skill 只能提供母版提示词。你需要把照片和 prompt 交给外部图片工具，生成后再把母版上传给 Agent；也可以继续使用教程角色。
 
-若前面的 `doctor` 返回 `unsupported_platform`，不要运行 `master`、继续重试或静默切换；回到第 2 步选择 Codex Image Tool、已有 `ai-router` 或 `prompt-only`。
-
-- **`prompt-only`**：Skill 只输出母版 prompt，不会把照片变成图片。把 prompt 和照片交给你自己的外部图片工具，生成后再上传母版；也可以直接选择下面的教程角色。
-
-母版满意后，对 Agent 说：
+母版满意后说：
 
 ```text
 用这张卡通母版建立我的 ip-profile；一次只问一个问题，保存前先让我确认。
 ```
 
-Agent 会先确认权利来源，再提取角色身份、外观、性格和连续性锚点。只有你确认后，它才保存到项目的 `.ip-pic/ip-profile.json`。该文件可能含本地参考图路径；不希望同步到 Git 或云盘时，把 `.ip-pic/` 加入项目的 `.gitignore`。
+Agent 会确认权利来源，整理名称、身份、外观、性格和连续性锚点，再保存到 `.ip-pic/ip-profile.json`。你不需要手写 JSON。
 
-不想上传照片，也可以用一个原创教程角色体验：
-
-| 悟空知识工匠 | 月兔地图师 |
-|---|---|
-| ![悟空知识工匠](examples/characters/wukong/preview.png) | ![月兔地图师](examples/characters/moon-rabbit/preview.png) |
-| [角色资料](examples/characters/wukong/profile.json) | [角色资料](examples/characters/moon-rabbit/profile.json) |
-
-请明确二选一。两个角色都不会被默认选中，也不会保存成你的 profile；它们只用于本次教程。
-
-## 4. 把文章交给 Skill
-
-最短指令：
+之后正常配图只要说：
 
 ```text
-用我的 IP 给下面这篇文章做 3 张 16:9 配图，这次使用 Codex Image Tool。先给出配图点，再生成并逐张检查：<粘贴文章>
+用我的角色给这篇文章配图：
+<粘贴文章>
 ```
 
-如果使用教程角色，把“我的 IP”替换成“悟空知识工匠”或“月兔地图师”。Skill 会先把每张 prompt 写入 `prompts/`，再按你选择的后端逐张生成和 QA。
+### 增加动作和表情
 
-- 选择前三种可用后端且生成成功：结果包含实际图片文件、prompt、`render-request.json` 和运行清单。
-- 选择 `prompt-only`：结果只包含 prompt、`render-request.json` 和运行清单，不应声称已经出图。
-- 某张失败：Agent 必须逐张说明，不用“全部成功”掩盖部分失败。
+需要更稳定的动作或表情时，把新参考图分别放进：
+
+```text
+.ip-pic/assets/poses/
+.ip-pic/assets/expressions/
+```
+
+不要覆盖角色母版。让 Agent 把每张参考图的用途和授权状态写入 profile；每次出图只选择当前画面需要的少量参考图。
+
+`.ip-pic/ip-profile.json` 可能包含本地路径。若不希望被 Git 或云盘同步，把 `.ip-pic/` 加入项目 `.gitignore`。
 
 ## 安装或首次运行失败时
 
-正常安装和首次运行由 Agent 处理依赖。安装命令失败时检查 Node.js 和 `npx`；安装成功但首次编译失败时，再检查 Python 3.10+。
+- 安装命令失败：检查 Node.js 和 `npx`，确认安装范围。
+- 安装完成但编译器启动失败：再检查 Python 3.10+ 和实际可执行文件。
+- 只有 prompt、没有图片：确认是否选择了 `prompt-only`，或真实后端尚未配置成功。
+- 直接 OpenAI API 返回 `unsupported_platform`：改选其他真实出图方式。Windows 仍可安装 Skill 并使用其他方式。
 
-Windows 仍可安装和使用其他出图方式；若直接 OpenAI API 报 `unsupported_platform`，请改选其他方式。PowerShell 使用单行安装命令：
+Windows PowerShell 使用同一条单行命令：
 
 ```powershell
 npx skills add wukongai/ip-pic-skill
@@ -117,17 +165,15 @@ npx skills add wukongai/ip-pic-skill
 
 ## 可选偏好
 
-需要长期保存画幅、风格或后端时，把 `EXTEND.example.md` 复制为项目 `.ip-pic/EXTEND.md`。偏好文件只能保存普通配置，不能保存 Key、token、cookie、服务地址或模型路由。
+需要长期保存画幅、风格或后端时，把 `EXTEND.example.md` 复制为项目 `.ip-pic/EXTEND.md`。偏好文件不能保存 Key、token、cookie、服务地址或模型路由。
 
 ## 从旧名称迁移
 
-`0.1.0-rc.4` 起，Skill、仓库和配置目录统一改名为 `ip-pic`。如果你安装过旧版 `custom-ip-illustration`：
+如果安装过旧版 `custom-ip-illustration`：
 
 1. 用 Skill 管理器移除旧 Skill；
 2. 重新运行 `npx skills add wukongai/ip-pic-skill`；
-3. 如需保留本地角色与偏好，把项目 `.custom-ip-illustration/` 中的文件移动到 `.ip-pic/`。
-
-新版本只向 `.ip-pic/` 写入。运行时仍可只读发现旧偏好和旧用户级 Key，并提示迁移，不会继续写入旧目录。
+3. 如需保留角色与偏好，把项目 `.custom-ip-illustration/` 中的文件移动到 `.ip-pic/`。
 
 ## 开发者验证
 

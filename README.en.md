@@ -2,114 +2,162 @@
 
 [简体中文](README.md) | [English](README.en.md)
 
-Turn an article into a series of illustrations performed by one consistent, original IP character. You do not need to understand the scripts, JSON, or model parameters first—follow these four steps.
+This is the installation and usage guide for IP Pic Skill. Install it, configure one rendering route, and complete two tests with a tutorial character. Replace the character with your own only after the workflow works.
+
+For normal use, simply ask to “illustrate this passage” or “illustrate this article.” The Agent analyzes the content, chooses illustration points, recommends a count, builds the brief and prompts, renders, and checks every image.
 
 ## 1. Install the Skill
 
-Run this from your project directory:
+Run this from the project where you write:
 
 ```bash
 npx skills add wukongai/ip-pic-skill
 ```
 
-The installer asks for the target Agent and installation scope. Then tell your Agent:
+The installer asks for the target Agent and installation scope. Reopen the task, then say:
 
 ```text
-Use ip-pic. Check the installation, then guide me through my first run.
+Use ip-pic. Check the installation and guide me through the first run.
 ```
 
-The Agent locates the installed Skill and runs its scripts. A normal user does not install dependencies manually.
+The Agent locates the installed Skill and its scripts. Normal users do not need to study JSON, script paths, or dependencies.
 
-## 2. Choose how to render
+## 2. Configure one rendering route
 
-On the first run, the Agent must show these four choices and let you decide. It does not silently select one:
+IP Pic has three real rendering routes. You configure it once, then simply ask for illustrations.
 
-1. **Codex Image Tool / built-in `imagegen` (recommended)**: uses GPT Image 2 through Codex; you do not provide or configure an API key.
-2. **Direct OpenAI API**: this Skill includes its own GPT Image 2 renderer; it needs your `OPENAI_API_KEY`, and usage is billed to your OpenAI API account. If its check returns `unsupported_platform`, this route is unavailable; choose another method.
-3. **Existing `ai-router`**: only for users who already have `ai_router.generate_image` installed and registered; keys, provider, and model stay inside the Router.
-4. **`prompt-only`**: compiles prompts, a render request, and a manifest but does not create image files; the result is `compile_only`.
+1. **Codex Image Tool / built-in `imagegen` (recommended)**: uses GPT Image 2 through Codex and requires no API key from you.
+2. **Direct OpenAI API**: uses the Skill's bundled GPT Image 2 renderer with your `OPENAI_API_KEY`; usage is billed to your OpenAI API account.
+3. **Existing `ai-router`**: for a host where `ai_router.generate_image` is already installed and registered; keys, provider, model, retries, and fallback remain inside the Router.
+
+After the first choice, the Agent can save it as this project's default. Normal illustration requests reuse it until it becomes unavailable or you ask to change it.
+
+`prompt-only` is a compile-only fallback, not a fourth real rendering route. It creates prompts, `render-request.json`, and a manifest but does not create image files; the status is `compile_only`.
+
+### Safe direct OpenAI API setup
+
+For Direct OpenAI API, ask the Agent to run:
+
+```bash
+python3 <skill-root>/scripts/openai_backend.py doctor
+python3 <skill-root>/scripts/openai_backend.py configure
+```
+
+Run `configure` only when `doctor` returns `missing_credentials`. It uses hidden input and writes the key to the user-level `~/.ip-pic/.env`. You may instead provide `OPENAI_API_KEY` in the current process.
+
+Never paste the key into chat, an article, this repository, a character profile, or `EXTEND.md`. Create one at [OpenAI API Keys](https://platform.openai.com/api-keys); API usage may require account credit or organization verification. If the check returns `unsupported_platform`, choose Codex Image Tool or an existing `ai-router`.
+
+The direct renderer uses exact dimensions: `16:9 = 1536x864`, `1:1 = 1024x1024`, and `9:16 = 1152x2048`. Both edges must be multiples of 16. If an output file already exists, the call stops before billing; use a new output filename. It will not overwrite the original.
+
+### Existing ai-router
+
+An AI Router is a unified image entry already exposed to the host through MCP. `ip-pic` only calls the existing `ai_router.generate_image`; it does not read the Router's `.env` or manage its credentials, models, or fallback. This project does not direct users to download a private Router repository.
+
+## 3. Start with a tutorial character
+
+Do not begin by creating your own character. First choose one original tutorial character:
+
+| Wukong Knowledge Maker | Moon Rabbit Mapmaker | Study Guide Ato |
+|---|---|---|
+| ![Wukong Knowledge Maker](examples/characters/wukong/preview.png) | ![Moon Rabbit Mapmaker](examples/characters/moon-rabbit/preview.png) | ![Study Guide Ato](examples/characters/ato/preview.png) |
+| [Character profile](examples/characters/wukong/profile.json) | [Character profile](examples/characters/moon-rabbit/profile.json) | [Character profile](examples/characters/ato/profile.json) |
+
+Ato also includes a [synthetic source portrait](examples/characters/ato/source-synthetic-photo.png) to demonstrate the “portrait to original cartoon master” workflow. It is a generated tutorial asset and does not depict a real person.
 
 For example:
 
 ```text
-Use Codex Image Tool for this task only. Do not save it as my default.
+Use Study Guide Ato for this tutorial.
 ```
 
-The Agent saves a backend preference only when you explicitly say “use this by default from now on.” If that backend later becomes unavailable, it asks again instead of silently switching to a potentially paid route.
+None of these roles is written to your `.ip-pic/ip-profile.json`.
 
-### Safe direct OpenAI API setup
+## 4. Test one short passage
 
-After you choose Direct OpenAI API, ask the Agent to run `doctor`. If credentials are missing, it can run `configure`. `configure` uses hidden input and writes the key to the user-level `~/.ip-pic/.env` with user-only permissions. You may instead provide `OPENAI_API_KEY` in the current process environment.
+Use this sample:
 
-Never paste the key into chat, this repository, a character profile, `EXTEND.md`, or an article. The Agent must not echo it. Create a key at [OpenAI API Keys](https://platform.openai.com/api-keys); API usage may also require account credit or organization verification.
+> Many people think efficiency comes from making plans more detailed. In practice, projects move faster when feedback cycles get shorter. Deliver one small result that can be checked, learn from it, and then continue.
 
-The direct renderer uses the exact dimensions from the compiled request: `16:9 = 1536x864`, `1:1 = 1024x1024`, and `9:16 = 1152x2048`. Both edges must be multiples of 16 and remain within GPT Image 2 edge, aspect-ratio, and total-pixel limits; the renderer never substitutes an approximate size. Every `render` run must use unused output filenames. If any target already exists, it stops before the API call and preserves the original file.
+Then say only:
 
-### Existing ai-router
+```text
+Illustrate the following passage with Study Guide Ato in one image:
+<paste the passage>
+```
 
-This route only calls `ai_router.generate_image` already exposed by the host. This project does not direct users to download a private Router repository and never reads Router environment files. Your Router owns connection setup, credentials, model selection, retries, and fallback.
+The Agent extracts the core idea, chooses the scene, creates the image, and checks character consistency. Success means a real image exists, the role remains recognizable, the scene explains the passage, and there is no broken text, watermark, or meaningless lettering.
 
-## 3. Create your cartoon IP
+## 5. Illustrate a long article automatically
 
-To create your own character, prepare a real photo of yourself or someone you are authorized to depict, plus this compact character-master prompt:
+After the short test succeeds, provide a full article:
+
+```text
+Illustrate the following article with Study Guide Ato:
+<paste the article>
+```
+
+That is the whole request. The Agent analyzes headings, sections, and semantic turns, selects useful visual points, recommends a sensible count, compiles, renders, and checks every image. It does not blindly create one image per paragraph or ask you to write the brief and prompts.
+
+Add an override only when you want one, such as “create three 16:9 illustrations.” Otherwise, let the Skill decide.
+
+A successful real backend returns image files, prompts, `render-request.json`, and a run manifest. With `prompt-only`, the result contains compile artifacts only and must state `compile_only`; it must not claim that images were created.
+
+## 6. Replace it with your own character
+
+Once both tests work, prepare a clear photo of yourself or someone you are authorized to depict. A single person, even lighting, and visible hairstyle, face shape, glasses, and clothing anchors work best.
+
+For Codex Image Tool or existing `ai-router`, attach the real photo and this character-master prompt:
 
 ```text
 Turn this photo of myself or a person I am authorized to use into an original cartoon IP character master. Preserve recognizable, non-sensitive appearance anchors such as hairstyle, face shape, and glasses without inferring sensitive attributes. Show a full-body character on a clean neutral background, with multiple views (front, side, and back) plus four useful expressions. Keep the design simple and consistent for a series of article illustrations. Use no text, watermark, or logo, and imitate no third-party character traits.
 ```
 
-Continue according to your Step 2 choice:
-
-- **Codex Image Tool or existing `ai-router`**: attach the real photo and character-master prompt in the conversation, then ask the selected tool to create `character-master.png`.
-- **Direct OpenAI API**: complete `doctor / configure`, then ask the Agent to stay in your user project directory and locate the installed script through `<skill-root>`:
+For Direct OpenAI API, ask the Agent to stay in your user project directory and run:
 
 ```bash
 python3 <skill-root>/scripts/openai_backend.py master --reference <project-photo-path> --output <project-character-master.png>
 ```
 
-Both `<project-photo-path>` and `<project-character-master.png>` must be inside your project, never inside the installed Skill directory. The master output must use a `.png` suffix.
+The input and output must remain in your project, not the installed Skill directory. If the output file already exists, choose a new output filename; the call will not overwrite an existing master.
 
-If the output file already exists, the command stops before calling the Image API. Choose a new output filename; it will not overwrite an existing master.
+With `prompt-only`, the Skill provides the character-master prompt but cannot create the image. Use the photo and prompt in an external image tool, upload the resulting master, or keep using a tutorial character.
 
-If the earlier `doctor` returns `unsupported_platform`, do not run `master`, keep retrying, or silently fall back. Return to Step 2 and choose Codex Image Tool, existing `ai-router`, or `prompt-only`.
-
-- **`prompt-only`**: the Skill outputs the character-master prompt but cannot turn the photo into an image. Use the photo and prompt in your own external image tool, then upload the resulting master, or choose a tutorial character below.
-
-When the master looks right, tell your Agent:
+When the master looks right, say:
 
 ```text
 Build my ip-profile from this cartoon master. Ask one question at a time and show it to me before saving.
 ```
 
-The Agent confirms the rights basis, then extracts identity, appearance, personality, and continuity anchors. It saves `.ip-pic/ip-profile.json` only after your confirmation. The file may contain local reference paths; add `.ip-pic/` to your project `.gitignore` if it should not sync to Git or cloud storage.
+The Agent confirms the rights basis, summarizes identity, appearance, personality, and continuity anchors, then writes `.ip-pic/ip-profile.json`. You do not hand-edit JSON.
 
-If you do not want to upload a photo, try one original tutorial character:
-
-| Wukong Knowledge Maker | Moon Rabbit Mapmaker |
-|---|---|
-| ![Wukong Knowledge Maker](examples/characters/wukong/preview.png) | ![Moon Rabbit Mapmaker](examples/characters/moon-rabbit/preview.png) |
-| [Character profile](examples/characters/wukong/profile.json) | [Character profile](examples/characters/moon-rabbit/profile.json) |
-
-Choose one explicitly. Neither character is selected by default or saved as your profile; each is only a tutorial option for the current run.
-
-## 4. Give the Skill your article
-
-Shortest useful request:
+Normal use is now:
 
 ```text
-Use my IP to create three 16:9 illustrations for the article below with Codex Image Tool. Show the illustration points first, then render and check each image: <paste article>
+Illustrate the following article with my character:
+<paste the article>
 ```
 
-For a tutorial, replace “my IP” with “Wukong Knowledge Maker” or “Moon Rabbit Mapmaker.” The Skill writes every prompt under `prompts/` before it renders and checks each image through the backend you selected.
+### Add poses and expressions
 
-- With one of the first three ready backends and a successful render, the result contains real image files, prompts, `render-request.json`, and a run manifest.
-- With `prompt-only`, the result contains prompts, `render-request.json`, and a manifest only; it must not claim that images were created.
-- If one image fails, the Agent reports it individually instead of claiming complete success.
+Put optional references under:
+
+```text
+.ip-pic/assets/poses/
+.ip-pic/assets/expressions/
+```
+
+Do not replace the character master. Ask the Agent to record each reference's purpose and authorization in the profile. Each image should use only the few references it needs.
+
+The profile may contain local paths. Add `.ip-pic/` to the project `.gitignore` if it should not sync through Git or cloud storage.
 
 ## If installation or the first run fails
 
-The Agent handles normal dependencies. If installation fails, check Node.js and `npx`. If installation succeeds but the first compilation fails, then check Python 3.10+.
+- Installation fails: check Node.js and `npx`, then confirm the installation scope.
+- Installation succeeds but compilation fails: check Python 3.10+ and the actual executable.
+- You get prompts but no images: confirm whether you selected `prompt-only` or whether the real backend still needs setup.
+- Direct OpenAI API returns `unsupported_platform`: choose another real rendering route. Windows can still install the Skill and use the other routes.
 
-Windows can still install the Skill and use the other rendering methods. If Direct OpenAI API returns `unsupported_platform`, choose another method. Use this single-line PowerShell install command:
+PowerShell uses the same single-line command:
 
 ```powershell
 npx skills add wukongai/ip-pic-skill
@@ -117,17 +165,15 @@ npx skills add wukongai/ip-pic-skill
 
 ## Optional preferences
 
-To retain a canvas, style, or rendering choice, copy `EXTEND.example.md` to `.ip-pic/EXTEND.md` in your project. Preferences may contain ordinary settings only—never a key, token, cookie, service URL, or model route.
+To retain a canvas, style, or backend, copy `EXTEND.example.md` to `.ip-pic/EXTEND.md` in your project. Never store a key, token, cookie, service URL, or model route there.
 
 ## Migrate from the previous name
 
-Starting with `0.1.0-rc.4`, the Skill, repository, and configuration directory use the single name `ip-pic`. If you installed the former `custom-ip-illustration` release:
+If you installed `custom-ip-illustration`:
 
-1. Remove the former Skill with your Skill manager.
+1. Remove the previous Skill with your Skill manager.
 2. Run `npx skills add wukongai/ip-pic-skill`.
-3. To preserve local profiles and preferences, move the files from project `.custom-ip-illustration/` to `.ip-pic/`.
-
-The new release writes only to `.ip-pic/`. It may read the former preference or user-key location once and show a migration warning, but it never writes back to the former directory.
+3. To preserve profiles and preferences, move files from project `.custom-ip-illustration/` to `.ip-pic/`.
 
 ## Developer verification
 

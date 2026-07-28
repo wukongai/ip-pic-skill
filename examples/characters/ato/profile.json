@@ -1,0 +1,40 @@
+{
+  "schema": "ip-profile/v1",
+  "ownership": {
+    "status": "licensed",
+    "basis": "Original fictional tutorial character and synthetic source portrait created for this repository and licensed for reuse under the repository MIT License; see LICENSE and NOTICE."
+  },
+  "identity": {
+    "name": "学习向导阿拓 / Study Guide Ato",
+    "description": "An original calm study guide who turns dense ideas into clear, encouraging visual explanations."
+  },
+  "appearance": {
+    "description": "A friendly adult cartoon guide with tousled black short hair, round black glasses, a mustard-yellow overshirt, a deep-teal T-shirt, navy trousers, and cream sneakers.",
+    "signature_features": [
+      "tousled black short hair",
+      "round black glasses",
+      "mustard-yellow overshirt",
+      "deep-teal T-shirt",
+      "navy trousers",
+      "cream sneakers"
+    ]
+  },
+  "personality": {
+    "traits": [
+      "calm",
+      "curious",
+      "clear",
+      "encouraging"
+    ]
+  },
+  "continuity_anchors": [
+    "adult human proportions",
+    "tousled black short hair",
+    "round black glasses",
+    "mustard-yellow overshirt",
+    "deep-teal T-shirt",
+    "navy trousers",
+    "cream sneakers"
+  ],
+  "references": []
+}

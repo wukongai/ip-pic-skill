@@ -790,7 +790,7 @@ def _trusted_tutorial_references() -> set[Path]:
             / character
             / "preview.png"
         ).resolve()
-        for character in ("wukong", "moon-rabbit")
+        for character in ("wukong", "moon-rabbit", "ato")
     }
 
 

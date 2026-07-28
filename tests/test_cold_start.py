@@ -48,7 +48,7 @@ class ColdStartTests(unittest.TestCase):
                     encoding="utf-8"
                 )
             )
-            for character in ("wukong", "moon-rabbit"):
+            for character in ("wukong", "moon-rabbit", "ato"):
                 for canvas in ("16:9", "1:1", "9:16"):
                     brief = dict(source_brief)
                     brief["canvas"] = canvas

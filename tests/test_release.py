@@ -53,18 +53,18 @@ def _idat_payload() -> bytes:
 
 
 class ReleaseValidationTests(unittest.TestCase):
-    def test_public_package_version_matches_rc4(self) -> None:
-        self.assertEqual(ip_pic.__version__, "0.1.0rc4")
+    def test_public_package_version_matches_rc5(self) -> None:
+        self.assertEqual(ip_pic.__version__, "0.1.0rc5")
 
-    def test_rc4_release_metadata_has_consistent_versions_and_domains(self) -> None:
+    def test_rc5_release_metadata_has_consistent_versions_and_domains(self) -> None:
         manifest = json.loads(
             (ROOT / "public-release-manifest.json").read_text(encoding="utf-8")
         )
 
-        self.assertEqual((ROOT / "VERSION").read_text(encoding="utf-8").strip(), "0.1.0-rc.4")
-        self.assertIn('version = "0.1.0rc4"', (ROOT / "pyproject.toml").read_text(encoding="utf-8"))
-        self.assertIn("version: 0.1.0-rc.4", (ROOT / "skill.contract.yaml").read_text(encoding="utf-8"))
-        self.assertEqual(manifest["version"], "0.1.0-rc.4")
+        self.assertEqual((ROOT / "VERSION").read_text(encoding="utf-8").strip(), "0.1.0-rc.5")
+        self.assertIn('version = "0.1.0rc5"', (ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+        self.assertIn("version: 0.1.0-rc.5", (ROOT / "skill.contract.yaml").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["version"], "0.1.0-rc.5")
         self.assertEqual(
             set(manifest["allowed_domains"]),
             {
@@ -155,6 +155,8 @@ class ReleaseValidationTests(unittest.TestCase):
             (ROOT / "public-release-manifest.json").read_text(encoding="utf-8")
         )
         expected = {
+            "examples/characters/ato/preview.png",
+            "examples/characters/ato/source-synthetic-photo.png",
             "examples/characters/wukong/preview.png",
             "examples/characters/moon-rabbit/preview.png",
         }

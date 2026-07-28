@@ -383,6 +383,55 @@ class OpenAIRendererTests(unittest.TestCase):
             self.assertNotIn(b'name="input_fidelity"', calls[0]["body"])
             self.assertEqual((root / "output" / "images" / "edit.png").read_bytes(), self.png_bytes)
 
+    def test_all_bundled_tutorial_previews_are_trusted_references(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            images = [
+                self._image(
+                    character,
+                    "1:1",
+                    [
+                        str(
+                            ROOT
+                            / "examples"
+                            / "characters"
+                            / character
+                            / "preview.png"
+                        )
+                    ],
+                )
+                for character in ("wukong", "moon-rabbit", "ato")
+            ]
+            request = self._request(root, images)
+            calls: list[dict] = []
+
+            result = render_request(
+                request,
+                root / "output",
+                "render-test-key",
+                transport=self._success_transport(calls),
+                project_root=root,
+            )
+
+            self.assertEqual(result["status"], "complete")
+            self.assertEqual(len(calls), 3)
+            self.assertTrue(
+                all(
+                    call["url"] == "https://api.openai.com/v1/images/edits"
+                    for call in calls
+                )
+            )
+            for character, call in zip(
+                ("wukong", "moon-rabbit", "ato"),
+                calls,
+                strict=True,
+            ):
+                self.assertIn(
+                    f'filename="preview.png"'.encode(),
+                    call["body"],
+                    character,
+                )
+
     def test_prompt_paths_that_escape_the_request_root_are_blocked_before_transport(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0-rc.5
+
+- Simplified normal use to one natural-language intent: users ask for illustrations while the host Agent analyzes the article, selects visual points, builds the brief and prompts, renders, and performs per-image QA.
+- Reframed backend setup as three real rendering routes configured once, with `prompt-only` kept as a separate compile-only fallback.
+- Added Study Guide Ato, including a synthetic source portrait, multi-view character master, and corrected portable profile.
+- Rewrote the Simplified Chinese and English installation guides around a short-text smoke test, automatic long-article illustration, and then user-owned character replacement.
+
 ## 0.1.0-rc.4
 
 - Renamed the public Skill, repository, Python package, configuration paths, schemas, evaluation IDs, and documentation to `ip-pic`.

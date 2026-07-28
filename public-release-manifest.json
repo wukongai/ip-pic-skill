@@ -1,6 +1,6 @@
 {
   "schema": "public-release-files/v1",
-  "version": "0.1.0-rc.4",
+  "version": "0.1.0-rc.5",
   "default_policy": "deny",
   "allowed_domains": [
     "api.openai.com",
@@ -10,6 +10,8 @@
     "platform.openai.com"
   ],
   "binary_assets": {
+    "examples/characters/ato/preview.png": "aae0e51d085fba3ccf6e1684f6e98a8d1d15ccf2d44561fe69c28930414a0318",
+    "examples/characters/ato/source-synthetic-photo.png": "6c1967f7bc8151255042291e9629cf4ccd29cffb84e06a653234c014a941078c",
     "examples/characters/moon-rabbit/preview.png": "ef9cdaeb16a63ceaf5f64230877ab128dd1648cce7824b60858ee3e3d6d8aa24",
     "examples/characters/wukong/preview.png": "172b4cd0236477b1f3cfbcd68118728e8317b78cb45fd8868266fdb3cde5a350"
   },
@@ -32,6 +34,9 @@
     "evidence/evaluation/v0.1.0/evaluation-report.json",
     "evidence/reviews/v0.1.0-independent-review.md",
     "examples/brief.example.json",
+    "examples/characters/ato/preview.png",
+    "examples/characters/ato/profile.json",
+    "examples/characters/ato/source-synthetic-photo.png",
     "examples/characters/moon-rabbit/preview.png",
     "examples/characters/moon-rabbit/profile.json",
     "examples/characters/wukong/preview.png",

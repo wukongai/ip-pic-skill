@@ -1,6 +1,6 @@
 [project]
 name = "ip-pic"
-version = "0.1.0rc4"
+version = "0.1.0rc5"
 description = "Provider-neutral compilation for authorized custom IP illustrations"
 requires-python = ">=3.10"
 license = { text = "MIT" }

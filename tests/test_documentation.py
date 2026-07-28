@@ -12,7 +12,7 @@ RETIRED_TUTORIAL_NAME = "Mi" + "ra"
 
 
 class DocumentationContractTests(unittest.TestCase):
-    def test_bilingual_readmes_follow_the_same_four_step_user_journey(self) -> None:
+    def test_bilingual_readmes_follow_the_same_beginner_user_journey(self) -> None:
         chinese = (ROOT / "README.md").read_text(encoding="utf-8")
         english = (ROOT / "README.en.md").read_text(encoding="utf-8")
 
@@ -23,9 +23,11 @@ class DocumentationContractTests(unittest.TestCase):
                 chinese,
                 (
                     "## 1. 安装 Skill",
-                    "## 2. 选择出图方式",
-                    "## 3. 建立你的卡通 IP",
-                    "## 4. 把文章交给 Skill",
+                    "## 2. 配好一种出图方式",
+                    "## 3. 先用教程角色跑通",
+                    "## 4. 用一段短文字测试",
+                    "## 5. 给一篇长文自动配图",
+                    "## 6. 换成你自己的角色",
                 ),
                 "## 安装或首次运行失败时",
             ),
@@ -33,9 +35,11 @@ class DocumentationContractTests(unittest.TestCase):
                 english,
                 (
                     "## 1. Install the Skill",
-                    "## 2. Choose how to render",
-                    "## 3. Create your cartoon IP",
-                    "## 4. Give the Skill your article",
+                    "## 2. Configure one rendering route",
+                    "## 3. Start with a tutorial character",
+                    "## 4. Test one short passage",
+                    "## 5. Illustrate a long article automatically",
+                    "## 6. Replace it with your own character",
                 ),
                 "## If installation or the first run fails",
             ),
@@ -56,6 +60,58 @@ class DocumentationContractTests(unittest.TestCase):
             self.assertIn(".ip-pic/ip-profile.json", text)
             self.assertIn("compile_only", text)
             self.assertNotIn("\\\n", text)
+
+    def test_minimal_intent_keeps_analysis_brief_prompt_and_qa_inside_agent(
+        self,
+    ) -> None:
+        chinese = (ROOT / "README.md").read_text(encoding="utf-8")
+        english = (ROOT / "README.en.md").read_text(encoding="utf-8")
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        workflow = (ROOT / "references/workflow.md").read_text(encoding="utf-8")
+
+        self.assertIn("用学习向导阿拓给下面这篇文章配图", chinese)
+        self.assertIn("Illustrate the following article with Study Guide Ato", english)
+        self.assertIn("用户只说目标", skill)
+        self.assertIn("Agent 自动完成", skill)
+        self.assertIn("自动分析", workflow)
+        self.assertIn("自动决定", workflow)
+        for internal_term in (
+            "content_points",
+            "image_count",
+            "ip-illustration-brief/v1",
+            "prompt",
+            "QA",
+        ):
+            self.assertIn(internal_term, "\n".join((skill, workflow)))
+
+        forbidden_chinese = (
+            "先给出配图点",
+            "先找出 3 个认知锚点",
+            "先列出配图位置",
+            "等我确认后再逐张生成",
+        )
+        for phrase in forbidden_chinese:
+            self.assertNotIn(phrase, chinese)
+        self.assertNotIn("Show the illustration points first", english)
+
+    def test_three_real_routes_are_setup_once_and_prompt_only_is_a_fallback(
+        self,
+    ) -> None:
+        chinese = (ROOT / "README.md").read_text(encoding="utf-8")
+        english = (ROOT / "README.en.md").read_text(encoding="utf-8")
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        backend = (ROOT / "references/backend-selection.md").read_text(
+            encoding="utf-8"
+        )
+        combined = "\n".join((chinese, english, skill, backend))
+
+        self.assertIn("三种真实出图方式", chinese)
+        self.assertIn("three real rendering routes", english)
+        self.assertIn("首次配置一次", chinese)
+        self.assertIn("configure it once", english)
+        self.assertIn("非出图兜底", combined)
+        self.assertIn("compile-only fallback", combined)
+        self.assertNotIn("四种真实出图方式", combined)
 
     def test_bilingual_readmes_explain_all_rendering_choices_before_api_setup(
         self,
@@ -100,7 +156,7 @@ class DocumentationContractTests(unittest.TestCase):
             self.assertIn(prompt_only_claim, text)
             self.assertNotIn("Nano Banana", text)
 
-    def test_bilingual_readmes_teach_photo_onboarding_and_show_both_tutorials(
+    def test_bilingual_readmes_teach_photo_onboarding_and_show_three_tutorials(
         self,
     ) -> None:
         chinese = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -121,6 +177,18 @@ class DocumentationContractTests(unittest.TestCase):
             )
             self.assertIn(
                 "examples/characters/moon-rabbit/profile.json",
+                text,
+            )
+            self.assertIn(
+                "examples/characters/ato/preview.png",
+                text,
+            )
+            self.assertIn(
+                "examples/characters/ato/profile.json",
+                text,
+            )
+            self.assertIn(
+                "examples/characters/ato/source-synthetic-photo.png",
                 text,
             )
             self.assertIn(".ip-pic/ip-profile.json", text)
@@ -408,12 +476,16 @@ class DocumentationContractTests(unittest.TestCase):
         self.assertIn("用户明确选择教程", skill)
         self.assertIn("不得把示例资料保存为用户资料", skill)
         self.assertIn("不把示例 profile 写入用户项目", onboarding)
+        self.assertIn("临时运行 profile", skill)
+        self.assertIn("临时运行 profile", onboarding)
+        self.assertIn("preview.png", "\n".join((skill, onboarding)))
         self.assertIn("Git", onboarding)
         self.assertIn("云盘", onboarding)
 
         expected = {
             "wukong": "悟空知识工匠 / Wukong Knowledge Maker",
             "moon-rabbit": "月兔地图师 / Moon Rabbit Mapmaker",
+            "ato": "学习向导阿拓 / Study Guide Ato",
         }
         required_anchors = {
             "wukong": {
@@ -430,6 +502,14 @@ class DocumentationContractTests(unittest.TestCase):
                 "midnight-blue short jacket",
                 "mustard-yellow map satchel",
                 "brass moon-phase compass",
+            },
+            "ato": {
+                "tousled black short hair",
+                "round black glasses",
+                "mustard-yellow overshirt",
+                "deep-teal T-shirt",
+                "navy trousers",
+                "cream sneakers",
             },
         }
         for directory, name in expected.items():
@@ -482,6 +562,9 @@ class DocumentationContractTests(unittest.TestCase):
         )
         for medium in ("film", "animation", "game", "toy", "commercial"):
             self.assertIn(medium, notice)
+        self.assertIn("Study Guide Ato", notice)
+        self.assertIn("synthetic tutorial assets", notice)
+        self.assertIn("does not depict a real person", notice)
 
     def test_installed_script_path_and_output_contract_are_unambiguous(self) -> None:
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
