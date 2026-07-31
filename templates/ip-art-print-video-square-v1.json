@@ -1,0 +1,81 @@
+{
+  "id": "ip-art-print-video-square-v1",
+  "name": "已授权角色 IP 艺术版画 1:1 方屏关键帧 v1",
+  "description": "木刻线条、单版画颗粒、不透明水粉色域和艺术书构成的固定 IP 视频配图风格。",
+  "scene": "ip_video_keyframe",
+  "size": "2048x2048",
+  "aspect": "1:1",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是艺术书与当代版画编辑。用材料痕迹、负空间和不对称构成表达一个清楚判断，同时保持已授权角色人物辨识度。",
+  "default_mood": "艺术、克制、独立、有作品感、耐看",
+  "default_layout_pattern": "square_four_by_three_internal_story_with_art_print_composition",
+  "profile": "../profiles/editorial-baseline-v1.json",
+  "identity_profile": "profile://selected-character",
+  "render_style_profile": "../profiles/render-styles/art-print-v1.json",
+  "template_parameters": {
+    "style_variant_id": "art-print",
+    "cognitive_anchor_first": "艺术处理不能牺牲主题可读性；主隐喻仍要在三秒内读懂。",
+    "character_policy": "人物用木刻轮廓与水粉色面转译，身份锚点和成熟比例不变。",
+    "text_strategy": "raw 不生成文字；最终中文由确定性叠字完成。",
+    "text_zone_contract": "square-left 保持 x=110..920,y=180..1040 为大块负空间。"
+  },
+  "content_contract": {
+    "composition_choices": {
+      "composition_family": [
+        "diagonal-cross",
+        "object-dominant",
+        "contrast-bridge"
+      ],
+      "ip_scale": [
+        "co-lead",
+        "analysis-medium"
+      ],
+      "text_layout_variant": [
+        "square-left",
+        "square-right"
+      ]
+    }
+  },
+  "layout": {
+    "visual_hierarchy": "用不对称负空间组织人物、模型脑袋和流水线；小硬币成为唯一暖色视觉句点。",
+    "subtitle_safe_zone": "底部约 15% 保持低细节。"
+  },
+  "style": {
+    "visual_style": "museum-quality art-book printmaking, carved linocut contours, monotype grain, opaque gouache color fields, deckled paper texture, asymmetric modern composition, expressive negative space, tactile and original without imitating any named artist",
+    "character_rendering": "recognizable mature Chinese woman reduced into elegant carved contours and flat gouache planes; black low ponytail, narrow glasses, burgundy top and navy jacket remain identifiable",
+    "palette": "charcoal black, bone white, oxblood, indigo, muted ochre and one orange accent",
+    "art_rule": "艺术感来自构成、留白和材料痕迹，不是随机抽象或故作高深。"
+  },
+  "canvas": {
+    "safe_margin": "四周至少 6%",
+    "bottom_subtitle_safe_percent": 15,
+    "platform_control_avoidance": "右侧约 8% 不放人脸和主标题"
+  },
+  "quality_gates": [
+    "第一眼像艺术书版画而非商业插图",
+    "人物身份可辨识",
+    "隐喻仍能快速读懂",
+    "文字区与字幕区干净"
+  ],
+  "constraints": [
+    "必须是 1:1",
+    "raw 不生成文字、logo 或水印",
+    "不得模仿具体在世艺术家",
+    "不得声明任何图片 API 控制字段"
+  ],
+  "negative_prompt": "模仿具体艺术家,随机抽象画,画廊装置摄影,写实肖像,奢侈品广告,企业矢量,PPT,光滑3D,密集文字,logo,水印",
+  "default_for_scene": false,
+  "aliases": [
+    "已授权角色艺术 IP 配图",
+    "艺术版画 IP 配图"
+  ]
+}

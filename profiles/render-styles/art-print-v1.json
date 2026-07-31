@@ -1,0 +1,16 @@
+{
+  "id": "art-print",
+  "status": "experimental",
+  "scope": "render-style-only",
+  "style_family": "museum-art-book-printmaking",
+  "design_intent": "将已授权角色 IP 转译为艺术书级木刻、单版画与不透明水粉混合版画，强调负空间、构成和材料痕迹。",
+  "surface": "linocut contours, monotype grain, opaque gouache fields, deckled paper, asymmetric museum-poster composition",
+  "forbidden": [
+    "direct imitation of a named artist",
+    "generic abstract painting",
+    "photoreal portrait",
+    "luxury product ad",
+    "corporate vector"
+  ],
+  "schema_version": "render-style-profile/v1"
+}

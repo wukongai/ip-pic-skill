@@ -1,0 +1,133 @@
+{
+  "id": "ip-editorial-video-square-v1",
+  "name": "已授权角色 IP 编辑型 1:1 方屏关键帧 v1",
+  "description": "连续内容短视频默认 1:1 关键帧。使用明确二维卡通人物、主题专属具象隐喻、橙色动作路径和六种方屏构图轮换。",
+  "schema": "../schemas/template.schema.json",
+  "scene": "ip_video_keyframe",
+  "size": "2048x2048",
+  "aspect": "1:1",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是已授权角色 连续内容的方屏编辑插画导演。先提炼一个认知锚点，再用熟悉物件建立一个具象精致的主题隐喻，让明确二维卡通的已授权角色角色以真实动作参与。",
+  "default_mood": "知性、松弛、高级、鲜活、艺术、科技极客",
+  "default_layout_pattern": "square_four_by_three_internal_story_with_rotating_composition_family",
+  "profile": "../profiles/editorial-baseline-v1.json",
+  "character_style_profile": "profile://selected-character",
+  "template_parameters": {
+    "reading_context": "静态竖屏与移动端竖屏 1:1 知识型短视频关键帧；画布为方形，内部按横向 4:3 关系组织内容。",
+    "cognitive_anchor_first": "一张只表达一个判断、事实、机制、转折或结论。",
+    "composition_rotation": "从 diagonal-cross、top-down-partial、seated-loop、close-hands、object-dominant、contrast-bridge 轮换；相邻镜头不得重复。",
+    "metaphor_policy": "使用 2–5 个熟悉物件组成一个主题专属物理隐喻，以一条橙色主动作路径统一；禁止泛化工业机器和软件面板。",
+    "character_policy": "使用用户授权的角色三视图与批准风格基线保持身份和画风。人物必须是清晰二维编辑卡通，不得半写实。",
+    "text_strategy": "raw 不生成最终中文；确定性叠加蓝色栏目名、粗黑核心观点、一条红色手绘强调线和蓝色补充语。逐字字幕由 Video Factory 承载，raw 不得直接发布。",
+    "text_zone_contract": "text_layout_variant=square-left 时保持 x=110..920,y=180..1040 连续白底；square-right 时保持 x=1128..1938,y=180..1040 连续白底。主题和人物必须避开所选文字区。",
+    "edge_fill_policy": "左右两侧允许满版或局部出画；底部不能满版，必须留出连续空间。",
+    "bottom_negative_space": "画布底部最后 12%-15% 保持纯净低细节地面或背景，不放脚、底座、卡片、箭头、绳索和关键装置。"
+  },
+  "content_contract": {
+    "input_slots": [
+      "content.headline",
+      "content.summary",
+      "content.points[]",
+      "visual.subject",
+      "visual.metaphors[]",
+      "visual.ip_profile",
+      "composition.shot_type",
+      "composition.structure_type",
+      "composition.composition_family",
+      "composition.ip_scale",
+      "composition.orientation",
+      "composition.action",
+      "composition.visual_anchor_position",
+      "composition.text_layout_variant",
+      "composition.edge_fill_policy",
+      "composition.bottom_negative_space"
+    ],
+    "composition_choices": {
+      "composition_family": [
+        "diagonal-cross",
+        "top-down-partial",
+        "seated-loop",
+        "close-hands",
+        "object-dominant",
+        "contrast-bridge"
+      ],
+      "ip_scale": [
+        "brand-hero",
+        "co-lead",
+        "analysis-medium",
+        "close-up"
+      ],
+      "orientation": [
+        "front",
+        "left",
+        "right",
+        "back-three-quarter"
+      ],
+      "visual_anchor_position": [
+        "left",
+        "center",
+        "right"
+      ],
+      "text_layout_variant": [
+        "square-left",
+        "square-right"
+      ]
+    },
+    "copy_budget": {
+      "kicker": "2–6 个汉字",
+      "headline": "8–18 个汉字，最多三行",
+      "support": "一行短语",
+      "subtitle": "不写入静态图片"
+    }
+  },
+  "layout": {
+    "internal_ratio": "4:3 horizontal storytelling inside a 1:1 canvas",
+    "visual_hierarchy": "主题隐喻与人物动作共同构成一个主体；允许局部人物或装置主导。",
+    "subtitle_safe_zone": "底部约 15% 保持低细节，不绘制字幕框；同时作为构图留白，不允许关键物件贴底。",
+    "bottom_composition_rule": "左右可以满，底部必须留出 12%-15% 连续呼吸空间；不要把主体、底座或动作线铺满到底边。",
+    "text_positions": "根据构图在左上、右上、左中或字幕安全区上方动态选择，不固定套版。"
+  },
+  "style": {
+    "visual_style": "premium polished 2D editorial cartoon illustration: fine controlled ink contours, simplified mature facial planes, layered hand-painted color and restrained multi-step shading, subtle material texture on fabric and familiar objects; unmistakably illustrated and recognizable, never photographic, never flat clip-art or corporate vector mascot",
+    "background": "纯净白底；物件可有轻微插画化纹理和落地阴影。",
+    "motion_accent": "每张最多一条橙色主动作路径，可加一条蓝色次路径。"
+  },
+  "canvas": {
+    "safe_margin": "四周至少 6%",
+    "bottom_subtitle_safe_percent": 15,
+    "platform_control_avoidance": "右侧约 8% 不放主标题或人脸"
+  },
+  "quality_gates": [
+    "人物明确是二维卡通，不是照片、半写实数字人或网红脸。",
+    "隐喻由熟悉物件组成且与当前主题直接相关。",
+    "人物和装置处于可信尺度，没有巨人或小人国。",
+    "相邻镜头构图、裁切、朝向和动作不重复。",
+    "画面不是工业机器泛化、透明 UI、PPT 或课程页。",
+    "底部字幕安全区没有脸、标题和关键装置，且底部 12%-15% 保持连续留白。",
+    "授权人物素材按用途登记，并随共享 handoff 交回主入口。",
+    "最终交付包含栏目名、核心观点、红色强调线和补充语，且来自确定性文字合成结果。"
+  ],
+  "constraints": [
+    "必须是 1:1 方屏。",
+    "必须使用用户自有已授权角色 IP profile。",
+    "raw 阶段不得生成最终中文、logo、水印或字幕。",
+    "shot manifest 必须记录 composition_family。"
+  ],
+  "negative_prompt": "照片,摄影,半写实真人,数字人,网红脸,皮肤毛孔,摄影柔光,真人毛发丝,3D人物,工业工厂,锅炉,蒸汽朋克,密集齿轮,密集管线,透明软件面板,仪表盘,模块卡片网格,PPT,课程页,主持人立牌,连续站立,右侧巨型人物,小人国,模型生成中文,字幕,logo,水印,底部满版,底部无留白,重要物件贴底,脚部切出画布,底座贴边,底部白色占位框",
+  "default_for_scene": true,
+  "aliases": [
+    "已授权角色 连续内容方屏配图",
+    "1:1 IP 视频配图",
+    "静态竖屏方屏 IP 配图",
+    "移动端竖屏方屏 IP 配图"
+  ]
+}

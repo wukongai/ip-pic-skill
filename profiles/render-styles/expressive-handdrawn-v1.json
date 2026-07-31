@@ -1,0 +1,16 @@
+{
+  "id": "expressive-handdrawn",
+  "status": "experimental",
+  "scope": "render-style-only",
+  "style_family": "expressive-marker-crayon-ink",
+  "design_intent": "用松弛的黑色墨线、马克笔和蜡笔色块呈现聪明又不端着的手绘现场感。",
+  "surface": "loose black ink contours, marker blocks, wax crayon grain and visible construction strokes; text presence is controlled independently by delivery_mode",
+  "forbidden": [
+    "messy illegible scribble",
+    "children homework drawing",
+    "watercolor portrait realism",
+    "corporate vector",
+    "photo"
+  ],
+  "schema_version": "render-style-profile/v1"
+}

@@ -1,0 +1,124 @@
+{
+  "id": "custom-ip-handdrawn-article-v1",
+  "name": "自定义 IP 手绘正文配图",
+  "description": "为中文文章生成 16:9 横版 IP 解释配图。模板只固定正文配图结构、画幅和认知动作；文字策略由 delivery_mode 选择，视觉表面由独立 style_variant_id 选择。",
+  "schema": "../schemas/template.schema.json",
+  "scene": "ip_article_illustration",
+  "size": "1536x864",
+  "aspect": "16:9",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是中文内容的角色叙事配图设计师。你用用户自己的固定 IP 作为概念解释的动作主体，生成可作为文章正文插图的横版画面。",
+  "default_mood": "清醒、明确、可连续复用；具体表面语气服从已确认的 render style profile",
+  "default_layout_pattern": "custom_ip_performs_one_conceptual_action_with_negative_space",
+  "template_parameters": {
+    "reading_context": "图片用于文章正文与视频版关键帧；在手机端一眼可懂，在连续多期中角色可辨认。",
+    "ip_continuity": "严格保持 visual.ip_profile.continuity_anchors 的轮廓、主色、服装、关键道具和气质；不要自行新增另一套角色设定。",
+    "action_first": "固定 IP 必须推动核心物理动作；去掉角色后若隐喻仍可完整成立，说明角色过于装饰，应重构画面。",
+    "text_density": "direct-integrated 一次生成少量画面文字；two-step-publish 的 raw 阶段不生成文字，标题与摘要由 publish layout 确定性合成。",
+    "director_owner": "image-factory",
+    "director_policy": "上游只提供内容要点；镜头、动作、朝向、表情、隐喻、构图和文字表现由 ip-director-plan/v1 生成。",
+    "style_policy": "style_variant_id 只切换材质、线条、色彩、形状和表面语气；不得改变 16:9 画幅、delivery_mode、正文配图结构或 IP 身份。"
+  },
+  "content_contract": {
+    "input_slots": [
+      "content.headline",
+      "content.summary",
+      "content.points[]",
+      "visual.ip_profile"
+    ],
+    "director_outputs": [
+      "visual.subject",
+      "visual.metaphors[]",
+      "composition.shot_type",
+      "composition.composition_family",
+      "composition.orientation",
+      "composition.action",
+      "composition.character_performance",
+      "composition.visual_anchor_position",
+      "composition.text_presentation"
+    ],
+    "ip_profile_required": [
+      "ownership",
+      "identity",
+      "appearance",
+      "personality",
+      "continuity_anchors"
+    ],
+    "copy_budget": {
+      "headline": "direct-integrated 保留 1-2 行醒目画面文字；two-step-publish 的 raw 阶段不得生成文字。",
+      "points": "最终成品最多保留 1 条摘要；不要把要点交给模型手写。"
+    },
+    "forbidden": [
+      "未授权第三方角色",
+      "模仿或复刻 Ian 的未授权第三方角色与示例构图",
+      "封面级大标题",
+      "营销 CTA、二维码或关注引导",
+      "密集文字、正式流程图或课程课件"
+    ]
+  },
+  "layout": {
+    "main_scene": "中部 40%-60% 画固定 IP 与一个低科技、具体、略荒诞但成立的物理隐喻；IP 的手、身体、工具或姿态必须参与因果关系。",
+    "annotation_zone": "direct-integrated 可将短批注融入场景；two-step-publish 的 raw 阶段不生成批注，标题和摘要进入 publish layout。",
+    "flow": "先识别 IP 的动作，再理解物件和信息流，最后阅读确定性标题与摘要。",
+    "white_space": "至少保留 35% 干净留白，为文章排版与视频字幕安全区保留呼吸。"
+  },
+  "style": {
+    "visual_style": "不在结构模板中固定。必须读取用户确认的 render-style-only profile；简约线稿、毛毡手作、贴画拼贴、松弛手绘、高冲击和艺术版画均与 16:9 正文结构兼容。",
+    "background": "服从 render style profile，同时保证短文字可读、主体清楚和正文配图所需留白。",
+    "typography": {
+      "labels": "direct-integrated 只允许少量短标签；two-step-publish 的 raw 阶段不生成标签。",
+      "headline": "direct-integrated 的短文字服务于画面判断；two-step-publish 的最终标题由 publish layout 确定性合成。"
+    }
+  },
+  "reference_policy": {
+    "reuse": [
+      "用户自有或获授权 IP 的角色圣经与连续性锚点",
+      "文章主题的因果关系和认知动作"
+    ],
+    "do_not_reuse": [
+      "Ian 未授权第三方角色或其他第三方受保护角色",
+      "来源仓库样图的物件组合、姿态、空间拓扑或标签位置",
+      "品牌、logo、人物肖像、完整文案和可识别商业包装"
+    ]
+  },
+  "canvas": {
+    "safe_margin": "四周至少 6% 安全边距。",
+    "overflow_control": "标注不贴边、不裁切；连接线不交叉成网。"
+  },
+  "quality_gates": [
+    "固定 IP 在做解释概念的核心动作，而不是角落贴纸。",
+    "同一 visual.ip_profile 的连续性锚点在系列图中稳定可辨。",
+    "一张图只表达一个判断、状态或转折。",
+    "画面不是 PPT、商业插画、儿童卡通、封面或课程课件。",
+    "留白、短标注和纯白背景满足文章正文与视频关键帧需求。"
+  ],
+  "copy_rules": [
+    "direct-integrated 只生成少量、清晰、服务于动作和物件关系的画面文字；two-step-publish 的 raw 阶段不得生成文字，最终文字由 image-publish-layout/v1 写入。",
+    "宁可用动作和物件解释，也不要堆新闻摘要或口播稿。",
+    "不出现关注、扫码、私信、购买、品牌署名或无关水印。"
+  ],
+  "constraints": [
+    "必须是 16:9 横版。",
+    "必须使用 visual.ip_profile 中用户自有或获授权的原创 IP；不得使用未授权第三方角色或其他第三方受保护角色。",
+    "IP 必须承担核心动作，并与主要物件或信息流发生因果关系。",
+    "必须遵守已确认的 render style profile；切换风格不得改变画幅、文字策略、角色身份或正文配图结构。",
+    "每次从当前内容重新发明隐喻，不得复刻来源样图构图。"
+  ],
+  "negative_prompt": "未授权第三方角色,第三方 IP,受保护角色,复刻示例图,角色只是角落贴纸,可爱吉祥物,儿童卡通,PPT信息图,正式流程图,课程课件,科技 UI,真实 App 截图,混用多套材质风格,大字封面,扫码关注,二维码,营销按钮,密集小字,新闻正文文字墙,英文乱码,中文错字,水印,logo,裁切",
+  "default_for_scene": true,
+  "aliases": [
+    "未授权第三方角色配图",
+    "IP 配图",
+    "自定义 IP 配图",
+    "连续内容视频配图"
+  ]
+}

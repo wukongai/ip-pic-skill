@@ -1,0 +1,221 @@
+{
+  "id": "custom-ip-handdrawn-video-content-first-v2",
+  "name": "自定义 IP 内容优先竖屏视频关键帧 v2",
+  "description": "派生自 Ian Xiaohei Illustrations 的认知锚点、结构类型、怪诞物理隐喻和角色动作工作流。用于静态竖屏与移动端竖屏 9:16 关键帧：内容结构是主角，用户自有 IP 以小操作员、协作者或局部动作参与，不做半屏人物海报。",
+  "schema": "../schemas/template.schema.json",
+  "scene": "ip_video_keyframe",
+  "size": "1152x2048",
+  "aspect": "9:16",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是中文内容的怪诞手绘解释图设计师。先把一个认知锚点变成清楚但不说明书的物理隐喻，再让用户自有 IP 作为系统操作员参与必要动作。内容隐喻必须比人物更醒目。",
+  "default_mood": "清醒、克制、略怪、松弛、有产品草图感",
+  "default_layout_pattern": "content_metaphor_first_with_custom_ip_operator",
+  "upstream": {
+    "name": "Ian Xiaohei Illustrations",
+    "commit": "91b560849e8f883922cc2fa8a358a668caa94105",
+    "mapping": "../references/upstream-mapping.md"
+  },
+  "template_parameters": {
+    "reading_context": "9:16 知识型短视频关键帧；观众先看懂内容隐喻，再认出固定 IP。",
+    "cognitive_anchor_first": "先从正文选择一个判断、流程、状态或转折；一张图只表达一个认知锚点。",
+    "structure_selection": "从 Workflow、系统局部、前后对比、角色状态、概念隐喻、方法分层、地图路线、小漫画分镜中只选一种。",
+    "metaphor_method": "把抽象概念改成物理动作，再换成 1–2 个低科技物件；不要先摆人物再往身边贴图标。",
+    "ip_role": "从 operator-small、collaborator-medium、detail-cameo 中选择；人物参与必要动作但不抢走结构。",
+    "action_rotation": "相邻镜头不得重复同一人物尺度、朝向和动作；优先使用拉、扛、塞、捞、压、称、缝、剪、拧、守、推、接、拆、标记、回收等具体动作。",
+    "text_strategy": "模型不生成最终中文；只保留自然批注落点。大字观点和短批注由确定性后处理叠加。"
+  },
+  "content_contract": {
+    "input_slots": [
+      "content.headline",
+      "content.summary",
+      "content.points[]",
+      "content.evidence_lines[]",
+      "visual.subject",
+      "visual.metaphors[]",
+      "visual.ip_profile",
+      "composition.structure_type",
+      "composition.ip_scale",
+      "composition.orientation",
+      "composition.action",
+      "composition.visual_anchor_position"
+    ],
+    "ip_profile_required": [
+      "ownership",
+      "identity",
+      "appearance",
+      "personality",
+      "continuity_anchors"
+    ],
+    "composition_choices": {
+      "structure_type": [
+        "workflow",
+        "system_detail",
+        "before_after",
+        "character_states",
+        "conceptual_metaphor",
+        "layered_method",
+        "route_map",
+        "mini_comic"
+      ],
+      "ip_scale": [
+        "operator-small",
+        "collaborator-medium",
+        "detail-cameo"
+      ],
+      "orientation": [
+        "front",
+        "left",
+        "right",
+        "back-three-quarter"
+      ],
+      "visual_anchor_position": [
+        "left",
+        "center",
+        "right"
+      ]
+    },
+    "copy_budget": {
+      "headline": "后期叠加 10–22 个汉字，最多两行。",
+      "points": "后期叠加 2–5 个短批注，每个 2–6 个汉字。",
+      "evidence_lines": "后期叠加最多 3 行事实、变量、变化或落地标准，每行不超过 32 个字符；禁止编造数字。",
+      "subtitle": "逐字字幕由视频轨承载。"
+    },
+    "forbidden": [
+      "未授权第三方角色",
+      "复制 Ian 未授权第三方角色、样图或案例构图",
+      "人物占据半张以上画面",
+      "先摆人物再把内容缩成身边小图标",
+      "模型生成最终中文",
+      "连续使用站立指向或平板讲解动作"
+    ]
+  },
+  "layout": {
+    "content_scene": "画布约 5%–67% 为主要内容场景。概念装置、路径或状态结构占画面 45%–65%，是第一视觉主体。",
+    "ip_scale": "人物通常占整张画面 12%–28%；operator-small 12%–20%，collaborator-medium 18%–28%，detail-cameo 8%–18%。只有人物本身就是内容时才可显式放大到 32%。",
+    "ip_participation": "人物必须操作、搬运、修补、连接、筛选或观察内容结构；可以坐、蹲、俯身、背身、半身或只出现手部，不要求每张全身站立。",
+    "key_copy_zone": "画布约 68%–90% 为确定性信息区；包含一句核心观点和最多三行事实/变量/变化/落地标准，可按内容左右错位，不遮挡人物面部和主装置。",
+    "platform_safe_zone": "底部约 10% 与最右侧约 12% 不放关键信息；逐字字幕由视频轨承载，不为字幕固定空出大块画布。",
+    "white_space": "至少 30%–35% 安静纯白区域；不是把所有空白都填成人物。",
+    "flow": "先理解内容隐喻，再看到人物如何参与，最后读取一句观点与少量批注。"
+  },
+  "style": {
+    "visual_style": "纯白背景、极简黑色手绘线稿、轻微抖动、低科技怪物件、产品草图感；克制使用所选角色 profile 的连续性锚点。",
+    "background": "#FFFFFF 纯白；无纸纹、渐变、阴影、噪点、真实 UI 或复杂环境。",
+    "palette": [
+      {
+        "name": "墨黑",
+        "hex": "#1D1D1D",
+        "usage": "内容结构、主要线稿和确定性大字"
+      },
+      {
+        "name": "路径橙",
+        "hex": "#F28C28",
+        "usage": "唯一主路径与移动关系"
+      },
+      {
+        "name": "提醒红",
+        "hex": "#D94A45",
+        "usage": "问题、转折、提醒或结果"
+      },
+      {
+        "name": "说明蓝",
+        "hex": "#3F7FBF",
+        "usage": "反馈、系统状态或第二层说明"
+      },
+      {
+        "name": "角色所选角色 profile 的连续性锚点",
+        "hex": "#7A2638",
+        "usage": "用户 IP 上衣锚点"
+      },
+      {
+        "name": "角色所选角色 profile 的连续性锚点",
+        "hex": "#17233B",
+        "usage": "用户 IP 外套锚点"
+      }
+    ],
+    "typography": {
+      "key_copy": "后期叠加的粗黑中文观点，1–2 行；下方可接三行较小的信息证据。",
+      "labels": "后期叠加的少量手写感短批注。"
+    }
+  },
+  "reference_policy": {
+    "reuse": [
+      "上游的认知锚点工作流、8 类构图选择、物理隐喻三步法、动作池、颜色和留白纪律",
+      "用户自有 IP 的角色圣经、面部神韵、服装与饰品连续性"
+    ],
+    "do_not_reuse": [
+      "Ian 未授权第三方角色外形",
+      "上游示例图的物件组合、姿态、空间拓扑和标签位置",
+      "任何第三方品牌、人物、完整文案或可识别商业包装"
+    ]
+  },
+  "canvas": {
+    "safe_margin": "左右至少 7%，顶部至少 6%。",
+    "content_scene_box_px": {
+      "x": 72,
+      "y": 100,
+      "w": 930,
+      "h": 1270
+    },
+    "key_copy_box_px": {
+      "x": 96,
+      "y": 1390,
+      "w": 900,
+      "h": 445
+    },
+    "bottom_platform_safe_box_px": {
+      "x": 0,
+      "y": 1840,
+      "w": 1152,
+      "h": 208
+    },
+    "right_platform_safe_box_px": {
+      "x": 1010,
+      "y": 0,
+      "w": 142,
+      "h": 1840
+    },
+    "overflow_control": "内容结构、人物面部、大字和关键道具不得进入平台安全区。"
+  },
+  "quality_gates": [
+    "第一眼先看到并理解内容隐喻，不是先看到人物写真。",
+    "概念主体约占画面 45%–65%，人物通常只占 12%–28%。",
+    "人物参与关键动作但不抢结构；去掉内容装置后不能只剩一张完整人物海报。",
+    "一张图只选择一种结构类型和 1–2 个主物件。",
+    "相邻镜头的人物尺度、朝向、位置和动作能够轮换。",
+    "画面不是 PPT、课程页、商业海报、复杂流程图或儿童卡通。",
+    "脸、眼镜、发型、服装、所选角色 profile 的连续性锚点和所选角色 profile 的连续性锚点保持连续。",
+    "观点区与平台安全区可供确定性叠字和视频 UI 使用。"
+  ],
+  "copy_rules": [
+    "模型不生成最终中文；headline 与 points 只作为后处理输入。",
+    "大字观点只提炼当前镜头的唯一判断。",
+    "信息证据必须来自口播原文；有真实数字时显示数字，没有数字时显示变量、变化和落地标准。",
+    "短批注最多 5 个，每个 2–6 个汉字。"
+  ],
+  "constraints": [
+    "必须是 9:16 竖屏 1152x2048。",
+    "必须使用 visual.ip_profile 中用户自有或获授权的原创 IP。",
+    "必须内容优先：主装置、路径或状态结构的视觉重量大于人物。",
+    "必须从 composition.structure_type 选择一种结构并从 composition.action 选择具体物理动作。",
+    "人物不得默认超过画面 28%，不得连续生成全身站立讲解海报。",
+    "不得在生图阶段生成中文、英文、数字、logo 或水印。"
+  ],
+  "negative_prompt": "未授权第三方角色,第三方 IP,复制 Ian 示例构图,人物主导海报,半屏人物,人物写真,角色巨大,内容缩成身边小图标,连续站立,连续指向,连续拿平板,主持人立牌,角落贴纸,大头娃娃,Q版,儿童卡通,商业矢量插画,PPT信息图,正式流程图,课程课件,复杂架构图,科技UI,真实App截图,复杂背景,纸张纹理,渐变,阴影,噪点,模型生成中文,英文乱码,中文错字,字幕墙,二维码,营销按钮,水印,logo,裁切",
+  "default_for_scene": false,
+  "aliases": [
+    "连续内容内容优先配图",
+    "口播视频配图",
+    "静态竖屏 IP 配图",
+    "移动端竖屏视频配图"
+  ]
+}

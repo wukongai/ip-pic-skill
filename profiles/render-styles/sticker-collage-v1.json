@@ -1,0 +1,16 @@
+{
+  "id": "sticker-collage",
+  "status": "experimental",
+  "scope": "render-style-only",
+  "style_family": "analog-sticker-cut-paper-collage",
+  "design_intent": "把已授权角色 IP 转译为有手撕纸边、印刷网点和错位套色的贴画拼贴，同时保持人物完整参与认知动作。",
+  "surface": "matte cut paper, die-cut sticker contours, torn edges, screen-print halftone, slight ink misregistration",
+  "forbidden": [
+    "emoji sticker pack",
+    "random sticker wall",
+    "baby kawaii",
+    "detached corner mascot",
+    "glossy 3D"
+  ],
+  "schema_version": "render-style-profile/v1"
+}

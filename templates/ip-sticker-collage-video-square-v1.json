@@ -1,0 +1,82 @@
+{
+  "id": "ip-sticker-collage-video-square-v1",
+  "name": "已授权角色 IP 贴画拼贴 1:1 方屏关键帧 v1",
+  "description": "手撕纸、贴画轮廓、印刷网点与错位套色的固定 IP 视频配图风格。",
+  "scene": "ip_video_keyframe",
+  "size": "2048x2048",
+  "aspect": "1:1",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是模拟印刷与手工拼贴导演。把一个认知锚点组织成层次清楚的贴画小剧场，让已授权角色角色亲自推动核心动作。",
+  "default_mood": "机灵、跳脱、手工、俏皮、有编辑感",
+  "default_layout_pattern": "square_four_by_three_internal_story_with_sticker_collage",
+  "profile": "../profiles/editorial-baseline-v1.json",
+  "identity_profile": "profile://selected-character",
+  "render_style_profile": "../profiles/render-styles/sticker-collage-v1.json",
+  "template_parameters": {
+    "style_variant_id": "sticker-collage",
+    "cognitive_anchor_first": "一张只表达一个判断；贴画层次必须服务因果关系。",
+    "character_policy": "身份锚点不变；人物成为完整的手工贴画角色并参与动作，不是后贴角标。",
+    "text_strategy": "raw 不生成文字；最终中文由确定性叠字完成。",
+    "text_zone_contract": "square-left 保持 x=110..920,y=180..1040 低细节浅底；人物和主装置集中右侧与下方。"
+  },
+  "content_contract": {
+    "composition_choices": {
+      "composition_family": [
+        "diagonal-cross",
+        "object-dominant",
+        "contrast-bridge"
+      ],
+      "ip_scale": [
+        "co-lead",
+        "analysis-medium"
+      ],
+      "text_layout_variant": [
+        "square-left",
+        "square-right"
+      ]
+    }
+  },
+  "layout": {
+    "visual_hierarchy": "人物、巨大模型脑袋、业务流水线形成三层前后遮挡，像一张完整海报拼贴。",
+    "subtitle_safe_zone": "底部约 15% 保持低细节。"
+  },
+  "style": {
+    "visual_style": "analog cut-paper and die-cut sticker editorial collage, matte paper fibers, torn edges, white sticker contours used selectively, screen-print halftone, slightly misregistered cyan-red ink, layered paper shadows, witty adult energy",
+    "character_rendering": "recognizable mature Chinese woman as a coherent full-body paper collage character; black low ponytail, narrow rectangular glasses, burgundy top, deep-navy jacket, long black wide-leg trousers",
+    "palette": "warm paper, burgundy, cobalt, orange, black and off-white; maximum two saturated accents",
+    "sticker_rule": "贴画是统一材质系统，不是随机图标墙；人物不可缩成角落贴纸。"
+  },
+  "canvas": {
+    "safe_margin": "四周至少 6%",
+    "bottom_subtitle_safe_percent": 15,
+    "platform_control_avoidance": "右侧约 8% 不放人脸和主标题"
+  },
+  "quality_gates": [
+    "一眼可见手撕纸和错位印刷",
+    "人物身份可辨识",
+    "主隐喻不被贴纸装饰淹没",
+    "x=110..920,y=180..800 内不得出现深色主体、人物或模型脑袋",
+    "文字区与字幕区干净"
+  ],
+  "constraints": [
+    "必须是 1:1",
+    "square-left 时 x=110..920,y=180..800 是硬排除区，不得让深色贴画、人物、模型脑袋或装置侵入",
+    "raw 不生成文字、logo 或水印",
+    "不得声明任何图片 API 控制字段"
+  ],
+  "negative_prompt": "深色主体进入左侧文字区,模型脑袋压住标题区,人物压住标题区,随机贴纸墙,emoji贴纸包,幼态卡通,角落吉祥物,企业矢量,PPT,照片,半写实,光滑3D,密集文字,logo,水印",
+  "default_for_scene": false,
+  "aliases": [
+    "已授权角色贴画 IP 配图",
+    "贴纸拼贴 IP 配图"
+  ]
+}

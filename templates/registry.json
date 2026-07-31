@@ -1,0 +1,177 @@
+{
+  "schema_version": "ip-template-registry/v1",
+  "formal_count": 13,
+  "compatibility_count": 1,
+  "templates": [
+    {
+      "id": "custom-ip-handdrawn-article-v1",
+      "file": "custom-ip-handdrawn-article-v1.json",
+      "scene": "ip_article_illustration",
+      "classification": "formal",
+      "default_for_scene": true,
+      "aliases": [
+        "未授权第三方角色配图",
+        "IP 配图",
+        "自定义 IP 配图",
+        "连续内容视频配图"
+      ]
+    },
+    {
+      "id": "custom-ip-handdrawn-video-content-first-v2",
+      "file": "custom-ip-handdrawn-video-content-first-v2.json",
+      "scene": "ip_video_keyframe",
+      "classification": "formal",
+      "default_for_scene": false,
+      "aliases": [
+        "连续内容内容优先配图",
+        "口播视频配图",
+        "静态竖屏 IP 配图",
+        "移动端竖屏视频配图"
+      ]
+    },
+    {
+      "id": "custom-ip-handdrawn-video-portrait-v1",
+      "file": "custom-ip-handdrawn-video-portrait-v1.json",
+      "scene": "ip_video_keyframe",
+      "classification": "formal",
+      "default_for_scene": false,
+      "aliases": [
+        "连续内容竖屏配图",
+        "口播视频配图",
+        "静态竖屏 IP 配图",
+        "移动端竖屏视频配图"
+      ]
+    },
+    {
+      "id": "ip-art-print-video-square-v1",
+      "file": "ip-art-print-video-square-v1.json",
+      "scene": "ip_video_keyframe",
+      "classification": "formal",
+      "default_for_scene": false,
+      "aliases": [
+        "已授权角色艺术 IP 配图",
+        "艺术版画 IP 配图"
+      ]
+    },
+    {
+      "id": "ip-editorial-video-square-v1",
+      "file": "ip-editorial-video-square-v1.json",
+      "scene": "ip_video_keyframe",
+      "classification": "formal",
+      "default_for_scene": true,
+      "aliases": [
+        "已授权角色 连续内容方屏配图",
+        "1:1 IP 视频配图",
+        "静态竖屏方屏 IP 配图",
+        "移动端竖屏方屏 IP 配图"
+      ]
+    },
+    {
+      "id": "ip-editorial-video-subtitle-safe-v4",
+      "file": "ip-editorial-video-subtitle-safe-v4.json",
+      "scene": "ip_video_keyframe",
+      "classification": "formal",
+      "default_for_scene": false,
+      "aliases": [
+        "已授权角色字幕安全配图",
+        "连续内容字幕版配图",
+        "静态竖屏口播正文配图"
+      ]
+    },
+    {
+      "id": "ip-editorial-video-v3",
+      "file": "ip-editorial-video-v3.json",
+      "scene": "ip_video_keyframe",
+      "classification": "formal",
+      "default_for_scene": false,
+      "aliases": [
+        "已授权角色 连续内容竖屏配图",
+        "已授权角色 IP 视频配图",
+        "静态竖屏 IP 配图",
+        "移动端竖屏视频配图"
+      ]
+    },
+    {
+      "id": "ip-expressive-handdrawn-video-square-v1",
+      "file": "ip-expressive-handdrawn-video-square-v1.json",
+      "scene": "ip_video_keyframe",
+      "classification": "formal",
+      "default_for_scene": false,
+      "aliases": [
+        "已授权角色手绘 IP 配图",
+        "松弛手绘 IP 配图"
+      ]
+    },
+    {
+      "id": "ip-minimal-lineart-video-square-v1",
+      "file": "ip-minimal-lineart-video-square-v1.json",
+      "scene": "ip_video_keyframe",
+      "classification": "formal",
+      "default_for_scene": false,
+      "aliases": [
+        "已授权角色极简线稿 IP 配图",
+        "原始未授权第三方角色线稿风",
+        "黑白线稿 IP 配图"
+      ]
+    },
+    {
+      "id": "ip-playful-craft-video-playback-v1",
+      "file": "ip-playful-craft-video-playback-v1.json",
+      "scene": "ip_video_keyframe",
+      "classification": "formal",
+      "default_for_scene": false,
+      "aliases": [
+        "毛毡 IP 竖屏播放模拟",
+        "决策流程生意 IP 配图",
+        "丑萌字幕安全竖屏配图"
+      ]
+    },
+    {
+      "id": "ip-playful-craft-video-square-v1",
+      "file": "ip-playful-craft-video-square-v1.json",
+      "scene": "ip_video_keyframe",
+      "classification": "formal",
+      "default_for_scene": false,
+      "aliases": [
+        "已授权角色手作丑萌 IP 配图",
+        "毛毡 IP 视频配图",
+        "搞怪 IP 方屏配图",
+        "丑萌 IP 配图"
+      ]
+    },
+    {
+      "id": "ip-pop-impact-video-square-v1",
+      "file": "ip-pop-impact-video-square-v1.json",
+      "scene": "ip_video_keyframe",
+      "classification": "formal",
+      "default_for_scene": false,
+      "aliases": [
+        "已授权角色吸睛 IP 配图",
+        "高冲击 IP 配图",
+        "特别吸金 IP 配图"
+      ]
+    },
+    {
+      "id": "ip-sticker-collage-video-square-v1",
+      "file": "ip-sticker-collage-video-square-v1.json",
+      "scene": "ip_video_keyframe",
+      "classification": "formal",
+      "default_for_scene": false,
+      "aliases": [
+        "已授权角色贴画 IP 配图",
+        "贴纸拼贴 IP 配图"
+      ]
+    },
+    {
+      "id": "ip-video-top-card-content-v5",
+      "file": "ip-video-top-card-content-v5.json",
+      "scene": "ip_video_keyframe",
+      "classification": "compatibility",
+      "default_for_scene": false,
+      "aliases": [
+        "已授权角色上部卡片主题底图",
+        "IP视频知识卡片底图"
+      ]
+    }
+  ]
+}

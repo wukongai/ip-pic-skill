@@ -1,0 +1,148 @@
+{
+  "id": "custom-ip-handdrawn-video-portrait-v1",
+  "name": "自定义 IP 竖屏视频关键帧",
+  "description": "为静态竖屏与移动端竖屏生成 9:16 竖屏 连续内容关键帧。固定 IP 在上半部承担核心认知动作，中下部预留确定性大字观点区，平台界面安全区不放关键信息。",
+  "schema": "../schemas/template.schema.json",
+  "scene": "ip_video_keyframe",
+  "size": "1152x2048",
+  "aspect": "9:16",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是中文 连续内容的竖屏视频关键帧设计师。你用用户自己的固定 IP 作为概念解释主体，为后续确定性中文叠字保留稳定、安全、干净的画面区域。",
+  "default_mood": "知性、松弛、高级、鲜活、科技极客",
+  "default_layout_pattern": "portrait_ip_action_above_deterministic_key_copy_zone",
+  "template_parameters": {
+    "reading_context": "9:16 竖屏短视频，主要投放静态竖屏与移动端竖屏；手机端一眼识别人和一句观点。",
+    "ip_continuity": "严格保持 visual.ip_profile.continuity_anchors 与角色圣经；腰线自然收窄，腿部修长，长裤基本盖住鞋面。",
+    "action_first": "固定 IP 必须推动一个核心认知动作，人物高度约占画布 40%–48%，不可缩成角落贴纸。",
+    "text_strategy": "生图阶段不得生成最终中文。仅留出干净的大字区和短批注落点；headline 与 points 由确定性后处理叠加。"
+  },
+  "content_contract": {
+    "input_slots": [
+      "content.headline",
+      "content.summary",
+      "content.points[]",
+      "visual.subject",
+      "visual.ip_profile"
+    ],
+    "ip_profile_required": [
+      "ownership",
+      "identity",
+      "appearance",
+      "personality",
+      "continuity_anchors"
+    ],
+    "copy_budget": {
+      "headline": "后期叠加，建议 10–22 个汉字，最多两行。",
+      "points": "后期叠加 2–4 个短批注，每个 2–6 个汉字。",
+      "subtitle": "逐字口播字幕不写入静态图片，由视频字幕轨承载。"
+    },
+    "forbidden": [
+      "未授权第三方角色",
+      "模仿或复刻 Ian 的未授权第三方角色与示例构图",
+      "在模型生成阶段绘制最终中文",
+      "把整段口播稿塞进图片",
+      "营销 CTA、二维码或关注引导"
+    ]
+  },
+  "layout": {
+    "main_scene": "画布上方约 8%–63% 为主要场景；人物在中上部，优先半身或大半身，身体与道具共同完成认知动作。",
+    "key_copy_zone": "画布约 64%–82% 为确定性大字观点区，保持干净、低细节、无人物面部与关键道具。",
+    "platform_safe_zone": "画布底部约 18% 与最右侧约 12% 不放关键信息，避让平台标题、头像、点赞评论和进度界面。",
+    "annotation_zone": "在主场景周边预留 2–4 个短批注落点；后处理使用红、橙、蓝文字与细连接线。",
+    "flow": "先识别人物动作，再读一句大字观点，最后扫到少量短批注。"
+  },
+  "style": {
+    "visual_style": "纯白背景上的极简黑色手绘线稿与克制色块；角色保留所选角色 profile 的连续性锚点，面部肤色均匀干净；少量红、橙、蓝只用于后期短批注和路径。",
+    "background": "#FFFFFF 纯白；不要纸张纹理、渐变、阴影、噪点、真实 UI 或复杂背景。",
+    "palette": [
+      {
+        "name": "墨黑",
+        "hex": "#1D1D1D",
+        "usage": "角色轮廓、主要物件与后期大字"
+      },
+      {
+        "name": "路径橙",
+        "hex": "#F28C28",
+        "usage": "后期路径和箭头"
+      },
+      {
+        "name": "提醒红",
+        "hex": "#D94A45",
+        "usage": "后期问题、警示或关键结果"
+      },
+      {
+        "name": "说明蓝",
+        "hex": "#3F7FBF",
+        "usage": "后期辅助状态与 AI 提示"
+      }
+    ],
+    "typography": {
+      "key_copy": "后期叠加的粗黑中文无衬线或自然手写标题，1–2 行，手机端清晰。",
+      "labels": "后期叠加的短中文手写感标注，清楚但稀少。"
+    }
+  },
+  "canvas": {
+    "safe_margin": "左右至少 7%，顶部至少 6%。",
+    "main_scene_box_px": {
+      "x": 80,
+      "y": 120,
+      "w": 930,
+      "h": 1160
+    },
+    "key_copy_box_px": {
+      "x": 96,
+      "y": 1320,
+      "w": 900,
+      "h": 350
+    },
+    "bottom_platform_safe_box_px": {
+      "x": 0,
+      "y": 1680,
+      "w": 1152,
+      "h": 368
+    },
+    "right_platform_safe_box_px": {
+      "x": 1010,
+      "y": 0,
+      "w": 142,
+      "h": 1680
+    },
+    "overflow_control": "人物、脸部、观点文字与核心道具不得进入底部或右侧平台安全区。"
+  },
+  "quality_gates": [
+    "输出必须是 9:16 竖屏，人物不小于画面高度的 40%。",
+    "人物腰线更利落、腿部更修长、裤长基本覆盖鞋面，同时保持真实成熟比例。",
+    "大字区保持干净，可在不遮挡人物与道具的情况下叠加两行中文。",
+    "静态图片中的观点句与当前口播镜头一一对应，逐字字幕留给视频轨。",
+    "同一 visual.ip_profile 的脸、眼镜、发型、服装、所选角色 profile 的连续性锚点和所选角色 profile 的连续性锚点稳定可辨。"
+  ],
+  "copy_rules": [
+    "模型不生成最终中文；content.headline 与 content.points 只作为后处理输入。",
+    "大字观点提炼当前镜头的唯一判断，不逐字复制整段口播。",
+    "短批注最多 4 个，每个 2–6 个汉字。"
+  ],
+  "constraints": [
+    "必须是 9:16 竖屏 1152x2048。",
+    "必须使用 visual.ip_profile 中用户自有或获授权的原创 IP。",
+    "人物高度约占画布 40%–48%，不得缩成小贴纸。",
+    "必须为确定性大字观点和平台 UI 保留安全区域。",
+    "不得在生图阶段生成中文、英文、数字、logo 或水印。"
+  ],
+  "negative_prompt": "未授权第三方角色,第三方 IP,受保护角色,复刻示例图,角色很小,角落贴纸,大头娃娃,Q版,腰粗,短腿,九分裤,收腿裤,裤脚露出整个鞋面,夸张蜂腰,幼态,儿童卡通,商业矢量插画,PPT信息图,复杂背景,纸张纹理,渐变,阴影,噪点,模型生成中文,英文乱码,中文错字,字幕墙,二维码,营销按钮,水印,logo,裁切",
+  "default_for_scene": false,
+  "aliases": [
+    "连续内容竖屏配图",
+    "口播视频配图",
+    "静态竖屏 IP 配图",
+    "移动端竖屏视频配图"
+  ]
+}

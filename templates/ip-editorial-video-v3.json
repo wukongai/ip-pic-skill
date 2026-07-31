@@ -1,0 +1,217 @@
+{
+  "id": "ip-editorial-video-v3",
+  "name": "已授权角色 IP 编辑型竖屏视频关键帧 v3",
+  "description": "继承 Ian Xiaohei Illustrations 的认知锚点、镜头规划、构图选择、物理隐喻、动作轮换和 QA 架构，但使用独立的已授权角色人物、编辑型版式和中文大字系统。人物是较强品牌锚点，与主题共同主导画面。",
+  "schema": "../schemas/template.schema.json",
+  "scene": "ip_video_keyframe",
+  "size": "1152x2048",
+  "aspect": "9:16",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是已授权角色 连续内容的编辑型 IP 插画导演。先从口播中提炼一个认知锚点，选择镜头版式和内容结构，再让已授权角色以自然、知性、松弛且有信息作用的动作与主题共同构成视觉主体。",
+  "default_mood": "知性、松弛、高级、鲜活、艺术感、科技极客",
+  "default_layout_pattern": "editorial_ip_and_subject_co_lead_with_bold_chinese_claim",
+  "upstream": {
+    "name": "Ian Xiaohei Illustrations",
+    "commit": "91b560849e8f883922cc2fa8a358a668caa94105",
+    "inheritance": "workflow-architecture-only",
+    "mapping": "../references/upstream-mapping.md"
+  },
+  "profile": "../profiles/editorial-baseline-v1.json",
+  "character_style_profile": "profile://selected-character",
+  "template_parameters": {
+    "reading_context": "静态竖屏与移动端竖屏 9:16 知识型短视频关键帧；手机端先形成已授权角色品牌识别，同时一眼理解当前内容判断。",
+    "cognitive_anchor_first": "一张只表达一个判断、事实、机制、转折或结论。",
+    "layout_recipe_first": "从 editorial-hero、concept-partner、data-evidence、contrast-split、workflow-stage、seated-analysis、close-up-detail 中选择一种。",
+    "structure_selection": "从 workflow、system_detail、before_after、character_states、conceptual_metaphor、layered_method、route_map、mini_comic 中选择一种认知结构。",
+    "ip_role": "人物和主题共同主导；人物必须参与主题动作，但不要求缩成小操作员。",
+    "action_rotation": "相邻镜头不得重复 recipe、尺度、朝向和动作；连续三张不得都全身站立，连续两张不得都指向或拿平板。",
+    "text_strategy": "模型不生成最终中文。默认使用粗黑主张加红色手绘强调线；真实数据只在 data-evidence 镜头进入场景模块。"
+  },
+  "content_contract": {
+    "input_slots": [
+      "content.headline",
+      "content.summary",
+      "content.points[]",
+      "content.evidence_lines[]",
+      "visual.subject",
+      "visual.metaphors[]",
+      "visual.ip_profile",
+      "composition.shot_type",
+      "composition.structure_type",
+      "composition.ip_scale",
+      "composition.orientation",
+      "composition.action",
+      "composition.visual_anchor_position"
+    ],
+    "ip_profile_required": [
+      "ownership",
+      "identity",
+      "appearance",
+      "personality",
+      "continuity_anchors"
+    ],
+    "composition_choices": {
+      "shot_type": [
+        "editorial-hero",
+        "concept-partner",
+        "data-evidence",
+        "contrast-split",
+        "workflow-stage",
+        "seated-analysis",
+        "close-up-detail"
+      ],
+      "structure_type": [
+        "workflow",
+        "system_detail",
+        "before_after",
+        "character_states",
+        "conceptual_metaphor",
+        "layered_method",
+        "route_map",
+        "mini_comic"
+      ],
+      "ip_scale": [
+        "brand-hero",
+        "co-lead",
+        "analysis-medium",
+        "close-up"
+      ],
+      "orientation": [
+        "front",
+        "left",
+        "right",
+        "back-three-quarter"
+      ],
+      "visual_anchor_position": [
+        "left",
+        "center",
+        "right"
+      ]
+    },
+    "copy_budget": {
+      "headline": "确定性后处理，建议 8–18 个汉字，最多三行，粗黑大字。",
+      "points": "0–4 个场景短标签，每个 2–8 个汉字。",
+      "evidence_lines": "仅 data-evidence 使用；最多 1 个主数字和 2 个辅助事实，必须来自原文。",
+      "subtitle": "逐字口播字幕由视频轨承载。"
+    },
+    "forbidden": [
+      "未授权第三方角色",
+      "复制 Ian 未授权第三方角色、样图或案例构图",
+      "从上游架构推导出小人物视觉",
+      "每张固定套底部证据卡",
+      "模型生成最终中文",
+      "连续使用站立指向或平板讲解动作"
+    ]
+  },
+  "layout": {
+    "visual_hierarchy": "人物与主题装置共同构成第一视觉主体；人物提供品牌识别，主题提供内容价值。",
+    "ip_scale": "默认人物高度约占画布 38%–52%；数据或流程镜头可降至 26%–42%，近景可到 55%。不得缩成角落贴纸。",
+    "subject_scale": "主题装置、关系或数据模块必须与人物动作直接相连，不能退化成人物身边的装饰图标。",
+    "key_copy_zone": "依据人物左右位置动态放置粗黑主张，不固定使用白色底卡；标题下可加红色手绘强调线。",
+    "platform_safe_zone": "底部约 10% 与最右侧约 12% 不放脸、主标题和关键数字。",
+    "flow": "先同时识别人和主题，再读取一句观点，最后扫到必要标签或真实数据。"
+  },
+  "style": {
+    "visual_style": "严格对齐 approved-v2：保留所选角色 profile 的连续性锚点的精致现代编辑型卡通手绘插画，人物、动作与主题装置像一次性整体绘制；清晰黑色轮廓线、干净平涂与少量柔和明暗。不得滑向照片、半写实真人、3D 产品渲染或贴图拼接。",
+    "background": "纯净清爽白底；不使用米黄纸纹、摄影棚渐变、复杂环境、商业科技 UI 或厚重阴影。",
+    "palette": [
+      {
+        "name": "墨黑",
+        "hex": "#111111",
+        "usage": "粗黑主张、主要轮廓"
+      },
+      {
+        "name": "强调红",
+        "hex": "#D53A32",
+        "usage": "手绘强调线、关键变化"
+      },
+      {
+        "name": "角色所选角色 profile 的连续性锚点",
+        "hex": "#7A2638",
+        "usage": "已授权角色上衣锚点"
+      },
+      {
+        "name": "角色所选角色 profile 的连续性锚点",
+        "hex": "#17233B",
+        "usage": "已授权角色短夹克锚点"
+      },
+      {
+        "name": "说明蓝",
+        "hex": "#2F6DB2",
+        "usage": "少量信息标签"
+      },
+      {
+        "name": "路径橙",
+        "hex": "#F0782B",
+        "usage": "少量路径和动作箭头"
+      }
+    ],
+    "typography": {
+      "default_recipe": "editorial-hero",
+      "key_copy": "粗黑中文无衬线，2–3 行，强层级；标题下使用不规则红色手绘强调线。",
+      "scene_labels": "少量短中文，靠近真实对象或数据，不做彩色项目符号清单。"
+    }
+  },
+  "canvas": {
+    "safe_margin": "左右至少 6%，顶部至少 5%。",
+    "main_composition_box_px": {
+      "x": 60,
+      "y": 90,
+      "w": 950,
+      "h": 1720
+    },
+    "dynamic_key_copy": "标题区根据人物和主题位置在左下、左中、右下三种落点中选择。",
+    "bottom_platform_safe_box_px": {
+      "x": 0,
+      "y": 1840,
+      "w": 1152,
+      "h": 208
+    },
+    "right_platform_safe_box_px": {
+      "x": 1010,
+      "y": 0,
+      "w": 142,
+      "h": 1840
+    },
+    "overflow_control": "人物面部、标题、主数字和主题关键关系不得进入平台安全区。"
+  },
+  "quality_gates": [
+    "第一眼能够同时识别已授权角色人物与当前主题，不是小人物说明书，也不是无内容的人物写真。",
+    "默认人物高度 38%–52%，脸部有所选角色 profile 的连续性锚点，皮肤均匀干净。",
+    "腰线自然利落、腿部修长、裤脚基本覆盖厚底所选角色 profile 的连续性锚点鞋面。",
+    "她本人所选角色 profile 的连续性锚点和所选角色 profile 的连续性锚点在可见时位置正确。",
+    "相邻镜头的版式、尺度、朝向、动作和人物位置有轮换。",
+    "文字采用明确编辑层级；没有真实数据时不伪造数据模块。",
+    "画面不是 PPT、课程页、商业海报、儿童卡通或未授权第三方角色样图复刻。"
+  ],
+  "copy_rules": [
+    "模型不生成最终中文；headline、labels 和 evidence 由确定性后处理叠加。",
+    "默认只叠加一句粗黑主张和红色强调线。",
+    "只有 data-evidence 镜头允许主数字与辅助事实，且必须能够回溯口播原文。",
+    "逐字字幕不写入静态图片。"
+  ],
+  "constraints": [
+    "必须是 9:16 竖屏 1152x2048。",
+    "必须使用已授权角色用户自有 IP profile。",
+    "必须继承上游工作流内核，但视觉结果遵循已授权角色独立 profile。",
+    "必须在 shot manifest 中记录 shot_type、structure_type、ip_scale、orientation、action 和 visual_anchor_position。",
+    "不得在生图阶段生成中文、英文、数字、logo 或水印。"
+  ],
+  "negative_prompt": "未授权第三方角色,第三方 IP,复制 Ian 示例构图,小人物说明书,角落贴纸,人物过小,大头娃娃,Q版,幼态,儿童卡通,半写实真人,照片质感,3D商业渲染,人物贴纸拼接,两套光影,腰粗,短腿,小直筒裤,九分通勤裤,紧身铅笔裤,裤脚露出整个鞋面,薄底普通运动鞋,夸张蜂腰,连续站立,连续指向,连续拿平板,主持人立牌,底部白色证据卡,三行细小证据文字,彩色项目符号清单,PPT信息图,课程课件,复杂科技UI,真实App截图,复杂背景,米黄纸纹,摄影棚渐变,模型生成中文,英文乱码,中文错字,字幕墙,二维码,营销按钮,水印,logo,裁切",
+  "default_for_scene": false,
+  "aliases": [
+    "已授权角色 连续内容竖屏配图",
+    "已授权角色 IP 视频配图",
+    "静态竖屏 IP 配图",
+    "移动端竖屏视频配图"
+  ]
+}

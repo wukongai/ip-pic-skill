@@ -1,0 +1,121 @@
+{
+  "id": "ip-minimal-lineart-video-square-v1",
+  "name": "已授权角色 IP 极简黑白线稿 1:1 方屏关键帧 v1",
+  "description": "恢复早期未授权第三方角色式正文插图的极简黑线、纯白留白、低科技怪物件和少量强调色语法；人物仍为用户自有的已授权角色 IP。",
+  "scene": "ip_video_keyframe",
+  "size": "2048x2048",
+  "aspect": "1:1",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是一位极简中文正文插图导演。先把一个判断变成低科技、怪诞但因果成立的物理动作，再用纯白底、经济黑线和极少量橙红蓝强调画清楚。人物必须是用户授权的已授权角色 IP，不得生成未授权第三方角色或复刻任何上游示例。",
+  "default_mood": "清醒、克制、冷幽默、怪诞但准确",
+  "default_layout_pattern": "square_four_by_three_internal_story_with_minimal_lineart_and_negative_space",
+  "profile": "../profiles/editorial-baseline-v1.json",
+  "character_style_profile": "profile://selected-character",
+  "render_style_profile": "../profiles/render-styles/minimal-lineart-v1.json",
+  "template_parameters": {
+    "style_variant_id": "minimal-lineart",
+    "lineage": "恢复本地 custom-ip-handdrawn-article-v1 已保留的极简黑线视觉语法；只复用可迁移的风格原则，不复用未授权第三方角色、案例物件、姿态或构图。",
+    "cognitive_anchor_first": "一张只画一个判断、状态、转折或流程；先读懂动作，再看懂怪物件。",
+    "metaphor_policy": "用 2–5 个熟悉物件组成一个低科技物理隐喻，每次根据当前内容重新发明；禁止通用工厂、软件面板和密集齿轮。",
+    "character_policy": "已授权角色保留成熟比例、所选角色 profile 的连续性锚点、窄矩形眼镜、短外套与长所选角色 profile 的连续性锚点的轮廓识别；用经济线条而非彩色填满表达。",
+    "accent_budget": "黑线为绝对主体；每张最多一条橙色动作路径和一个小面积红或蓝状态点，总彩色面积不超过 8%。",
+    "text_strategy": "raw 不生成文字；最终中文由确定性叠字完成。",
+    "text_zone_contract": "square-left 保持 x=110..920,y=180..1040 为连续纯白空白；square-right 保持 x=1128..1938,y=180..1040 为连续纯白空白。"
+  },
+  "content_contract": {
+    "input_slots": [
+      "content.headline",
+      "content.summary",
+      "content.points[]",
+      "visual.subject",
+      "visual.metaphors[]",
+      "visual.ip_profile",
+      "composition.composition_family",
+      "composition.action",
+      "composition.text_layout_variant"
+    ],
+    "composition_choices": {
+      "composition_family": [
+        "diagonal-cross",
+        "top-down-partial",
+        "close-hands",
+        "object-dominant",
+        "contrast-bridge",
+        "negative-space-stage"
+      ],
+      "ip_scale": [
+        "co-lead",
+        "analysis-medium",
+        "operator-small"
+      ],
+      "text_layout_variant": [
+        "square-left",
+        "square-right"
+      ]
+    }
+  },
+  "layout": {
+    "internal_ratio": "4:3 horizontal storytelling inside a 1:1 canvas",
+    "visual_hierarchy": "一个怪物件机制与人物动作构成唯一主体，其余都是白地。",
+    "negative_space": "画面至少 45% 是不被纹理、色块、装饰或阴影占据的纯白留白。",
+    "subtitle_safe_zone": "底部约 15% 保持纯白与低细节。",
+    "reading_flow": "人物正在做的动作 → 物件的怪诞反应 → 橙色路径指向的结果。"
+  },
+  "style": {
+    "visual_style": "minimal editorial black line art on pure white: economical slightly wobbly hand-drawn ink contours, open shapes, sparse grounding marks, huge uninterrupted negative space, one low-tech absurd physical metaphor, one thin orange action path and at most one tiny red or blue cue; crisp and intelligent, never messy, never commercial vector, never textured illustration",
+    "character_rendering": "recognizable mature Chinese woman reduced to economical black contours: low ponytail, narrow rectangular glasses, short jacket silhouette and long wide-leg trousers; adult anatomy and core action remain clear, with at most tiny burgundy or navy identity strokes",
+    "object_rendering": "熟悉物件的轮廓必须一眼可认，怪诞感来自它们被迫组成一个低科技机制，不是乱线、抽象符号或 UI。",
+    "background": "#FFFFFF pure white; no paper grain, cream tint, gradient, rendered shadow, room, landscape or decorative pattern",
+    "palette": "ink black #1D1D1D dominates; orange #F28C28 for the only action path; optional tiny red #D94A45 or blue #3F7FBF state cue"
+  },
+  "reference_policy": {
+    "reuse": [
+      "用户授权的已授权角色角色身份锚点",
+      "极简黑线、纯白留白、少量强调色这些可迁移风格规则"
+    ],
+    "do_not_reuse": [
+      "Ian 的未授权第三方角色外形",
+      "上游示例的物件组合、姿态、空间拓扑或标签位置",
+      "任何第三方 IP、logo 或完整文案"
+    ]
+  },
+  "canvas": {
+    "safe_margin": "四周至少 6%",
+    "bottom_subtitle_safe_percent": 15,
+    "platform_control_avoidance": "右侧约 8% 不放人脸、结果物或主标题"
+  },
+  "quality_gates": [
+    "第一眼是纯白底极简黑色线稿，不是马克笔手绘、版画、贴画或毛毡。",
+    "纯白负空间至少占 45%，背景没有纸纹、渐变、房间或复杂阴影。",
+    "黑线为绝对主体，强调色总面积不超过 8%。",
+    "人物能通过所选角色 profile 的连续性锚点、窄眼镜、短外套、长所选角色 profile 的连续性锚点和成熟比例识别为已授权角色。",
+    "人物的动作是隐喻成立的必要环节，不是角落贴纸或旁观者。",
+    "一张只有一个低科技物理隐喻和一条橙色主路径，不画通用工业机器或软件面板。",
+    "不得生成未授权第三方角色或任何第三方受保护角色，不得复刻上游示例构图。",
+    "所选文字区、底部字幕区和右侧平台区保持纯白与低细节。",
+    "最终中文来自确定性后处理，raw 不直接发布。"
+  ],
+  "constraints": [
+    "必须是 1:1 方屏。",
+    "必须使用用户自有已授权角色 IP profile；不得生成未授权第三方角色。",
+    "raw 阶段不得生成任何文字、伪文字、logo、水印或字幕。",
+    "不得复刻任何上游示例的物件组合、姿态、空间拓扑或标签位置。",
+    "业务模板不得声明任何图片 API 控制字段。"
+  ],
+  "negative_prompt": "Ian未授权第三方角色,第三方IP,复刻上游示例,角落吉祥物,幼态Q版,大头娃娃,马克笔大色块,蜡笔颗粒,水彩,毛毡,贴画,拼贴,木刻版画,纸张纹理,米黄底,渐变,阴影渲染,写实房间,照片,半写实,光滑3D,商业矢量,企业宣传画,PPT,课程页,工业工厂,密集齿轮,透明软件面板,仪表盘,模型生成中文,英文,数字,伪文字,字幕,logo,水印,裁切",
+  "default_for_scene": false,
+  "aliases": [
+    "已授权角色极简线稿 IP 配图",
+    "原始未授权第三方角色线稿风",
+    "黑白线稿 IP 配图"
+  ]
+}

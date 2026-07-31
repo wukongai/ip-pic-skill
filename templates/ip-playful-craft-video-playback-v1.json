@@ -1,0 +1,138 @@
+{
+  "id": "ip-playful-craft-video-playback-v1",
+  "name": "已授权角色 IP 毛毡丑萌 9:16 播放模拟版 v1",
+  "description": "用于验证真实竖屏视频播放效果：顶部栏目、上部三阶段价值链场景、中下核心观点、双行字幕走廊和右侧平台控件安全区。",
+  "scene": "ip_video_keyframe",
+  "size": "1152x2048",
+  "aspect": "9:16",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是毛毡丑萌竖屏视频关键帧导演。生成无文字底图：用一条橙色毛线把决策、流程和生意三个可辨识场景串成完整价值链，已授权角色角色必须亲自推动链路。",
+  "default_mood": "古怪、机灵、松弛、丑萌、手作、清楚",
+  "default_layout_pattern": "playful_craft_vertical_three_stage_value_chain_with_playback_safe_zones",
+  "profile": "../profiles/editorial-baseline-v1.json",
+  "identity_profile": "profile://selected-character",
+  "render_style_profile": "../profiles/render-styles/playful-craft-v1.json",
+  "template_parameters": {
+    "style_variant_id": "playful-craft-playback",
+    "reading_context": "9:16 静态竖屏或移动端竖屏口播播放模拟帧，不是封面。",
+    "top_header_contract": "y=64..196 保持连续暖白低细节，后期叠加栏目与日期。",
+    "semantic_contract": "场景必须依次出现三个不可混淆的物理阶段：决策盘做选择、流程传送带执行步骤、生意收银台与顾客交换产生结果。巨大模型脑袋只提供能力，不得取代三个阶段。",
+    "path_contract": "一条橙色毛线从模型脑袋出发，依次穿过决策盘、流程传送带，最后进入生意收银台并产出一枚橙色硬币；路径不可跳站。",
+    "scene_contract": "全部人物与装置位于 y=220..1210；人物、鞋、机器和路径均不得进入 y>=1240。",
+    "key_copy_contract": "x=72..650,y=1240..1535 留给后期核心观点。",
+    "subtitle_contract": "x=80..970,y=1580..1818 保持连续暖白低细节，后期模拟双行口播字幕。",
+    "platform_contract": "x>=1010 与 y>=1840 不放关键内容，后期模拟播放器控件。",
+    "text_strategy": "生图阶段不生成任何中文、英文、数字或伪文字；所有标签、标题、字幕与控件均由确定性后处理完成。"
+  },
+  "content_contract": {
+    "input_slots": [
+      "content.summary",
+      "visual.subject",
+      "visual.metaphors[]",
+      "visual.ip_profile",
+      "composition.action",
+      "composition.text_layout_variant"
+    ],
+    "copy_budget": {
+      "top_header": "后期叠加，栏目 2–8 字，标题 1–18 字。",
+      "key_claim": "后期叠加，8–16 个汉字，最多两行。",
+      "subtitle": "后期叠加，最多两行。",
+      "stage_labels": "后期叠加三个 2 字短标签：决策、流程、生意。"
+    },
+    "forbidden": [
+      "只画一台泛化机器",
+      "省略决策或流程或生意任一阶段",
+      "把模型脑袋直接连到硬币",
+      "人物和装置进入字幕走廊",
+      "模型生成文字"
+    ]
+  },
+  "layout": {
+    "top_header_zone": "x=72..970,y=64..196，连续暖白低细节。",
+    "scene_zone": "x=60..990,y=220..1210，S 形三阶段价值链。决策站位于左上，流程站位于中部，生意站位于右下；人物在右侧或中右推动链路。",
+    "key_claim_zone": "x=72..650,y=1240..1535。",
+    "subtitle_corridor": "x=80..970,y=1580..1818。",
+    "platform_safe_zone": "x>=1010 与 y>=1840。",
+    "flow": "模型能力 → 决策选择 → 流程执行 → 生意交换 → 真实结果。"
+  },
+  "style": {
+    "visual_style": "playful ugly-cute handmade wool-felt editorial scene, visible fibers, irregular blanket stitches, chunky hand-cut shapes, shallow tactile relief and mature deadpan humor; one cohesive material system",
+    "character_rendering": "recognizable mature Chinese woman as a coherent felt character: black low ponytail, narrow rectangular glasses, burgundy top, deep-navy jacket, long black wide-leg trousers; adult proportions, never baby-faced",
+    "stage_language": {
+      "decision": "three-way felt control dial with one chosen lever and two rejected branches",
+      "process": "three sequential felt rollers or stepping modules with clear input-output order",
+      "business": "small felt storefront and cash register exchanging a product with a customer hand, then releasing one orange result coin"
+    },
+    "background": "暖白手工纸与毛毡底色；顶部、观点区和字幕区无碎布装饰。",
+    "motion_accent": "唯一橙色毛线路径串联三个阶段。"
+  },
+  "canvas": {
+    "top_header_box_px": {
+      "x": 72,
+      "y": 64,
+      "w": 898,
+      "h": 132
+    },
+    "scene_box_px": {
+      "x": 60,
+      "y": 220,
+      "w": 930,
+      "h": 990
+    },
+    "key_claim_box_px": {
+      "x": 72,
+      "y": 1240,
+      "w": 578,
+      "h": 295
+    },
+    "subtitle_corridor_box_px": {
+      "x": 80,
+      "y": 1580,
+      "w": 890,
+      "h": 238
+    },
+    "bottom_platform_safe_box_px": {
+      "x": 0,
+      "y": 1840,
+      "w": 1152,
+      "h": 208
+    },
+    "right_platform_safe_box_px": {
+      "x": 1010,
+      "y": 0,
+      "w": 142,
+      "h": 1840
+    }
+  },
+  "quality_gates": [
+    "不看任何文字也能按顺序辨认决策盘、流程传送带和生意收银台。",
+    "橙色毛线完整穿过三个阶段，没有从模型脑袋直接跳到硬币。",
+    "人物正在做选择或推动流程，不是旁观主持人。",
+    "顶部栏目区、核心观点区、字幕走廊和平台控件区保持低细节。",
+    "人物身份锚点、服装和成人比例稳定。",
+    "raw 没有任何文字、数字、logo、水印或字幕。"
+  ],
+  "constraints": [
+    "必须是 1152x2048 竖屏。",
+    "必须完整出现决策、流程和生意三个物理阶段。",
+    "人物与装置全部结束在 y=1210 以上。",
+    "y=1580..1818 字幕走廊不得出现人物、鞋、机器、路径或装饰。",
+    "不得声明任何图片 API 控制字段。"
+  ],
+  "negative_prompt": "只有一台泛化机器,省略决策阶段,省略流程阶段,省略生意阶段,模型直接变硬币,模型脑袋直接连接结果,透明软件面板,PPT流程图,人物脚进入字幕区,机器进入字幕区,橙线进入字幕区,顶部栏目区有装置,字幕区有装饰,模型生成文字,英文,数字,伪文字,logo,水印,照片,半写实,光滑3D,幼态Q版,角落吉祥物",
+  "default_for_scene": false,
+  "aliases": [
+    "毛毡 IP 竖屏播放模拟",
+    "决策流程生意 IP 配图",
+    "丑萌字幕安全竖屏配图"
+  ]
+}

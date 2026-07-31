@@ -1,0 +1,100 @@
+{
+  "id": "ip-video-top-card-content-v5",
+  "name": "已授权角色 IP 视频上部知识卡片·主题底图 v5",
+  "description": "两阶段合成的第一阶段：只生成卡通手绘主题装置，不生成人物和文字。第二阶段由确定性脚本合成固定已授权角色角色、核心观点和下部字幕留白。",
+  "schema": "../schemas/template.schema.json",
+  "scene": "ip_video_keyframe",
+  "size": "1152x2048",
+  "aspect": "9:16",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是知识卡片主题装置插画师。只生成位于画面左上部的手绘主题装置，不画任何人物、手、文字或数字。最终人物和中文由 Image Factory 后期确定性合成。",
+  "default_mood": "清楚、知性、轻松、手绘、编辑插画感",
+  "default_layout_pattern": "content_object_upper_left_for_deterministic_ip_composite",
+  "template_parameters": {
+    "stage": "background-content-only",
+    "content_zone": "主题装置完整位于 x=70..700,y=90..980，周围保持白色背景。",
+    "character_reservation": "x=650..1100,y=90..1160 保持空白，后期放固定已授权角色角色。",
+    "headline_reservation": "x=70..650,y=1040..1350 保持空白，后期放核心观点。",
+    "subtitle_reservation": "y>=1440 完全空白，后期只放视频字幕。",
+    "text_strategy": "不得生成任何文字、字母、数字、刻度文字、logo 或伪文字。"
+  },
+  "content_contract": {
+    "prompt_content_mode": "visual-only",
+    "input_slots": [
+      "content.summary",
+      "visual.subject",
+      "visual.metaphors[]"
+    ],
+    "forbidden": [
+      "任何人物或身体局部",
+      "任何文字或数字",
+      "照片或3D商业渲染",
+      "完整海报排版"
+    ]
+  },
+  "layout": {
+    "content_object": "左上部一个完整主题装置，占上部卡片约 45%–58%。",
+    "empty_character_zone": "右上部连续白底，不放装置主体。",
+    "empty_headline_zone": "左侧装置下方连续白底。",
+    "empty_subtitle_zone": "y>=1440 连续纯白。"
+  },
+  "style": {
+    "visual_style": "明确的卡通手绘知识卡片插画：细黑墨线、轻微不规则笔触、彩色铅笔与浅水彩平涂、二维纸面感、少量所选角色 profile 的连续性锚点。不是照片，不是3D，不是写实产品渲染。",
+    "background": "纯白，无阴影摄影棚、无真实材质、无渐变空间。",
+    "line_quality": "可见的手绘轮廓线，线条略有抖动和笔触变化，不使用光滑3D边缘。"
+  },
+  "canvas": {
+    "content_box_px": {
+      "x": 70,
+      "y": 90,
+      "w": 630,
+      "h": 890
+    },
+    "character_reserved_box_px": {
+      "x": 650,
+      "y": 90,
+      "w": 450,
+      "h": 1070
+    },
+    "headline_reserved_box_px": {
+      "x": 70,
+      "y": 1040,
+      "w": 580,
+      "h": 310
+    },
+    "subtitle_reserved_box_px": {
+      "x": 80,
+      "y": 1490,
+      "w": 890,
+      "h": 320
+    }
+  },
+  "quality_gates": [
+    "只出现主题装置，不出现人物、手或剪影。",
+    "画风是二维卡通手绘知识卡片，不是照片或3D渲染。",
+    "右上角色区、左下观点区和下部字幕区保持空白。",
+    "没有任何模型生成文字。"
+  ],
+  "constraints": [
+    "必须为 1152x2048。",
+    "只画一个主题装置。",
+    "不得画人物。",
+    "不得生成文字。",
+    "不得使用写实、摄影或3D风格。"
+  ],
+  "negative_prompt": "人物,女人,男人,手,身体,肖像,照片,摄影,写实,半写实,3D,CGI,产品渲染,摄影棚光影,金属真实反射,塑料真实材质,复杂背景,中文,英文,数字,刻度文字,伪文字,logo,水印,字幕,海报标题,人物预留区有物件,底部有物件",
+  "default_for_scene": false,
+  "aliases": [
+    "已授权角色上部卡片主题底图",
+    "IP视频知识卡片底图"
+  ]
+}

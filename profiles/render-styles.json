@@ -1,0 +1,67 @@
+{
+  "schema_version": "render-style-registry/v1",
+  "styles": [
+    {
+      "id": "art-print",
+      "aliases": [
+        "艺术版画",
+        "版画",
+        "art print"
+      ],
+      "profile": "art-print-v1.json",
+      "status": "experimental"
+    },
+    {
+      "id": "expressive-handdrawn",
+      "aliases": [
+        "松弛手绘",
+        "手绘",
+        "expressive handdrawn"
+      ],
+      "profile": "expressive-handdrawn-v1.json",
+      "status": "experimental"
+    },
+    {
+      "id": "minimal-lineart",
+      "aliases": [
+        "简约线稿",
+        "极简线稿",
+        "minimal lineart"
+      ],
+      "profile": "minimal-lineart-v1.json",
+      "status": "production"
+    },
+    {
+      "id": "playful-craft",
+      "aliases": [
+        "毛毡手作",
+        "毛毡",
+        "手作",
+        "playful craft"
+      ],
+      "profile": "playful-craft-v1.json",
+      "status": "experimental"
+    },
+    {
+      "id": "pop-impact",
+      "aliases": [
+        "高冲击吸睛",
+        "高冲击",
+        "pop impact"
+      ],
+      "profile": "pop-impact-v1.json",
+      "status": "experimental"
+    },
+    {
+      "id": "sticker-collage",
+      "aliases": [
+        "贴画拼贴",
+        "贴画",
+        "拼贴",
+        "sticker collage"
+      ],
+      "profile": "sticker-collage-v1.json",
+      "status": "experimental"
+    }
+  ]
+}

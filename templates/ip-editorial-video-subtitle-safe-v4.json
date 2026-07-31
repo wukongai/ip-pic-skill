@@ -1,0 +1,162 @@
+{
+  "id": "ip-editorial-video-subtitle-safe-v4",
+  "name": "已授权角色 IP 编辑型竖屏视频·字幕安全版 v4",
+  "description": "用于静态竖屏与移动端竖屏口播正文镜头。继承已授权角色编辑型人物与主题共同主导的视觉方向，但把主场景、静态观点、双行字幕走廊和平台 UI 安全区分成四个确定区域。",
+  "schema": "../schemas/template.schema.json",
+  "scene": "ip_video_keyframe",
+  "size": "1152x2048",
+  "aspect": "9:16",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是已授权角色 连续内容的竖屏视频关键帧导演。生成无文字底图：人物与主题共同主导上部场景，中下部留静态观点区，底部留连续双行字幕走廊。所有人物、鞋、装置和装饰都必须在字幕走廊上方结束。",
+  "default_mood": "知性、松弛、高级、鲜活、艺术感、科技极客",
+  "default_layout_pattern": "editorial_scene_then_key_claim_then_subtitle_corridor",
+  "profile": "../profiles/editorial-baseline-v1.json",
+  "template_parameters": {
+    "reading_context": "9:16 连续内容正文口播镜头，不是视频封面；需要长期承载逐句字幕。",
+    "scene_contract": "人物与主题装置完整收在 y=100..1220；人物可较大，但鞋底、座椅和装置均不得低于 y=1260。",
+    "key_copy_contract": "y=1240..1510 仅用于后期静态核心观点，最多两行。",
+    "subtitle_contract": "y=1580..1818 是强制双行字幕走廊，保持连续、低细节、无人物、无鞋、无装置、无箭头。",
+    "platform_contract": "y>=1840 与 x>=1010 不放关键内容，避让平台 UI。",
+    "text_strategy": "生图阶段不生成任何中文、英文、数字或伪文字；静态观点和字幕均由确定性后处理或 Video Factory 叠加。"
+  },
+  "content_contract": {
+    "input_slots": [
+      "content.summary",
+      "visual.subject",
+      "visual.metaphors[]",
+      "visual.ip_profile",
+      "composition.shot_type",
+      "composition.structure_type",
+      "composition.ip_scale",
+      "composition.orientation",
+      "composition.action",
+      "composition.visual_anchor_position"
+    ],
+    "ip_profile_required": [
+      "ownership",
+      "identity",
+      "appearance",
+      "personality",
+      "continuity_anchors"
+    ],
+    "copy_budget": {
+      "key_claim": "后期叠加，建议 8–16 个汉字，最多两行。",
+      "subtitle": "Video Factory 逐句叠加，最多两行，每行建议 12–18 个汉字。",
+      "scene_labels": "默认 0 个；确有必要时由后期确定性叠加。"
+    },
+    "forbidden": [
+      "人物、鞋、座椅或装置进入字幕走廊",
+      "把字幕区当作静态海报大标题区",
+      "生图模型生成任何文字",
+      "底部白色证据卡",
+      "逐字字幕写死在原图"
+    ]
+  },
+  "layout": {
+    "scene_zone": "y=100..1220；人物与主题共同主导，人物建议占画布高度 36%–46%，整体上移。",
+    "key_claim_zone": "x=72..650,y=1240..1535；左侧粗黑静态观点加红色手绘强调线，最多两行，避开右侧人物鞋部。",
+    "subtitle_corridor": "x=80..970,y=1580..1818；双行字幕走廊，必须是连续白色或接近白的低细节背景。",
+    "platform_safe_zone": "y>=1840 与 x>=1010；不放脸、观点、字幕和关键道具。",
+    "flow": "上部人物主题 → 中下静态观点 → 底部逐句字幕。"
+  },
+  "style": {
+    "visual_style": "保留所选角色 profile 的连续性锚点的成熟卡通编辑插画；人物时尚知性，主题装置清楚，背景干净。",
+    "background": "纯白或接近白；字幕走廊必须连续无纹理。",
+    "palette": [
+      {
+        "name": "墨黑",
+        "hex": "#111111",
+        "usage": "后期观点与轮廓"
+      },
+      {
+        "name": "强调红",
+        "hex": "#D53A32",
+        "usage": "后期强调线"
+      },
+      {
+        "name": "角色所选角色 profile 的连续性锚点",
+        "hex": "#7A2638",
+        "usage": "已授权角色上衣"
+      },
+      {
+        "name": "角色所选角色 profile 的连续性锚点",
+        "hex": "#17233B",
+        "usage": "已授权角色短夹克"
+      },
+      {
+        "name": "说明蓝",
+        "hex": "#2F6DB2",
+        "usage": "主题装置少量辅助色"
+      },
+      {
+        "name": "路径橙",
+        "hex": "#F0782B",
+        "usage": "主题动作路径"
+      }
+    ]
+  },
+  "canvas": {
+    "scene_box_px": {
+      "x": 60,
+      "y": 100,
+      "w": 950,
+      "h": 1120
+    },
+    "key_claim_box_px": {
+      "x": 72,
+      "y": 1240,
+      "w": 578,
+      "h": 295
+    },
+    "subtitle_corridor_box_px": {
+      "x": 80,
+      "y": 1580,
+      "w": 890,
+      "h": 238
+    },
+    "bottom_platform_safe_box_px": {
+      "x": 0,
+      "y": 1840,
+      "w": 1152,
+      "h": 208
+    },
+    "right_platform_safe_box_px": {
+      "x": 1010,
+      "y": 0,
+      "w": 142,
+      "h": 1840
+    },
+    "overflow_control": "scene zone 的任何深色像素不得侵入 y>=1540；字幕走廊不得出现人物、鞋、座椅、装置、箭头或装饰。"
+  },
+  "quality_gates": [
+    "人物与主题仍有品牌存在感，但完整结束在 y=1260 以上。",
+    "y=1580..1818 是连续、低细节、可读的双行字幕走廊。",
+    "静态观点区与字幕区彼此分离，不重叠。",
+    "人物脸部神韵、眼镜、服装、所选角色 profile 的连续性锚点和所选角色 profile 的连续性锚点保持一致。",
+    "腰线自然利落、腿部修长、长裤基本覆盖厚底所选角色 profile 的连续性锚点鞋面。",
+    "模型没有生成任何文字、数字、logo、水印或字幕。"
+  ],
+  "constraints": [
+    "必须是 1152x2048 竖屏。",
+    "必须使用已授权角色用户自有 IP profile。",
+    "人物与主题必须全部位于字幕走廊上方。",
+    "字幕走廊必须完整保留，不得用装饰填满。",
+    "不得在生图阶段生成任何文字。"
+  ],
+  "negative_prompt": "人物脚踩到底部,裤腿进入字幕区,座椅进入字幕区,装置进入字幕区,字幕区有箭头,字幕区有装饰,满版海报,大标题占满底部,底部证据卡,模型生成中文,英文,数字,伪文字,乱码,字幕墙,未授权第三方角色,第三方IP,小人物贴纸,大头娃娃,Q版,幼态,腰粗,短腿,九分裤,收腿裤,复杂科技UI,真实App截图,二维码,水印,logo,裁切",
+  "default_for_scene": false,
+  "aliases": [
+    "已授权角色字幕安全配图",
+    "连续内容字幕版配图",
+    "静态竖屏口播正文配图"
+  ]
+}

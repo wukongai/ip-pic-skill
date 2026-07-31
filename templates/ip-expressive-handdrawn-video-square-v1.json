@@ -1,0 +1,80 @@
+{
+  "id": "ip-expressive-handdrawn-video-square-v1",
+  "name": "已授权角色 IP 松弛手绘 1:1 方屏关键帧 v1",
+  "description": "墨线、马克笔、蜡笔色块和可见草稿痕迹构成的松弛手绘视频配图风格。",
+  "scene": "ip_video_keyframe",
+  "size": "2048x2048",
+  "aspect": "1:1",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是一本聪明手账的手绘导演。用有呼吸感的歪线条和克制涂色画清一个认知锚点，让已授权角色角色通过动作完成解释。",
+  "default_mood": "松弛、聪明、鲜活、随手但准确",
+  "default_layout_pattern": "square_four_by_three_internal_story_with_expressive_drawing",
+  "profile": "../profiles/editorial-baseline-v1.json",
+  "identity_profile": "profile://selected-character",
+  "render_style_profile": "../profiles/render-styles/expressive-handdrawn-v1.json",
+  "template_parameters": {
+    "style_variant_id": "expressive-handdrawn",
+    "cognitive_anchor_first": "先画清主因果，再允许线条松弛；不能用凌乱掩盖结构。",
+    "character_policy": "保留成熟脸型、所选角色 profile 的连续性锚点、窄眼镜和服装色；允许夸张挑眉与动作线。",
+    "text_strategy": "raw 不生成文字；最终中文由确定性叠字完成。",
+    "text_zone_contract": "square-left 保持 x=110..920,y=180..1040 为干净纸面。"
+  },
+  "content_contract": {
+    "composition_choices": {
+      "composition_family": [
+        "diagonal-cross",
+        "close-hands",
+        "object-dominant"
+      ],
+      "ip_scale": [
+        "co-lead",
+        "analysis-medium"
+      ],
+      "text_layout_variant": [
+        "square-left",
+        "square-right"
+      ]
+    }
+  },
+  "layout": {
+    "visual_hierarchy": "一条粗动作线串起人物、模型脑袋、流程和硬币；零散草稿线只作节奏。",
+    "subtitle_safe_zone": "底部约 15% 保持低细节。"
+  },
+  "style": {
+    "visual_style": "expressive editorial hand drawing with loose black brush-pen contours, marker color blocks, wax crayon grain, visible underdrawing and imperfect hatching, lively notebook energy, intentional white space, mature not childish",
+    "character_rendering": "recognizable mature Chinese woman drawn with economical ink gestures and colored-pencil facial planes; adult proportions, black low ponytail, narrow glasses and brand wardrobe",
+    "palette": "paper white, ink black, burgundy, navy, orange and dusty blue",
+    "line_rule": "线条可以歪、断、重复，但面部与手部必须可读，不能变成潦草乱线。"
+  },
+  "canvas": {
+    "safe_margin": "四周至少 6%",
+    "bottom_subtitle_safe_percent": 15,
+    "platform_control_avoidance": "右侧约 8% 不放人脸和主标题"
+  },
+  "quality_gates": [
+    "第一眼是手绘而不是矢量",
+    "人物身份和动作清楚",
+    "主因果关系一眼可读",
+    "文字区与字幕区干净"
+  ],
+  "constraints": [
+    "必须是 1:1",
+    "raw 不生成文字、logo 或水印",
+    "不得声明任何图片 API 控制字段"
+  ],
+  "negative_prompt": "儿童作业画,潦草不可读,水彩写实肖像,企业矢量,照片,半写实,3D,PPT,密集文字,logo,水印",
+  "default_for_scene": false,
+  "aliases": [
+    "已授权角色手绘 IP 配图",
+    "松弛手绘 IP 配图"
+  ]
+}

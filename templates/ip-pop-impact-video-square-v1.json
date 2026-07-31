@@ -1,0 +1,81 @@
+{
+  "id": "ip-pop-impact-video-square-v1",
+  "name": "已授权角色 IP 高冲击吸睛 1:1 方屏关键帧 v1",
+  "description": "高饱和撞色、超粗轮廓、巨大几何爆点与少量金属箔感的吸睛视频配图风格。",
+  "scene": "ip_video_keyframe",
+  "size": "2048x2048",
+  "aspect": "1:1",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是高冲击内容视觉导演。让观众第一秒看到一个清楚爆点，第二秒读懂因果，第三秒认出已授权角色 IP。",
+  "default_mood": "大胆、强烈、聪明、时髦、吸睛",
+  "default_layout_pattern": "square_four_by_three_internal_story_with_pop_impact",
+  "profile": "../profiles/editorial-baseline-v1.json",
+  "identity_profile": "profile://selected-character",
+  "render_style_profile": "../profiles/render-styles/pop-impact-v1.json",
+  "template_parameters": {
+    "style_variant_id": "pop-impact",
+    "cognitive_anchor_first": "只设一个巨大视觉爆点，禁止多个促销元素争抢。",
+    "character_policy": "人物保留成熟辨识度，用超粗黑轮廓和高饱和色块转译，不做网红广告脸。",
+    "text_strategy": "raw 不生成文字；最终中文由确定性叠字完成。",
+    "text_zone_contract": "square-left 保持 x=110..920,y=180..1040 为低细节高对比底。"
+  },
+  "content_contract": {
+    "composition_choices": {
+      "composition_family": [
+        "diagonal-cross",
+        "object-dominant",
+        "contrast-bridge"
+      ],
+      "ip_scale": [
+        "brand-hero",
+        "co-lead"
+      ],
+      "text_layout_variant": [
+        "square-left",
+        "square-right"
+      ]
+    }
+  },
+  "layout": {
+    "visual_hierarchy": "巨大模型脑袋是爆点，人物动作是第二锚点，小硬币是反转；其余全部降噪。",
+    "subtitle_safe_zone": "底部约 15% 保持低细节。"
+  },
+  "style": {
+    "visual_style": "high-impact pop editorial illustration, oversized geometric burst shapes, ultra-bold black contours, fluorescent orange versus cobalt and electric cyan, sparse metallic-gold foil accent, crisp screenprint grain, strong negative space, fashionable and intelligent",
+    "character_rendering": "recognizable mature Chinese woman simplified into bold pop shapes, black ponytail and narrow glasses unmistakable, burgundy and navy wardrobe retained",
+    "palette": "cobalt, fluorescent orange, electric cyan, black, warm cream, maximum 8% metallic gold",
+    "impact_rule": "吸睛来自尺度、撞色和反差，不来自金钱符号、光效堆叠或营销按钮。"
+  },
+  "canvas": {
+    "safe_margin": "四周至少 6%",
+    "bottom_subtitle_safe_percent": 15,
+    "platform_control_avoidance": "右侧约 8% 不放人脸和主标题"
+  },
+  "quality_gates": [
+    "缩略图尺寸仍有一个明确爆点",
+    "人物身份可辨识",
+    "高饱和但不廉价",
+    "文字区与字幕区干净"
+  ],
+  "constraints": [
+    "必须是 1:1",
+    "raw 不生成文字、logo 或水印",
+    "不得声明任何图片 API 控制字段"
+  ],
+  "negative_prompt": "钞票,金币雨,赌场奢华,廉价促销海报,霓虹科技UI,标题爆炸,营销按钮,网红脸,照片,半写实,光滑3D,PPT,logo,水印",
+  "default_for_scene": false,
+  "aliases": [
+    "已授权角色吸睛 IP 配图",
+    "高冲击 IP 配图",
+    "特别吸金 IP 配图"
+  ]
+}

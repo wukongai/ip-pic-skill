@@ -1,0 +1,51 @@
+{
+  "id": "playful-craft",
+  "status": "experimental",
+  "scope": "render-style-only",
+  "style_family": "handmade-felt-sticker-ugly-cute",
+  "design_intent": "保留已授权角色 IP 的成熟辨识度与核心动作，把过于端正的编辑卡通表面转换成毛毡手作、贴纸轮廓和丑萌怪趣的视觉版本。",
+  "surface": {
+    "primary_medium": "layered handmade wool felt with visible fibers, soft stuffed volume and irregular blanket stitching",
+    "secondary_medium": "die-cut sticker-like outer silhouettes and small paper-label accents, used as contour language rather than a collage of unrelated stickers",
+    "shape_language": "slightly wonky, chunky and asymmetrical shapes with deliberately imperfect hand-cut edges",
+    "face_language": "mature recognizable face simplified into an ugly-cute felt puppet expression; allow one raised eyebrow, a crooked smile or deadpan surprise, but never a baby face",
+    "object_language": "把抽象概念变成一本正经地荒谬的熟悉物件；道具可夸张、漏气、打结、歪斜或互相较劲，但因果关系必须准确",
+    "depth": "shallow tactile relief, soft contact shadows and layered felt thickness; visibly handmade, never glossy 3D product rendering",
+    "background": "clean warm off-white craft-paper field with very sparse confetti-like felt scraps outside all text and subtitle safe zones"
+  },
+  "humor_contract": {
+    "gag_budget": "每张只设一个一眼能懂的主笑点，笑点服务认知锚点",
+    "tone": "古怪、机灵、松弛、一本正经地胡闹",
+    "allowed": [
+      "尴尬停顿",
+      "笨拙但努力的动作",
+      "道具拟人化反应",
+      "比例略夸张",
+      "表情反差"
+    ],
+    "forbidden": [
+      "纯卖萌",
+      "低幼 kawaii",
+      "丑化真人",
+      "恶意身体羞辱",
+      "随机表情包堆砌",
+      "与主题无关的贴纸雨"
+    ]
+  },
+  "palette": {
+    "base": [
+      "warm cream",
+      "deep navy",
+      "burgundy",
+      "felt black"
+    ],
+    "accents": [
+      "tangerine orange",
+      "electric blue",
+      "tomato red"
+    ],
+    "rule": "每张最多两个高饱和强调色；橙色仍承担主动作路径"
+  },
+  "cohesion": "人物、道具、动作线与装饰必须像同一套手工材料一次完成；不得出现真人抠图、光滑商业 3D 或两套不一致的光影。",
+  "schema_version": "render-style-profile/v1"
+}

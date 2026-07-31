@@ -1,0 +1,25 @@
+{
+  "id": "minimal-lineart",
+  "status": "production",
+  "scope": "render-style-only",
+  "style_family": "minimal-wobbly-black-lineart",
+  "design_intent": "恢复早期未授权第三方角色式正文插图的极简黑线、大量纯白留白、低科技怪物件和克制强调色语法，但角色只使用用户自有的已授权角色 IP，不生成第三方未授权第三方角色或复刻上游案例。",
+  "surface": {
+    "background": "pure white #FFFFFF with at least 45 percent uninterrupted negative space",
+    "line": "economical hand-drawn black ink contour with slight natural wobble, open contours and sparse cross marks; clear, deliberate and readable rather than messy sketching",
+    "objects": "familiar low-tech physical props turned into one slightly absurd but causally accurate mechanism; no software panels, no industrial factory and no generic gears",
+    "depth": "almost flat; no gradients, paper texture, volumetric lighting or rendered shadows; only tiny grounding strokes when needed",
+    "accent": "one orange action path plus at most one tiny red or blue state cue; total colored area under 8 percent",
+    "typography": "does not choose a text strategy; direct-integrated may use a few short Chinese labels, while two-step-publish keeps the raw image text-free"
+  },
+  "forbidden": [
+    "Ian Xiaohei character or any third-party protected character",
+    "copying an upstream example composition, prop combination, pose or label placement",
+    "commercial vector mascot",
+    "marker or crayon color blocks",
+    "felt, collage, printmaking or glossy 3D surface",
+    "PPT infographic",
+    "text wall, pseudo-text, logo or watermark"
+  ],
+  "schema_version": "render-style-profile/v1"
+}

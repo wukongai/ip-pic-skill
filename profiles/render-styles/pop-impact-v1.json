@@ -1,0 +1,17 @@
+{
+  "id": "pop-impact",
+  "status": "experimental",
+  "scope": "render-style-only",
+  "style_family": "high-impact-pop-editorial",
+  "design_intent": "用高饱和撞色、超粗轮廓、巨大几何爆点和少量金属箔质感获得第一秒吸睛效果，但不滑向廉价促销海报。",
+  "surface": "bold pop-editorial shapes, thick black contours, fluorescent orange and cobalt blocks, sparse metallic-gold foil accent, crisp screenprint texture",
+  "forbidden": [
+    "cash symbols",
+    "casino luxury",
+    "cheap sales poster",
+    "neon cyberpunk UI",
+    "text explosion",
+    "glossy 3D"
+  ],
+  "schema_version": "render-style-profile/v1"
+}

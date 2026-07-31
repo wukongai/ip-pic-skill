@@ -1,0 +1,142 @@
+{
+  "id": "ip-playful-craft-video-square-v1",
+  "name": "已授权角色 IP 手作丑萌 1:1 方屏关键帧 v1",
+  "description": "在固定 IP 视频配图结构内切换到毛毡手作、贴纸轮廓与丑萌怪趣风格；保留认知动作、方屏构图轮换、字幕安全区和确定性中文叠字。",
+  "schema": "../schemas/template.schema.json",
+  "scene": "ip_video_keyframe",
+  "size": "2048x2048",
+  "aspect": "1:1",
+  "render_strategy": "image_brief_to_prompt",
+  "reference_strategy": {
+    "type": "primary_reference",
+    "purpose_order": [
+      "identity",
+      "content",
+      "composition",
+      "style"
+    ]
+  },
+  "prompt_role": "你是已授权角色 连续内容的怪趣手作插画导演。先提炼一个认知锚点，再把它变成一本正经地荒谬的毛毡小剧场，让可辨识的已授权角色角色亲自卷入核心动作。",
+  "default_mood": "古怪、机灵、松弛、丑萌、手作、一本正经地胡闹",
+  "default_layout_pattern": "square_four_by_three_internal_story_with_playful_craft_gag",
+  "profile": "../profiles/editorial-baseline-v1.json",
+  "identity_profile": "profile://selected-character",
+  "render_style_profile": "../profiles/render-styles/playful-craft-v1.json",
+  "template_parameters": {
+    "style_variant_id": "playful-craft",
+    "reading_context": "静态竖屏与移动端竖屏 1:1 知识型短视频关键帧；IP 结构不变，只切换视觉表面与幽默语气。",
+    "cognitive_anchor_first": "一张只表达一个判断、事实、机制、转折或结论；搞怪不能盖过信息。",
+    "composition_rotation": "从 diagonal-cross、top-down-partial、seated-loop、close-hands、object-dominant、contrast-bridge 轮换；相邻镜头不得重复。",
+    "metaphor_policy": "使用 2–5 个熟悉物件组成一个主题专属的荒诞物理隐喻，以一条橙色主动作路径统一。物件可以歪、漏气、打结或互相较劲，但因果关系必须准确。",
+    "humor_policy": "每张只允许一个主笑点。优先使用角色与道具的反差、笨拙但有效的动作、道具拟人化反应；禁止随机表情包和无关贴纸堆砌。",
+    "character_policy": "继承已授权角色身份锚点，不继承编辑卡通的光滑表面。人物转译为成熟可辨识的毛毡布偶式二维角色，可丑萌但不可幼态、不可恶意丑化。",
+    "text_strategy": "raw 不生成最终中文；确定性叠加蓝色栏目名、粗黑核心观点、一条红色手绘强调线和蓝色补充语。逐字字幕由 Video Factory 承载，raw 不得直接发布。",
+    "text_zone_contract": "text_layout_variant=square-left 时保持 x=110..920,y=180..1040 连续低细节浅底；square-right 时保持 x=1128..1938,y=180..1040 连续低细节浅底。主题、人物和碎布装饰必须避开所选文字区。"
+  },
+  "content_contract": {
+    "input_slots": [
+      "content.headline",
+      "content.summary",
+      "content.points[]",
+      "visual.subject",
+      "visual.metaphors[]",
+      "visual.ip_profile",
+      "composition.shot_type",
+      "composition.structure_type",
+      "composition.composition_family",
+      "composition.ip_scale",
+      "composition.orientation",
+      "composition.action",
+      "composition.visual_anchor_position",
+      "composition.text_layout_variant"
+    ],
+    "composition_choices": {
+      "composition_family": [
+        "diagonal-cross",
+        "top-down-partial",
+        "seated-loop",
+        "close-hands",
+        "object-dominant",
+        "contrast-bridge"
+      ],
+      "ip_scale": [
+        "brand-hero",
+        "co-lead",
+        "analysis-medium",
+        "close-up"
+      ],
+      "orientation": [
+        "front",
+        "left",
+        "right",
+        "back-three-quarter"
+      ],
+      "visual_anchor_position": [
+        "left",
+        "center",
+        "right"
+      ],
+      "text_layout_variant": [
+        "square-left",
+        "square-right"
+      ],
+      "humor_device": [
+        "deadpan-reaction",
+        "awkward-effort",
+        "rebellious-object",
+        "scale-surprise",
+        "literal-metaphor"
+      ]
+    },
+    "copy_budget": {
+      "kicker": "2–6 个汉字",
+      "headline": "8–18 个汉字，最多三行",
+      "support": "一行短语",
+      "subtitle": "不写入静态图片"
+    }
+  },
+  "layout": {
+    "internal_ratio": "4:3 horizontal storytelling inside a 1:1 canvas",
+    "visual_hierarchy": "主题隐喻与人物动作共同构成一个毛毡小剧场；笑点必须发生在主认知动作上。",
+    "subtitle_safe_zone": "底部约 15% 保持低细节，不绘制字幕框、碎布屑或贴纸。",
+    "text_positions": "沿用方屏编辑型文字区，在左上、右上、左中或字幕安全区上方动态选择，不固定套版。"
+  },
+  "style": {
+    "visual_style": "playful ugly-cute handmade editorial craft illustration made from layered wool felt and die-cut sticker-like silhouettes: visible fibers, imperfect blanket stitches, chunky asymmetrical hand-cut shapes, shallow tactile relief, restrained soft contact shadows, mature deadpan humor; cohesive single-material scene, never glossy 3D, never corporate vector art",
+    "character_rendering": "a recognizable mature Chinese woman translated into a wonky felt-puppet editorial character: black low ponytail, thin narrow rectangular glasses, burgundy top, cropped deep-navy jacket, long black wide-leg trousers; allow a crooked smile or raised eyebrow, never chibi or baby-faced",
+    "object_rendering": "familiar objects become comically literal felt props with one controlled imperfection such as a knot, wobble, leak or stubborn facial reaction",
+    "background": "干净暖白手工纸底，允许极少量毛毡碎屑作气氛，但所有文字区、字幕区和平台安全区必须清爽。",
+    "motion_accent": "每张最多一条橙色毛线式主动作路径，可加一条蓝色短线；不画密集彩带。",
+    "sticker_rule": "贴纸只是一种外轮廓和局部标签语言；人物必须完整嵌入场景并推动动作，禁止像后贴上去的角落吉祥物。"
+  },
+  "canvas": {
+    "safe_margin": "四周至少 6%",
+    "bottom_subtitle_safe_percent": 15,
+    "platform_control_avoidance": "右侧约 8% 不放主标题、人脸、主道具或碎布装饰"
+  },
+  "quality_gates": [
+    "第一眼明显比编辑卡通基线更好玩、更丑萌、更怪趣，但仍能看出是已授权角色 IP。",
+    "毛毡纤维、缝线、手剪边缘和浅层叠片构成统一材质语言。",
+    "每张只有一个服务认知锚点的主笑点，不靠随机贴纸或表情包制造热闹。",
+    "人物正在执行不可替代的核心动作，不是角落贴纸或主持人立牌。",
+    "人物保持成熟比例、所选角色 profile 的连续性锚点、窄矩形眼镜、品牌服装与饰品锚点，不变成儿童 Q 版。",
+    "相邻镜头的构图、朝向、动作、笑点机制和道具形态不重复。",
+    "底部字幕安全区、所选文字区和右侧平台安全区保持低细节。",
+    "最终交付来自确定性文字合成结果，raw 不直接发布。"
+  ],
+  "constraints": [
+    "必须是 1:1 方屏。",
+    "必须使用用户自有已授权角色 IP profile。",
+    "raw 阶段不得生成最终中文、logo、水印或字幕。",
+    "shot manifest 必须记录 composition_family 与 humor_device。",
+    "业务模板只声明内容、构图、角色锚点、授权素材、视觉质量和确定性后处理。"
+  ],
+  "negative_prompt": "过于正经,企业宣传画,标准课程插画,光滑商业矢量,扁平吉祥物,照片,摄影,半写实真人,数字人,网红脸,皮肤毛孔,真人毛发丝,光滑3D,塑料玩具,毛绒商品摄影,Q版婴儿,幼态大头,短腿,甜腻kawaii,恶意丑化,身体羞辱,随机表情包,贴纸雨,无关装饰堆砌,人物像后贴贴纸,角落吉祥物,主持人立牌,工业工厂,密集齿轮,透明软件面板,仪表盘,模块卡片网格,PPT,课程页,模型生成中文,字幕,logo,水印",
+  "default_for_scene": false,
+  "aliases": [
+    "已授权角色手作丑萌 IP 配图",
+    "毛毡 IP 视频配图",
+    "搞怪 IP 方屏配图",
+    "丑萌 IP 配图"
+  ]
+}
