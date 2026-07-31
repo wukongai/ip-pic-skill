@@ -97,6 +97,37 @@ class ParityManifestTests(unittest.TestCase):
             )
             self.assertFalse(report.ok)
 
+    def test_missing_public_target_blocks_release(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            source = root / "source"
+            skill = source / "skills" / "ip-illustration-factory"
+            skill.mkdir(parents=True)
+            (skill / "known.md").write_text("known", encoding="utf-8")
+            manifest = root / "manifest.json"
+            manifest.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "ip-pic-parity-manifest/v1",
+                        "allowed_decisions": ["copy"],
+                        "entries": [
+                            {
+                                "source": "skills/ip-illustration-factory/known.md",
+                                "target": "public/known.md",
+                                "decision": "copy",
+                                "capability": "known",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            report = verify_manifest(manifest, source)
+
+            self.assertEqual(report.missing_public_targets, ("public/known.md",))
+            self.assertFalse(report.ok)
+
 
 if __name__ == "__main__":
     unittest.main()

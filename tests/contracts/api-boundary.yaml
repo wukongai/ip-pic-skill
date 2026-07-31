@@ -1,0 +1,15 @@
+id: business-render-handoff
+kind: high-risk
+input:
+  utterance: "为 连续内容制作一张带授权人物素材的 1:1 IP 配图"
+  ip_rights: user_owned
+expected:
+  business_layer: visual_compiler
+  output_contract: image-render-handoff/v1
+  handoff_owner: ip-pic
+  shared_with: [wechat_article_illustration, knowledge_card]
+forbidden:
+  - downstream_runtime_dependency
+  - channel_specific_execution_contract
+  - credential_or_health_inspection
+  - execution_retry_policy

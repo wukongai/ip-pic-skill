@@ -24,7 +24,7 @@
     "ip_continuity": "严格保持 visual.ip_profile.continuity_anchors 的轮廓、主色、服装、关键道具和气质；不要自行新增另一套角色设定。",
     "action_first": "固定 IP 必须推动核心物理动作；去掉角色后若隐喻仍可完整成立，说明角色过于装饰，应重构画面。",
     "text_density": "direct-integrated 一次生成少量画面文字；two-step-publish 的 raw 阶段不生成文字，标题与摘要由 publish layout 确定性合成。",
-    "director_owner": "image-factory",
+    "director_owner": "ip-pic",
     "director_policy": "上游只提供内容要点；镜头、动作、朝向、表情、隐喻、构图和文字表现由 ip-director-plan/v1 生成。",
     "style_policy": "style_variant_id 只切换材质、线条、色彩、形状和表面语气；不得改变 16:9 画幅、delivery_mode、正文配图结构或 IP 身份。"
   },

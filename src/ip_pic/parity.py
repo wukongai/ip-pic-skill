@@ -24,6 +24,7 @@ class ParityReport:
     unmapped_source_files: tuple[str, ...]
     extra_source_entries: tuple[str, ...]
     duplicate_source_files: tuple[str, ...]
+    missing_public_targets: tuple[str, ...]
     formal_template_count: int
     compatibility_template_count: int
     render_style_count: int
@@ -34,6 +35,7 @@ class ParityReport:
             self.unmapped_source_files
             or self.extra_source_entries
             or self.duplicate_source_files
+            or self.missing_public_targets
         )
 
     def as_dict(self) -> dict[str, Any]:
@@ -44,6 +46,7 @@ class ParityReport:
             "unmapped_source_files": list(self.unmapped_source_files),
             "extra_source_entries": list(self.extra_source_entries),
             "duplicate_source_files": list(self.duplicate_source_files),
+            "missing_public_targets": list(self.missing_public_targets),
             "formal_template_count": self.formal_template_count,
             "compatibility_template_count": self.compatibility_template_count,
             "render_style_count": self.render_style_count,
@@ -119,12 +122,24 @@ def verify_manifest(manifest_path: Path, source_root: Path) -> ParityReport:
     ]
     mapped_set = set(mapped)
     duplicates = {source for source in mapped_set if mapped.count(source) > 1}
+    public_root = (
+        manifest_path.parent.parent
+        if manifest_path.parent.name == "parity"
+        else manifest_path.parent
+    )
+    missing_targets = {
+        str(entry["target"])
+        for entry in entries
+        if entry["decision"] != "exclude"
+        and not (public_root / str(entry["target"])).is_file()
+    }
     return ParityReport(
         source_file_count=len(actual),
         mapped_source_file_count=len(mapped),
         unmapped_source_files=tuple(sorted(actual - mapped_set)),
         extra_source_entries=tuple(sorted(mapped_set - actual)),
         duplicate_source_files=tuple(sorted(duplicates)),
+        missing_public_targets=tuple(sorted(missing_targets)),
         formal_template_count=sum(
             entry.get("capability") == "formal-template" for entry in entries
         ),

@@ -1,0 +1,31 @@
+{
+  "id": "ip-cartoon-metaphor-variety-square-20260712",
+  "failure_modes": [
+    "BUSINESS-RUNTIME-LEAKAGE",
+    "ARCH-EVIDENCE-005",
+    "CARTOON-IDENTITY-001",
+    "METAPHOR-001",
+    "IP-SCALE-001",
+    "IP-TYPE-001"
+  ],
+  "source_excerpt": "七分钟 连续内容需要按段落重生成 1:1 视频关键帧，人物保持卡通，画面具象精致且动作丰富。",
+  "expected_behavior": {
+    "aspect": "1:1",
+    "authorized_visual_assets": "authorized identity/style assets without API semantics",
+    "metaphor": "one subject-specific tangible system using familiar objects",
+    "motion": "one orange primary action path",
+    "text": "kicker + headline + support; no simulated spoken subtitle"
+  },
+  "assertions": [
+    "business skill and templates contain only visual compilation semantics",
+    "template switch does not alter API routing arguments",
+    "business output is image-render-handoff/v1",
+    "all business routes share the same main ip-pic render handoff",
+    "character remains clearly illustrated rather than photographic",
+    "six-shot window uses at least four composition families",
+    "rejected outputs are not reused as references",
+    "bottom fifteen percent remains low detail for 下游视频工具 captions",
+    "deterministic text overlay completes before publish",
+    "raw image is never published as the ip video final"
+  ]
+}

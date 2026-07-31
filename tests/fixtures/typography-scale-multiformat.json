@@ -1,0 +1,22 @@
+{
+  "id": "ip-typography-scale-multiformat-20260711",
+  "failure_modes": [
+    "IP-TYPE-001",
+    "IP-SCALE-001"
+  ],
+  "source_excerpt": "早期愿意折腾的极客用户，不等于你的目标市场。",
+  "expected_static_copy": {
+    "kicker": "产品判断",
+    "headline": "极客用户，不等于目标市场",
+    "support": "能忍受复杂 ≠ 愿意持续使用"
+  },
+  "assertions": [
+    "headline is black heavy display type",
+    "exactly one red hand-drawn emphasis group",
+    "kicker and support use distinct blue levels and are not thin",
+    "person and primary device have comparable visual mass",
+    "no realistic miniature crowd or lilliput interaction",
+    "16:9, 1:1 and 9:16 use independent compositions",
+    "static final contains no simulated spoken subtitle"
+  ]
+}

@@ -125,7 +125,7 @@ def _write_candidate_manifests(
         )
         candidate_manifest_path = candidate_dir / "image-render-candidate.json"
         candidate_manifest = {
-            "tool": "image-factory",
+            "tool": "ip-pic",
             "schema_version": "image-render-candidate/v1",
             "compile_only": True,
             "candidate_id": candidate_id,

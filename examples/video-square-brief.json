@@ -1,0 +1,20 @@
+{
+  "schema_version": "image-asset-brief/v1",
+  "id": "ato-video-square-01",
+  "scene": "ip_video_keyframe",
+  "goal": "explain_concept",
+  "audience": "中文视频观众",
+  "content": {
+    "headline": "入口不是能力",
+    "subheadline": "学习向导",
+    "summary": "入口必须连接清晰流程",
+    "points": ["先判断任务", "再选择结构"]
+  },
+  "visual": {
+    "authorized_assets": []
+  },
+  "composition": {
+    "size": "2048x2048",
+    "text_layout_variant": "square-left"
+  }
+}

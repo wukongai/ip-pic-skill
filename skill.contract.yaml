@@ -1,0 +1,47 @@
+name: ip-pic
+kind: workflow
+owner: ip-pic
+status: candidate
+scope: standalone-public-skill
+license_lineage:
+  upstream: Ian Xiaohei Illustrations
+  license: MIT
+  notice: NOTICE.md
+inputs:
+  required:
+    - image_brief
+    - confirmed_selection_receipt
+    - authorized_character_profile
+  optional:
+    - authorized_assets
+    - source_content
+    - expert_composition_overrides
+outputs:
+  - ip-director-plan/v1
+  - image-render-handoff/v1
+  - run-manifest
+  - raw_image
+  - final_image
+  - ip-pic-image-qa/v1
+backends:
+  - codex-image-tool
+  - openai-direct
+  - host-ai-router
+  - prompt-only
+stops:
+  - missing_selection_receipt
+  - missing_character_rights
+  - unsupported_non_ip_business
+  - overwrite_attempt
+  - unresolved_reference_selection
+  - visual_qa_failure
+forbidden:
+  - private_identity_or_reference_assets
+  - third_party_character_without_rights
+  - provider_or_credential_fields_in_upstream_handoff
+  - publish_raw_as_final
+  - structural_test_claimed_as_visual_acceptance
+  - reuse_rejected_batch_as_reference
+tests:
+  command: python3 -m unittest discover -s tests -v
+  release_gate: python3 scripts/verify_release.py

@@ -1,0 +1,26 @@
+{
+  "schema_version": "ip-pic-public-release/v1",
+  "name": "ip-pic",
+  "version": "0.3.0-rc.1",
+  "formal_structure_count": 13,
+  "compatibility_structure_count": 1,
+  "render_style_count": 6,
+  "delivery_modes": ["direct-integrated", "two-step-publish"],
+  "canvases": ["16:9", "1:1", "3:4", "9:16", "custom"],
+  "backends": [
+    "codex-image-tool",
+    "openai-direct",
+    "host-ai-router",
+    "prompt-only"
+  ],
+  "tutorial_characters": ["ato", "wukong", "moon-rabbit"],
+  "excluded_businesses": [
+    "knowledge-card",
+    "cover",
+    "poster",
+    "note-system",
+    "course-project",
+    "publishing-platform"
+  ],
+  "visual_acceptance": "pending-human"
+}

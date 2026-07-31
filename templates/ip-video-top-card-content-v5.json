@@ -1,6 +1,6 @@
 {
   "id": "ip-video-top-card-content-v5",
-  "name": "已授权角色 IP 视频上部知识卡片·主题底图 v5",
+  "name": "已授权角色 IP 视频上部IP 主题卡·主题底图 v5",
   "description": "两阶段合成的第一阶段：只生成卡通手绘主题装置，不生成人物和文字。第二阶段由确定性脚本合成固定已授权角色角色、核心观点和下部字幕留白。",
   "schema": "../schemas/template.schema.json",
   "scene": "ip_video_keyframe",
@@ -16,7 +16,7 @@
       "style"
     ]
   },
-  "prompt_role": "你是知识卡片主题装置插画师。只生成位于画面左上部的手绘主题装置，不画任何人物、手、文字或数字。最终人物和中文由 Image Factory 后期确定性合成。",
+  "prompt_role": "你是IP 主题卡主题装置插画师。只生成位于画面左上部的手绘主题装置，不画任何人物、手、文字或数字。最终人物和中文由 IP Pic 后期确定性合成。",
   "default_mood": "清楚、知性、轻松、手绘、编辑插画感",
   "default_layout_pattern": "content_object_upper_left_for_deterministic_ip_composite",
   "template_parameters": {
@@ -48,7 +48,7 @@
     "empty_subtitle_zone": "y>=1440 连续纯白。"
   },
   "style": {
-    "visual_style": "明确的卡通手绘知识卡片插画：细黑墨线、轻微不规则笔触、彩色铅笔与浅水彩平涂、二维纸面感、少量所选角色 profile 的连续性锚点。不是照片，不是3D，不是写实产品渲染。",
+    "visual_style": "明确的卡通手绘IP 主题卡插画：细黑墨线、轻微不规则笔触、彩色铅笔与浅水彩平涂、二维纸面感、少量所选角色 profile 的连续性锚点。不是照片，不是3D，不是写实产品渲染。",
     "background": "纯白，无阴影摄影棚、无真实材质、无渐变空间。",
     "line_quality": "可见的手绘轮廓线，线条略有抖动和笔触变化，不使用光滑3D边缘。"
   },
@@ -80,7 +80,7 @@
   },
   "quality_gates": [
     "只出现主题装置，不出现人物、手或剪影。",
-    "画风是二维卡通手绘知识卡片，不是照片或3D渲染。",
+    "画风是二维卡通手绘IP 主题卡，不是照片或3D渲染。",
     "右上角色区、左下观点区和下部字幕区保持空白。",
     "没有任何模型生成文字。"
   ],
@@ -95,6 +95,6 @@
   "default_for_scene": false,
   "aliases": [
     "已授权角色上部卡片主题底图",
-    "IP视频知识卡片底图"
+    "IP视频IP 主题卡底图"
   ]
 }

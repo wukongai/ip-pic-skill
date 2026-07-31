@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ip-pic"
+version = "0.3.0rc1"
+description = "Exact-parity, privacy-sanitized IP illustration Skill"
+readme = "README.en.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+dependencies = ["Pillow>=10.0"]
+
+[project.optional-dependencies]
+openai = ["openai>=1.0"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+ip-pic-compile = "ip_pic.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

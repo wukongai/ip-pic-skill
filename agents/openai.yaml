@@ -1,0 +1,6 @@
+interface:
+  display_name: IP 配图
+  short_description: 固定原创或授权角色的文章配图与静态视频关键帧
+  default_prompt: 使用 $ip-pic 为这段内容规划并编译 IP 配图；先确认文字策略、画布和渲染风格。
+policy:
+  allow_implicit_invocation: true

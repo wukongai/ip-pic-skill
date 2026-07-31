@@ -27,7 +27,7 @@
     "composition_rotation": "从 diagonal-cross、top-down-partial、seated-loop、close-hands、object-dominant、contrast-bridge 轮换；相邻镜头不得重复。",
     "metaphor_policy": "使用 2–5 个熟悉物件组成一个主题专属物理隐喻，以一条橙色主动作路径统一；禁止泛化工业机器和软件面板。",
     "character_policy": "使用用户授权的角色三视图与批准风格基线保持身份和画风。人物必须是清晰二维编辑卡通，不得半写实。",
-    "text_strategy": "raw 不生成最终中文；确定性叠加蓝色栏目名、粗黑核心观点、一条红色手绘强调线和蓝色补充语。逐字字幕由 Video Factory 承载，raw 不得直接发布。",
+    "text_strategy": "raw 不生成最终中文；确定性叠加蓝色栏目名、粗黑核心观点、一条红色手绘强调线和蓝色补充语。逐字字幕由 下游视频工具 承载，raw 不得直接发布。",
     "text_zone_contract": "text_layout_variant=square-left 时保持 x=110..920,y=180..1040 连续白底；square-right 时保持 x=1128..1938,y=180..1040 连续白底。主题和人物必须避开所选文字区。",
     "edge_fill_policy": "左右两侧允许满版或局部出画；底部不能满版，必须留出连续空间。",
     "bottom_negative_space": "画布底部最后 12%-15% 保持纯净低细节地面或背景，不放脚、底座、卡片、箭头、绳索和关键装置。"

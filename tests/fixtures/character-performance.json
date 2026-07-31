@@ -1,0 +1,31 @@
+{
+  "id": "ip-character-performance-cross-style",
+  "failure_mode": "style-bound-expression-intent",
+  "input": {
+    "action": "inspect-decision-dial",
+    "character_performance": {
+      "expression_preset": "skeptical-check",
+      "intensity": "balanced",
+      "gaze_target": "decision-dial",
+      "facial_cues": [
+        "one-brow-raised",
+        "closed-mouth-wry-smile"
+      ]
+    },
+    "style_variants": [
+      "minimal-lineart",
+      "playful-craft"
+    ]
+  },
+  "expected": {
+    "normalized_brief_keeps_character_performance": true,
+    "prompt_keeps_expression_and_gaze": true,
+    "performance_is_independent_from_style": true,
+    "identity_anchors_remain_stable": true
+  },
+  "forbidden": [
+    "hardcode-expression-in-style-template",
+    "drop-character-performance-during-normalization",
+    "change-mature-character-into-childlike-face"
+  ]
+}

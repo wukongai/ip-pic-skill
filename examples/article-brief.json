@@ -1,0 +1,45 @@
+{
+  "schema_version": "image-asset-brief/v1",
+  "id": "ato-intelligence-value",
+  "scene": "ip_article_illustration",
+  "goal": "explain_concept",
+  "audience": "中文内容读者",
+  "delivery_mode": "direct-integrated",
+  "selection_receipt": {
+    "status": "confirmed",
+    "source": "user-explicit",
+    "business_type": "ip_article_illustration",
+    "delivery_mode": "direct-integrated",
+    "canvas": "16:9",
+    "style_variant_id": "minimal-lineart"
+  },
+  "content": {
+    "headline": "情报不等于价值",
+    "subheadline": "价值来自判断与行动",
+    "summary": "把散乱信息压成可以执行的判断",
+    "points": ["过滤噪声", "形成判断", "推动行动"]
+  },
+  "visual": {
+    "ip_profile": {
+      "schema_version": "ip-profile/v1",
+      "id": "ato",
+      "ownership": {
+        "status": "project-original-tutorial",
+        "rights_basis": "Original tutorial character distributed by this project."
+      },
+      "identity": {
+        "name": "阿拓",
+        "role": "成年学习向导"
+      },
+      "appearance": {
+        "form": "二维成年卡通人物",
+        "silhouette": "清楚、稳定、不过度幼态",
+        "palette": ["炭黑", "暖白", "琥珀橙", "湖蓝"]
+      },
+      "personality": ["好奇", "务实", "耐心"],
+      "continuity_anchors": ["成年比例", "炭黑短发", "琥珀橙围巾", "湖蓝工具袋"]
+    },
+    "authorized_assets": []
+  },
+  "composition": {}
+}

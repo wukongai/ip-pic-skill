@@ -26,7 +26,7 @@
     "key_copy_contract": "y=1240..1510 仅用于后期静态核心观点，最多两行。",
     "subtitle_contract": "y=1580..1818 是强制双行字幕走廊，保持连续、低细节、无人物、无鞋、无装置、无箭头。",
     "platform_contract": "y>=1840 与 x>=1010 不放关键内容，避让平台 UI。",
-    "text_strategy": "生图阶段不生成任何中文、英文、数字或伪文字；静态观点和字幕均由确定性后处理或 Video Factory 叠加。"
+    "text_strategy": "生图阶段不生成任何中文、英文、数字或伪文字；静态观点和字幕均由确定性后处理或 下游视频工具 叠加。"
   },
   "content_contract": {
     "input_slots": [
@@ -50,7 +50,7 @@
     ],
     "copy_budget": {
       "key_claim": "后期叠加，建议 8–16 个汉字，最多两行。",
-      "subtitle": "Video Factory 逐句叠加，最多两行，每行建议 12–18 个汉字。",
+      "subtitle": "下游视频工具 逐句叠加，最多两行，每行建议 12–18 个汉字。",
       "scene_labels": "默认 0 个；确有必要时由后期确定性叠加。"
     },
     "forbidden": [

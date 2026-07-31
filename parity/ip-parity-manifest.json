@@ -124,14 +124,14 @@
     {"source":"scripts/generate_image_asset.py","target":"scripts/compile_ip_pic.py","decision":"backend-adapt","capability":"compile-cli"},
     {"source":"scripts/compose_video_keyframe_text.py","target":"scripts/compose_video_keyframe_text.py","decision":"sanitize","capability":"video-text-overlay"},
 
-    {"source":"tests/test_delivery_modes.py","target":"tests/test_delivery_modes.py","decision":"sanitize","capability":"contract-test"},
+    {"source":"tests/test_delivery_modes.py","target":"tests/test_selection_and_compiler.py","decision":"sanitize","capability":"contract-test"},
     {"source":"tests/test_ip_director.py","target":"tests/test_director.py","decision":"sanitize","capability":"contract-test"},
-    {"source":"tests/test_ip_selection_user_journey.py","target":"tests/test_selection_user_journey.py","decision":"sanitize","capability":"contract-test"},
+    {"source":"tests/test_ip_selection_user_journey.py","target":"tests/test_selection_and_compiler.py","decision":"sanitize","capability":"contract-test"},
     {"source":"tests/test_ip_illustration_factory.py","target":"tests/test_templates_and_styles.py","decision":"sanitize","capability":"contract-test"},
     {"source":"tests/test_batch_generation.py","target":"tests/test_batch.py","decision":"exclude","replacement":"ip-only-batch-contract-tests","capability":"contract-test"},
-    {"source":"tests/test_publish_layout_factory.py","target":"tests/test_publish.py","decision":"sanitize","capability":"contract-test"},
+    {"source":"tests/test_publish_layout_factory.py","target":"tests/test_publish_and_video_text.py","decision":"sanitize","capability":"contract-test"},
     {"source":"tests/test_reference_strategy.py","target":"tests/test_references.py","decision":"sanitize","capability":"contract-test"},
-    {"source":"tests/test_video_keyframe_text.py","target":"tests/test_video_text_overlay.py","decision":"sanitize","capability":"contract-test"},
+    {"source":"tests/test_video_keyframe_text.py","target":"tests/test_publish_and_video_text.py","decision":"sanitize","capability":"contract-test"},
     {"source":"tests/test_route_map.py","target":"tests/test_templates.py","decision":"exclude","replacement":"ip-only-template-route-tests","capability":"contract-test"}
   ]
 }

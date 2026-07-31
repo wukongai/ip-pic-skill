@@ -40,6 +40,8 @@ def _text_sanitizer(private_id: str, private_name: str):
         (f"../profiles/{private_id}-art-print-style-v1.json", "../profiles/render-styles/art-print-v1.json"),
         (f"{private_id}-ip-", "ip-"),
         (f"{private_id}-", ""),
+        (private_id.capitalize(), "selected authorized"),
+        (private_id.upper(), "SELECTED-AUTHORIZED"),
         (private_name + "老师", "已授权角色"),
         (private_name, "已授权角色"),
         ("AI 日报", "连续内容"),
@@ -47,6 +49,17 @@ def _text_sanitizer(private_id: str, private_name: str):
         ("小红书", "移动端竖屏"),
         ("公众号", "文章"),
         ("播客", "口播"),
+        ("知识卡片", "IP 主题卡"),
+        ("Content-factory", "上游内容调用方"),
+        ("content-factory", "上游内容调用方"),
+        ("Image Factory", "IP Pic"),
+        ("image-factory", "ip-pic"),
+        ("Video Factory", "下游视频工具"),
+        ("audio-factory", "下游音频工具"),
+        ("训练营", "教程项目"),
+        ("布丁", "外部系统"),
+        ("Obsidian", "外部笔记系统"),
+        ("OB", "外部笔记系统"),
         ("小黑角色", "未授权第三方角色"),
         ("小黑", "未授权第三方角色"),
     )
@@ -98,6 +111,11 @@ def _write(path: Path, value: Any) -> None:
     )
 
 
+def _write_text(path: Path, value: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(value.rstrip() + "\n", encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-root", type=Path, required=True)
@@ -119,6 +137,44 @@ def main() -> int:
     style_registry: list[dict[str, Any]] = []
     for entry in manifest["entries"]:
         capability = entry.get("capability")
+        if capability in {
+            "character-performance",
+            "identity-lock",
+            "composition-families",
+            "delivery-modes",
+            "full-rebuild",
+            "role-scale-action",
+            "multi-canvas-layout",
+            "prompt-contract",
+            "visual-qa",
+            "style-dna",
+            "style-orthogonality",
+            "deterministic-typography",
+            "license-lineage",
+            "selection-receipt",
+            "workflow-kernel",
+            "api-boundary",
+        }:
+            source = args.source_root / str(entry["source"]).replace(
+                "{private-id}",
+                private_id,
+            )
+            target = ROOT / entry["target"]
+            _write_text(target, sanitize_text(source.read_text(encoding="utf-8")))
+            continue
+        if capability == "regression-fixture":
+            source = args.source_root / str(entry["source"]).replace(
+                "{private-id}",
+                private_id,
+            )
+            target = ROOT / entry["target"]
+            value = _sanitize(
+                _load(source),
+                sanitize_text,
+                strip_identity_keys=False,
+            )
+            _write(target, value)
+            continue
         if capability not in {"formal-template", "compatibility-template", "render-style"}:
             continue
         source = args.source_root / str(entry["source"]).replace(
