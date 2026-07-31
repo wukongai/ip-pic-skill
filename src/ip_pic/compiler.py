@@ -11,6 +11,7 @@ from . import character_performance, director
 from .canvas import resolve_size
 from .errors import IPPicError
 from .handoff import build_render_handoff
+from .references import compile_reference_plan
 from .selection import Selection, require_confirmed_selection
 from .styles import resolve_style
 from .templates import list_templates, resolve_template
@@ -324,6 +325,15 @@ def _manifest(
     raw = output_dir / "image" / f"{item_id}.png"
     final = output_dir / "final" / f"{item_id}.png"
     assets = brief["visual"].get("authorized_assets", [])
+    reference_plan = compile_reference_plan(
+        item_id=item_id,
+        template=template,
+        brief=brief,
+        authorized_assets=assets,
+        prompt_file=prompt_path,
+        size=size,
+        output_dir=output_dir,
+    )
     manifest: dict[str, Any] = {
         "tool": "ip-pic",
         "compile_only": True,
@@ -337,6 +347,7 @@ def _manifest(
             "style_variant_id": brief["visual"].get("style_variant_id"),
         },
         "inputs": {"authorized_visual_assets": assets},
+        "reference_plan": reference_plan,
         "size": size,
         "prompt_file": str(prompt_path),
         "output_dir": str(output_dir),
@@ -345,19 +356,22 @@ def _manifest(
             "final_image": str(final),
         },
         "director_plan": brief["director"],
-        "render_handoff": build_render_handoff(
-            item_id=item_id,
-            prompt_file=prompt_path,
-            size=size,
-            output_dir=output_dir / "image",
-            assets=assets,
-        ),
         "visual_qa": {
             "required": True,
             "status": "pending",
             "attachment_evidence_is_visual_qa": False,
         },
     }
+    if reference_plan.get("selection_required"):
+        manifest["render_candidates"] = reference_plan.get("candidates", [])
+    else:
+        manifest["render_handoff"] = build_render_handoff(
+            item_id=item_id,
+            prompt_file=prompt_path,
+            size=size,
+            output_dir=output_dir / "image",
+            assets=reference_plan.get("selected_assets", []),
+        )
     if selection is None:
         return manifest
     mode = selection.delivery_mode
