@@ -1,0 +1,137 @@
+{
+  "schema_version": "ip-pic-parity-manifest/v1",
+  "source": {
+    "repository": "image-factory",
+    "skill_path": "skills/ip-illustration-factory",
+    "behavior_baseline_command": "PYTHONPATH=src python3 -m unittest tests.test_delivery_modes tests.test_ip_director tests.test_ip_selection_user_journey tests.test_ip_illustration_factory tests.test_batch_generation tests.test_publish_layout_factory tests.test_reference_strategy tests.test_video_keyframe_text tests.test_route_map",
+    "behavior_baseline_result": {
+      "tests": 72,
+      "failures": 0,
+      "errors": 0
+    }
+  },
+  "allowed_decisions": [
+    "copy",
+    "rename",
+    "sanitize",
+    "backend-adapt",
+    "exclude"
+  ],
+  "normalization": {
+    "identity_tokens": [
+      "private-character",
+      "tutorial-character"
+    ],
+    "path_tokens": [
+      "source-root",
+      "candidate-root",
+      "output-root"
+    ],
+    "backend_tokens": [
+      "provider-neutral"
+    ]
+  },
+  "formal_structure_templates": {
+    "expected_count": 13,
+    "compatibility_template_count": 1
+  },
+  "entries": [
+    {"source":"skills/ip-illustration-factory/SKILL.md","target":"SKILL.md","decision":"sanitize","capability":"skill-router"},
+    {"source":"skills/ip-illustration-factory/skill.contract.yaml","target":"skill.contract.yaml","decision":"sanitize","capability":"public-contract"},
+    {"source":"skills/ip-illustration-factory/UPSTREAM-LICENSE.txt","target":"UPSTREAM-LICENSE.txt","decision":"copy","capability":"license"},
+    {"source":"skills/ip-illustration-factory/UPSTREAM-NOTICE.md","target":"NOTICE.md","decision":"sanitize","capability":"attribution"},
+    {"source":"skills/ip-illustration-factory/upstream.lock.json","target":"upstream.lock.json","decision":"copy","capability":"upstream-lock"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-approved-v2/character-style-bible.md","target":"profiles/characters/ato/profile.json","decision":"exclude","replacement":"original-tutorial-profile","capability":"character-identity"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-approved-v2/reference-set.json","target":"profiles/characters/ato/profile.json","decision":"exclude","replacement":"no-private-reference-images","capability":"reference-assets"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-approved-v2/01-decision-primary-style.png","target":null,"decision":"exclude","reason":"private character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-approved-v2/02-health-seated-style.png","target":null,"decision":"exclude","reason":"private character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-approved-v2/03-harness-action-style.png","target":null,"decision":"exclude","reason":"private character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-approved-v2/04-wide-leg-character-sheet.png","target":null,"decision":"exclude","reason":"private character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-approved-v2/05-tapered-character-sheet.png","target":null,"decision":"exclude","reason":"private character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-v1/character-bible.md","target":"profiles/characters/ato/profile.json","decision":"exclude","replacement":"original-tutorial-profile","capability":"legacy-character-identity"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-v1/library.json","target":"profiles/characters/ato/profile.json","decision":"exclude","replacement":"no-private-reference-images","capability":"legacy-reference-library"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-v1/01-front-relaxed-standing.png","target":null,"decision":"exclude","reason":"private legacy character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-v1/02-right-relaxed-explaining.png","target":null,"decision":"exclude","reason":"private legacy character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-v1/03-left-relaxed-explaining.png","target":null,"decision":"exclude","reason":"private legacy character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-v1/04-front-thoughtful-notebook.png","target":null,"decision":"exclude","reason":"private legacy character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-v1/05-right-tablet-stylus.png","target":null,"decision":"exclude","reason":"private legacy character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-v1/06-front-seated-tablet.png","target":null,"decision":"exclude","reason":"private legacy character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-v1/07-right-seated-laptop.png","target":null,"decision":"exclude","reason":"private legacy character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-v1/08-left-seated-relaxed.png","target":null,"decision":"exclude","reason":"private legacy character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/assets/aixiao-v1/09-right-half-turn-confident.png","target":null,"decision":"exclude","reason":"private legacy character reference image; no public binary replacement","capability":"private-reference-binary"},
+    {"source":"skills/ip-illustration-factory/profiles/aixiao-character-style-v2.json","target":"profiles/characters/ato/profile.json","decision":"sanitize","capability":"character-profile"},
+    {"source":"skills/ip-illustration-factory/profiles/aixiao-editorial-video-v1.json","target":"profiles/editorial-baseline-v1.json","decision":"sanitize","capability":"editorial-baseline"},
+    {"source":"skills/ip-illustration-factory/profiles/aixiao-minimal-lineart-style-v1.json","target":"profiles/render-styles/minimal-lineart-v1.json","decision":"sanitize","capability":"render-style"},
+    {"source":"skills/ip-illustration-factory/profiles/aixiao-playful-craft-style-v1.json","target":"profiles/render-styles/playful-craft-v1.json","decision":"sanitize","capability":"render-style"},
+    {"source":"skills/ip-illustration-factory/profiles/aixiao-sticker-collage-style-v1.json","target":"profiles/render-styles/sticker-collage-v1.json","decision":"sanitize","capability":"render-style"},
+    {"source":"skills/ip-illustration-factory/profiles/aixiao-expressive-handdrawn-style-v1.json","target":"profiles/render-styles/expressive-handdrawn-v1.json","decision":"sanitize","capability":"render-style"},
+    {"source":"skills/ip-illustration-factory/profiles/aixiao-pop-impact-style-v1.json","target":"profiles/render-styles/pop-impact-v1.json","decision":"sanitize","capability":"render-style"},
+    {"source":"skills/ip-illustration-factory/profiles/aixiao-art-print-style-v1.json","target":"profiles/render-styles/art-print-v1.json","decision":"sanitize","capability":"render-style"},
+
+    {"source":"skills/ip-illustration-factory/references/character-performance.md","target":"references/character-performance.md","decision":"copy","capability":"character-performance"},
+    {"source":"skills/ip-illustration-factory/references/character-style-lock.md","target":"references/character-style-lock.md","decision":"sanitize","capability":"identity-lock"},
+    {"source":"skills/ip-illustration-factory/references/composition-patterns.md","target":"references/composition-patterns.md","decision":"sanitize","capability":"composition-families"},
+    {"source":"skills/ip-illustration-factory/references/delivery-modes.md","target":"references/delivery-modes.md","decision":"sanitize","capability":"delivery-modes"},
+    {"source":"skills/ip-illustration-factory/references/full-rebuild-playbook.md","target":"references/full-rebuild-playbook.md","decision":"sanitize","capability":"full-rebuild"},
+    {"source":"skills/ip-illustration-factory/references/ip-role-and-action.md","target":"references/ip-role-and-action.md","decision":"sanitize","capability":"role-scale-action"},
+    {"source":"skills/ip-illustration-factory/references/layout-recipes.md","target":"references/layout-recipes.md","decision":"sanitize","capability":"multi-canvas-layout"},
+    {"source":"skills/ip-illustration-factory/references/prompt-template.md","target":"references/prompt-template.md","decision":"sanitize","capability":"prompt-contract"},
+    {"source":"skills/ip-illustration-factory/references/qa-checklist.md","target":"references/qa-checklist.md","decision":"sanitize","capability":"visual-qa"},
+    {"source":"skills/ip-illustration-factory/references/style-dna.md","target":"references/style-dna.md","decision":"sanitize","capability":"style-dna"},
+    {"source":"skills/ip-illustration-factory/references/style-variants.md","target":"references/style-variants.md","decision":"sanitize","capability":"style-orthogonality"},
+    {"source":"skills/ip-illustration-factory/references/typography-system.md","target":"references/typography-system.md","decision":"sanitize","capability":"deterministic-typography"},
+    {"source":"skills/ip-illustration-factory/references/upstream-mapping.md","target":"references/upstream-mapping.md","decision":"sanitize","capability":"license-lineage"},
+    {"source":"skills/ip-illustration-factory/references/user-choice-flow.md","target":"references/user-choice-flow.md","decision":"sanitize","capability":"selection-receipt"},
+    {"source":"skills/ip-illustration-factory/references/workflow-kernel.md","target":"references/workflow-kernel.md","decision":"sanitize","capability":"workflow-kernel"},
+
+    {"source":"skills/ip-illustration-factory/templates/aixiao-ip-art-print-video-square-v1.json","target":"templates/ip-art-print-video-square-v1.json","decision":"rename","sanitize":true,"capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/aixiao-ip-editorial-video-square-v1.json","target":"templates/ip-editorial-video-square-v1.json","decision":"rename","sanitize":true,"capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/aixiao-ip-editorial-video-subtitle-safe-v4.json","target":"templates/ip-editorial-video-subtitle-safe-v4.json","decision":"rename","sanitize":true,"capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/aixiao-ip-editorial-video-v3.json","target":"templates/ip-editorial-video-v3.json","decision":"rename","sanitize":true,"capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/aixiao-ip-expressive-handdrawn-video-square-v1.json","target":"templates/ip-expressive-handdrawn-video-square-v1.json","decision":"rename","sanitize":true,"capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/aixiao-ip-minimal-lineart-video-square-v1.json","target":"templates/ip-minimal-lineart-video-square-v1.json","decision":"rename","sanitize":true,"capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/aixiao-ip-playful-craft-video-playback-v1.json","target":"templates/ip-playful-craft-video-playback-v1.json","decision":"rename","sanitize":true,"capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/aixiao-ip-playful-craft-video-square-v1.json","target":"templates/ip-playful-craft-video-square-v1.json","decision":"rename","sanitize":true,"capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/aixiao-ip-pop-impact-video-square-v1.json","target":"templates/ip-pop-impact-video-square-v1.json","decision":"rename","sanitize":true,"capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/aixiao-ip-sticker-collage-video-square-v1.json","target":"templates/ip-sticker-collage-video-square-v1.json","decision":"rename","sanitize":true,"capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/custom-ip-handdrawn-article-v1.json","target":"templates/custom-ip-handdrawn-article-v1.json","decision":"sanitize","capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/custom-ip-handdrawn-video-content-first-v2.json","target":"templates/custom-ip-handdrawn-video-content-first-v2.json","decision":"sanitize","capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/custom-ip-handdrawn-video-portrait-v1.json","target":"templates/custom-ip-handdrawn-video-portrait-v1.json","decision":"sanitize","capability":"formal-template"},
+    {"source":"skills/ip-illustration-factory/templates/aixiao-ip-video-top-card-content-v5.json","target":"templates/ip-video-top-card-content-v5.json","decision":"rename","sanitize":true,"capability":"compatibility-template"},
+
+    {"source":"skills/ip-illustration-factory/regression/cartoon-metaphor-variety-square.json","target":"tests/fixtures/cartoon-metaphor-variety-square.json","decision":"sanitize","capability":"regression-fixture"},
+    {"source":"skills/ip-illustration-factory/regression/character-performance.json","target":"tests/fixtures/character-performance.json","decision":"copy","capability":"regression-fixture"},
+    {"source":"skills/ip-illustration-factory/regression/typography-scale-multiformat.json","target":"tests/fixtures/typography-scale-multiformat.json","decision":"sanitize","capability":"regression-fixture"},
+    {"source":"skills/ip-illustration-factory/tests/api-boundary.yaml","target":"tests/contracts/api-boundary.yaml","decision":"backend-adapt","capability":"api-boundary"},
+
+    {"source":"src/image_factory/errors.py","target":"src/ip_pic/errors.py","decision":"copy","capability":"errors"},
+    {"source":"src/image_factory/character_performance.py","target":"src/ip_pic/character_performance.py","decision":"copy","capability":"character-performance-runtime"},
+    {"source":"src/image_factory/ip_director.py","target":"src/ip_pic/director.py","decision":"sanitize","capability":"director-runtime"},
+    {"source":"src/image_factory/ip_style_variants.py","target":"src/ip_pic/styles.py","decision":"sanitize","capability":"style-runtime"},
+    {"source":"src/image_factory/delivery_modes.py","target":"src/ip_pic/delivery_modes.py","decision":"sanitize","capability":"delivery-runtime"},
+    {"source":"src/image_factory/canvas_presets.py","target":"src/ip_pic/canvas.py","decision":"exclude","replacement":"ip-only-canvas-subset","capability":"canvas-runtime"},
+    {"source":"src/image_factory/layout_profiles.py","target":"src/ip_pic/layout_profiles.py","decision":"copy","capability":"layout-runtime"},
+    {"source":"src/image_factory/reference_board.py","target":"src/ip_pic/reference_board.py","decision":"copy","capability":"reference-board-runtime"},
+    {"source":"src/image_factory/reference_strategy.py","target":"src/ip_pic/references.py","decision":"sanitize","capability":"reference-selection-runtime"},
+    {"source":"src/image_factory/render_handoff.py","target":"src/ip_pic/handoff.py","decision":"backend-adapt","capability":"render-boundary"},
+    {"source":"src/image_factory/publish_layout.py","target":"src/ip_pic/publish.py","decision":"sanitize","capability":"publish-layout-runtime"},
+    {"source":"src/image_factory/content_outline.py","target":"src/ip_pic/content_outline.py","decision":"exclude","replacement":"ip-only-content-director-input","capability":"content-outline"},
+    {"source":"src/image_factory/batch.py","target":"src/ip_pic/batch.py","decision":"exclude","replacement":"ip-only-batch-runtime","capability":"batch-runtime"},
+    {"source":"src/image_factory/cli.py","target":"src/ip_pic/compiler.py","decision":"exclude","replacement":"ip-only-compiler","capability":"compiler-runtime"},
+    {"source":"src/image_factory/asset_publish.py","target":"src/ip_pic/qa.py","decision":"exclude","replacement":"ip-only-deliverable-selection","capability":"deliverable-selection"},
+    {"source":"src/image_factory/finalize.py","target":"src/ip_pic/qa.py","decision":"exclude","replacement":"ip-only-finalization","capability":"finalization"},
+    {"source":"src/image_factory/registry.py","target":"src/ip_pic/templates.py","decision":"exclude","replacement":"local-ip-template-registry","capability":"template-registry"},
+    {"source":"scripts/generate_image_asset.py","target":"scripts/compile_ip_pic.py","decision":"backend-adapt","capability":"compile-cli"},
+    {"source":"scripts/compose_video_keyframe_text.py","target":"scripts/compose_video_keyframe_text.py","decision":"sanitize","capability":"video-text-overlay"},
+
+    {"source":"tests/test_delivery_modes.py","target":"tests/test_delivery_modes.py","decision":"sanitize","capability":"contract-test"},
+    {"source":"tests/test_ip_director.py","target":"tests/test_director.py","decision":"sanitize","capability":"contract-test"},
+    {"source":"tests/test_ip_selection_user_journey.py","target":"tests/test_selection_user_journey.py","decision":"sanitize","capability":"contract-test"},
+    {"source":"tests/test_ip_illustration_factory.py","target":"tests/test_templates_and_styles.py","decision":"sanitize","capability":"contract-test"},
+    {"source":"tests/test_batch_generation.py","target":"tests/test_batch.py","decision":"exclude","replacement":"ip-only-batch-contract-tests","capability":"contract-test"},
+    {"source":"tests/test_publish_layout_factory.py","target":"tests/test_publish.py","decision":"sanitize","capability":"contract-test"},
+    {"source":"tests/test_reference_strategy.py","target":"tests/test_references.py","decision":"sanitize","capability":"contract-test"},
+    {"source":"tests/test_video_keyframe_text.py","target":"tests/test_video_text_overlay.py","decision":"sanitize","capability":"contract-test"},
+    {"source":"tests/test_route_map.py","target":"tests/test_templates.py","decision":"exclude","replacement":"ip-only-template-route-tests","capability":"contract-test"}
+  ]
+}
