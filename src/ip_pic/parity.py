@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -110,8 +111,9 @@ def verify_manifest(manifest_path: Path, source_root: Path) -> ParityReport:
         for path in skill_root.rglob("*")
         if path.is_file()
     }
+    private_source_id = os.environ.get("IP_PIC_PRIVATE_SOURCE_ID", "")
     mapped = [
-        str(entry["source"])
+        str(entry["source"]).replace("{private-id}", private_source_id)
         for entry in entries
         if str(entry["source"]).startswith(SKILL_PREFIX)
     ]

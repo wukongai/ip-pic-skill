@@ -57,7 +57,7 @@
 ## 模板与风格
 
 - 结构模板保持原版字段与 prompt 语义；文件 id 允许将私人品牌前缀替换为中性 `ip-` 前缀。
-- 13 个正式结构来自原版 `SKILL.md` 表；`aixiao-ip-video-top-card-content-v5` 作为未列入表但受回归测试保护的兼容结构单独登记。
+- 13 个正式结构来自原版 `SKILL.md` 表；另有一个未列入表但受回归测试保护的 top-card v5 兼容结构单独登记。
 - 6 个可选渲染风格保持原版语义：`minimal-lineart`、`playful-craft`、`sticker-collage`、`expressive-handdrawn`、`pop-impact`、`art-print`。
 - 原版品牌 profile 与角色 style profile 不作为公开渲染风格；它们由公开角色 profile 与中性 editorial baseline 替换。
 

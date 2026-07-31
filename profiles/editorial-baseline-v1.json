@@ -1,0 +1,20 @@
+{
+  "schema_version": "ip-editorial-baseline/v1",
+  "id": "editorial-baseline-v1",
+  "scope": "identity-neutral",
+  "background": "pure white",
+  "line_language": "controlled hand-drawn editorial contours",
+  "shading": "flat color with two or three restrained illustrated value steps",
+  "information_colors": {
+    "primary_action": "#E8752B",
+    "secondary_state": "#4B79A6",
+    "emphasis": "#C43B32",
+    "text": "#171717"
+  },
+  "forbidden": [
+    "photographic skin or hair",
+    "corporate vector mascot finish",
+    "three-dimensional product rendering",
+    "unrelated dashboards or software panels"
+  ]
+}

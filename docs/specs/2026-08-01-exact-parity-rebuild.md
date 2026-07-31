@@ -6,7 +6,7 @@
 - 工作分支：`codex/exact-parity-rebuild`
 - 产品名：`ip-pic` / “IP 配图”
 - 唯一行为事实源：当前工作树中的 Image Factory `skills/ip-illustration-factory`、其共享 IP 核心、模板、脚本和回归测试。
-- 失败对照：`/private/tmp/ip-pic-style-parity-20260731` 的 `0.2.0-rc.1`，只用于证明能力缺失。
+- 失败对照：`<rejected-baseline>` 的 `0.2.0-rc.1`，只用于证明能力缺失。
 
 ## 观察到的回归
 

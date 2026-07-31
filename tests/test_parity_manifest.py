@@ -14,17 +14,15 @@ sys.path.insert(0, str(ROOT / "src"))
 from ip_pic.parity import ParityError, verify_manifest  # noqa: E402
 
 
-SOURCE = Path(
-    os.environ.get(
-        "IMAGE_FACTORY_SOURCE",
-        "/Users/aim5/Documents/CodingProject/image-factory",
-    )
-)
+SOURCE_VALUE = os.environ.get("IMAGE_FACTORY_SOURCE", "")
+SOURCE = Path(SOURCE_VALUE) if SOURCE_VALUE else None
 MANIFEST = ROOT / "parity" / "ip-parity-manifest.json"
 
 
 class ParityManifestTests(unittest.TestCase):
     def test_current_original_skill_is_fully_and_uniquely_mapped(self) -> None:
+        if SOURCE is None:
+            self.skipTest("set IMAGE_FACTORY_SOURCE to run private-source parity")
         report = verify_manifest(MANIFEST, SOURCE)
 
         self.assertEqual(report.source_file_count, 64)

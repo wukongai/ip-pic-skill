@@ -1,0 +1,29 @@
+{
+  "schema_version": "ip-character-profile/v1",
+  "id": "tutorial-ato-v1",
+  "ownership": {
+    "status": "project-original-tutorial",
+    "basis": "Original tutorial character created for the public ip-pic project."
+  },
+  "identity": {
+    "name": "学习向导阿拓",
+    "description": "一位成年学习向导，擅长把抽象知识变成可操作的物理隐喻。"
+  },
+  "appearance": {
+    "description": "成年男性，短黑发，圆角矩形眼镜，深青色工作夹克，暖灰长裤，橙色工具腰包；明确二维编辑插画形象。"
+  },
+  "personality": [
+    "好奇",
+    "冷静",
+    "愿意动手验证",
+    "表达清楚"
+  ],
+  "continuity_anchors": [
+    "短黑发与圆角矩形眼镜",
+    "深青色工作夹克",
+    "暖灰长裤",
+    "橙色工具腰包",
+    "成年、克制的二维编辑插画比例"
+  ],
+  "references": []
+}

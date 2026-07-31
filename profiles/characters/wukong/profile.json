@@ -1,0 +1,28 @@
+{
+  "schema_version": "ip-character-profile/v1",
+  "id": "tutorial-wukong-v1",
+  "ownership": {
+    "status": "project-original-tutorial",
+    "basis": "Original knowledge-craft tutorial character for the public ip-pic project."
+  },
+  "identity": {
+    "name": "悟空知识工匠",
+    "description": "一位原创的人形知识工匠，用工具拆解、连接和校验复杂概念；不复刻任何既有受保护角色。"
+  },
+  "appearance": {
+    "description": "成年人形工匠，栗色短发，铜色护目镜，靛蓝围裙与橙色量尺；二维编辑插画形象。"
+  },
+  "personality": [
+    "机敏",
+    "务实",
+    "喜欢拆解",
+    "尊重证据"
+  ],
+  "continuity_anchors": [
+    "栗色短发与铜色护目镜",
+    "靛蓝工匠围裙",
+    "橙色量尺",
+    "成年人体比例"
+  ],
+  "references": []
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "skill-upstream-lock/v1",
+  "upstream": {
+    "name": "Ian Xiaohei Illustrations",
+    "repository": "https://github.com/helloianneo/ian-xiaohei-illustrations",
+    "skill_path": "ian-xiaohei-illustrations",
+    "commit": "91b560849e8f883922cc2fa8a358a668caa94105",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2026 Ian",
+    "notice": "The recurring character 小黑 is not distributed by this project."
+  },
+  "tracked_files": [
+    {"path": "ian-xiaohei-illustrations/SKILL.md", "blob": "901926630f81bf049a8c38c1d551df60e310920b"},
+    {"path": "ian-xiaohei-illustrations/references/style-dna.md", "blob": "042f7616ca74ddf48b11ca566febafd5ebd00b21"},
+    {"path": "ian-xiaohei-illustrations/references/xiaohei-ip.md", "blob": "93ac2330485a03af8dae5f470a9cea9da886f4fb"},
+    {"path": "ian-xiaohei-illustrations/references/composition-patterns.md", "blob": "d7ff928f302c4e22f660559761944e6f04c1850a"},
+    {"path": "ian-xiaohei-illustrations/references/prompt-template.md", "blob": "ddfeda83998f0906d14a710c8cfde9da30800b21"},
+    {"path": "ian-xiaohei-illustrations/references/qa-checklist.md", "blob": "da5b0c4051915f2d6958ff8dd0904a0d9e20b436"}
+  ],
+  "examples_policy": "Do not vendor or load upstream example images."
+}

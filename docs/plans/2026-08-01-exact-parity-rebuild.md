@@ -113,7 +113,7 @@ Use the same neutral content for source and candidate. Normalize identity labels
 
 - [ ] **Step 2: Verify RED**
 
-Run: `IMAGE_FACTORY_SOURCE=/Users/aim5/Documents/CodingProject/image-factory python3 -m unittest tests.test_director -v`
+Run: `IMAGE_FACTORY_SOURCE=<image-factory-source> python3 -m unittest tests.test_director -v`
 
 Expected: FAIL because the public director is absent.
 
@@ -189,7 +189,7 @@ Cover missing receipt, invented receipt, conflicts, recommendation acceptance, c
 
 - [ ] **Step 2: Verify RED**
 
-Run: `IMAGE_FACTORY_SOURCE=/Users/aim5/Documents/CodingProject/image-factory python3 -m unittest tests.test_selection_user_journey tests.test_compiler_golden -v`
+Run: `IMAGE_FACTORY_SOURCE=<image-factory-source> python3 -m unittest tests.test_selection_user_journey tests.test_compiler_golden -v`
 
 Expected: FAIL because compiler modules do not exist.
 
@@ -386,8 +386,8 @@ Expected: all QA, release and documentation tests pass.
 
 **Files:**
 - Create: `tests/e2e/direct-integrated-codex.json`
-- Update: `/Users/aim5/Documents/CodingProject/test-table/ip-pic-e2e/.agents/skills/ip-pic`
-- Update: `/Users/aim5/Documents/CodingProject/test-table/ip-pic-e2e/skills-lock.json`
+- Update: `<ip-pic-e2e-project>/.agents/skills/ip-pic`
+- Update: `<ip-pic-e2e-project>/skills-lock.json`
 
 **Interfaces:**
 - Consumes: complete candidate and all previous verification reports.
@@ -401,7 +401,7 @@ Expected: zero failures and zero errors.
 
 - [ ] **Step 2: Run parity and release gates**
 
-Run: `IMAGE_FACTORY_SOURCE=/Users/aim5/Documents/CodingProject/image-factory python3 scripts/verify_parity.py --manifest parity/ip-parity-manifest.json --source-root /Users/aim5/Documents/CodingProject/image-factory`
+Run: `IMAGE_FACTORY_SOURCE=<image-factory-source> python3 scripts/verify_parity.py --manifest parity/ip-parity-manifest.json --source-root <image-factory-source>`
 
 Run: `python3 scripts/verify_release.py`
 
