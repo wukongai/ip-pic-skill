@@ -22,6 +22,24 @@ TEXT_SUFFIXES = {".md", ".json", ".yaml", ".yml", ".py", ".toml", ".txt"}
 
 
 class IdentityAndLicenseTests(unittest.TestCase):
+    def test_article_example_uses_the_packaged_ato_profile_exactly(self) -> None:
+        example = json.loads(
+            (ROOT / "examples" / "article-brief.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        packaged = json.loads(
+            (
+                ROOT
+                / "profiles"
+                / "characters"
+                / "ato"
+                / "profile.json"
+            ).read_text(encoding="utf-8")
+        )
+
+        self.assertEqual(example["visual"]["ip_profile"], packaged)
+
     def test_tutorial_profiles_are_original_and_complete(self) -> None:
         for character_id in ("ato", "wukong", "moon-rabbit"):
             with self.subTest(character_id=character_id):

@@ -49,6 +49,41 @@ def _normalize_owner(value: dict) -> dict:
 
 
 class DirectorParityTests(unittest.TestCase):
+    def test_square_text_zone_places_default_visual_anchor_opposite(self) -> None:
+        base = {
+            "scene": "ip_video_keyframe",
+            "content": {
+                "headline": "入口不是能力",
+                "summary": "入口必须连接清晰流程",
+            },
+            "composition": {"text_layout_variant": "square-left"},
+        }
+
+        left_text = director.plan(base)
+        self.assertEqual(
+            left_text["composition"]["visual_anchor_position"],
+            "right",
+        )
+        self.assertTrue(
+            any(
+                "视觉主锚点：right" in item
+                for item in left_text["visual"]["must_show"]
+            )
+        )
+
+        base["composition"]["text_layout_variant"] = "square-right"
+        right_text = director.plan(base)
+        self.assertEqual(
+            right_text["composition"]["visual_anchor_position"],
+            "left",
+        )
+        self.assertTrue(
+            any(
+                "视觉主锚点：left" in item
+                for item in right_text["visual"]["must_show"]
+            )
+        )
+
     def test_public_director_matches_original_for_neutral_character(self) -> None:
         source_root = os.environ.get("IMAGE_FACTORY_SOURCE")
         if not source_root:

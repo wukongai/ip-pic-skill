@@ -115,6 +115,8 @@
     {"source":"src/image_factory/reference_strategy.py","target":"src/ip_pic/references.py","decision":"sanitize","capability":"reference-selection-runtime"},
     {"source":"src/image_factory/render_handoff.py","target":"src/ip_pic/handoff.py","decision":"backend-adapt","capability":"render-boundary"},
     {"source":"src/image_factory/publish_layout.py","target":"src/ip_pic/publish.py","decision":"sanitize","capability":"publish-layout-runtime"},
+    {"source":"skills/image-publish-layout-factory/extensions/editorial-ink-v2.json","target":"extensions/title-bands/editorial-ink-v2.json","decision":"copy","capability":"publish-title-band"},
+    {"source":"skills/image-publish-layout-factory/extensions/editorial-warm-v1.json","target":"extensions/title-bands/editorial-warm-v1.json","decision":"copy","capability":"publish-title-band"},
     {"source":"src/image_factory/content_outline.py","target":"src/ip_pic/content_outline.py","decision":"exclude","replacement":"ip-only-content-director-input","capability":"content-outline"},
     {"source":"src/image_factory/batch.py","target":"src/ip_pic/batch.py","decision":"exclude","replacement":"ip-only-batch-runtime","capability":"batch-runtime"},
     {"source":"src/image_factory/cli.py","target":"src/ip_pic/compiler.py","decision":"exclude","replacement":"ip-only-compiler","capability":"compiler-runtime"},

@@ -22,7 +22,9 @@ metadata:
 1. `business_type`：`ip_article_illustration` 或 `ip_video_keyframe`；
 2. `delivery_mode`：`direct-integrated` 或 `two-step-publish`；
 3. `canvas`：16:9、1:1、3:4、9:16 或合法自定义尺寸；
-4. `style_variant_id`：六种原版渲染风格之一。
+4. `style_variant_id`：六种原版渲染风格之一；
+5. 选择 `two-step-publish` 时，另确认 `publish_extension_id`：
+   `editorial-ink-v2`（原版粗体墨线）或 `editorial-warm-v1`（兼容暖纸）。
 
 用户未明确选择或接受推荐时停止编译。角色 profile 必须含 ownership、identity、appearance、personality、continuity_anchors；没有权利依据时停止。
 

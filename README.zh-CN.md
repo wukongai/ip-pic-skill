@@ -130,9 +130,15 @@ prompt 首、中、尾三处都要求图文融合。最终图必须含少量、�
 
 raw prompt 禁止文字。取得 raw 后运行 `ip_pic.publish.compose_publish_layout`，生成独立 final 和 `.layout-result.json`。发布层从 raw 边缘采样背景色，确定性排版，不覆盖 raw。
 
+选择该模式时必须同时确认标题带：`editorial-ink-v2` 保留原版较粗的
+中文字重和墨线层级，`editorial-warm-v1` 保留兼容暖纸层级。把选择写入
+`selection_receipt.publish_extension_id`；编译器会将它写入
+`publish_layout.extension_id`，不存在的标题带会在生图前失败关闭。
+
 ### 静态视频关键帧
 
-先编译 `examples/video-square-brief.json`，渲染无字 raw，再准备 `video-text-overlay/v1` manifest 并运行：
+先编译 `examples/video-square-brief.json`，编译器会同时输出
+`video-text-overlay.json`。渲染无字 raw 后运行：
 
 ```bash
 python3 scripts/compose_video_keyframe_text.py --manifest path/to/overlay.json

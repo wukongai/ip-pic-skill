@@ -375,6 +375,48 @@ def _manifest(
             output_dir=output_dir / "image",
             assets=reference_plan.get("selected_assets", []),
         )
+    if selection is None and brief["scene"] == "ip_video_keyframe":
+        layout_variant = _text(brief["composition"].get("text_layout_variant"))
+        if layout_variant not in {"square-left", "square-right"}:
+            raise IPPicError(
+                "1:1 IP 视频 brief 必须声明 composition.text_layout_variant"
+            )
+        manifest["video_text_overlay"] = {
+            "schema_version": "video-text-overlay/v1",
+            "output_dir": str(output_dir / "final"),
+            "items": [
+                {
+                    "id": item_id,
+                    "input_image": str(raw),
+                    "output_file": f"{item_id}.png",
+                    "layout_variant": layout_variant,
+                    "kicker": brief["content"]["subheadline"],
+                    "headline": brief["content"]["headline"],
+                    "support": brief["content"]["summary"],
+                    "bottom_safe_y": 1740,
+                }
+            ],
+        }
+        manifest["delivery"] = {
+            "mode": "video-two-step-overlay",
+            "operation_count": 2,
+            "deliverable": "final_image",
+            "status": "awaiting_raw_render_then_video_text_overlay",
+            "raw_publishable": False,
+            "raw_retained_as": "technical_sidecar",
+        }
+        manifest["visual_qa"]["deliverable_under_review"] = "final_image"
+        manifest["visual_qa"]["required_checks"] = [
+            "ip_identity",
+            "semantic_action",
+            "raw_has_no_text",
+            "final_title_present",
+            "final_title_legible",
+            "final_text_does_not_overlap_visual",
+            "subtitle_safe_zone_clear",
+            "raw_not_published_as_final",
+        ]
+        return manifest
     if selection is None:
         return manifest
     mode = selection.delivery_mode
@@ -460,6 +502,10 @@ def compile_request(
         brief["delivery_mode"] = selection.delivery_mode
         brief["selection_receipt"] = selection.as_receipt()
         brief["visual"]["style_variant_id"] = selection.style_variant_id
+        if selection.publish_extension_id:
+            brief["composition"]["publish_extension"] = (
+                selection.publish_extension_id
+            )
         style_profile = resolve_style(root, selection.style_variant_id)
         size = resolve_size(selection.canvas, _text(template.get("size")))
     else:
@@ -481,6 +527,8 @@ def compile_request(
         "prompt": str(prompt_path),
         "manifest": str(output / "run-manifest.json"),
     }
+    if "video_text_overlay" in manifest:
+        paths["video_text_overlay"] = str(output / "video-text-overlay.json")
     if write:
         if output.exists():
             raise IPPicError(f"output directory already exists; refusing to overwrite: {output}")
@@ -498,6 +546,16 @@ def compile_request(
             json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
+        if "video_text_overlay" in manifest:
+            (output / "video-text-overlay.json").write_text(
+                json.dumps(
+                    manifest["video_text_overlay"],
+                    ensure_ascii=False,
+                    indent=2,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
     return {
         "brief": brief,
         "director_plan": brief["director"],

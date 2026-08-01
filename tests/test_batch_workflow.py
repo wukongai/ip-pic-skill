@@ -61,6 +61,16 @@ class BatchWorkflowTests(unittest.TestCase):
         self.assertIn("top-down-partial", {shot["composition_family"] for shot in first_six})
         self.assertIn("close-hands", {shot["composition_family"] for shot in first_six})
         self.assertIn("object-dominant", {shot["composition_family"] for shot in first_six})
+        for shot in shots:
+            expected_anchor = (
+                "right"
+                if shot["text_layout_variant"] == "square-left"
+                else "left"
+            )
+            self.assertEqual(
+                shot["visual_anchor_position"],
+                expected_anchor,
+            )
 
     def test_partial_failure_preserves_success_and_retry_only_failed(self) -> None:
         calls: list[str] = []

@@ -111,9 +111,9 @@ class SelectionAndCompilerTests(unittest.TestCase):
 
     def test_two_step_publish_keeps_raw_text_free_and_unpublishable(self) -> None:
         brief = article_brief(delivery_mode="two-step-publish", canvas="1:1 -> 3:4")
+        brief["selection_receipt"]["publish_extension_id"] = "editorial-ink-v2"
         brief["composition"] = {
             "publish_preset": "portrait_3_4",
-            "publish_extension": "warm-paper-title-band-v1",
         }
 
         result = compile_request(ROOT, brief, write=False)
@@ -132,8 +132,58 @@ class SelectionAndCompilerTests(unittest.TestCase):
         )
         self.assertEqual(
             manifest["publish_layout"]["extension_id"],
-            "warm-paper-title-band-v1",
+            "editorial-ink-v2",
         )
+
+    def test_two_step_publish_requires_confirmed_title_band_extension(self) -> None:
+        brief = article_brief(
+            delivery_mode="two-step-publish",
+            canvas="1:1 -> 3:4",
+        )
+
+        with self.assertRaisesRegex(IPPicError, "publish_extension_id|标题带"):
+            compile_request(ROOT, brief, write=False)
+
+    def test_square_video_compile_emits_overlay_and_visual_qa_contract(self) -> None:
+        brief = json.loads(
+            (ROOT / "examples" / "video-square-brief.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        result = compile_request(ROOT, brief, write=False)
+        manifest = result["manifest"]
+
+        self.assertEqual(
+            manifest["video_text_overlay"]["schema_version"],
+            "video-text-overlay/v1",
+        )
+        self.assertEqual(
+            manifest["video_text_overlay"]["items"][0]["layout_variant"],
+            "square-left",
+        )
+        self.assertEqual(manifest["delivery"]["mode"], "video-two-step-overlay")
+        self.assertEqual(
+            manifest["visual_qa"]["deliverable_under_review"],
+            "final_image",
+        )
+        self.assertIn(
+            "final_text_does_not_overlap_visual",
+            manifest["visual_qa"]["required_checks"],
+        )
+
+        with tempfile.TemporaryDirectory() as temp:
+            written = compile_request(
+                ROOT,
+                brief,
+                Path(temp) / "video-run",
+                write=True,
+            )
+            overlay_path = Path(written["paths"]["video_text_overlay"])
+            self.assertTrue(overlay_path.is_file())
+            self.assertEqual(
+                json.loads(overlay_path.read_text(encoding="utf-8")),
+                written["manifest"]["video_text_overlay"],
+            )
 
     def test_all_six_styles_keep_structure_canvas_delivery_and_director(self) -> None:
         baseline = None

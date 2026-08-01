@@ -422,3 +422,12 @@ Copy the verified candidate Skill into the test project only after release verif
 - [ ] **Step 6: Record remaining human acceptance**
 
 List character continuity, template visual distinctness, six-style distinction, typography quality and batch rhythm as explicit unchecked human items.
+
+- [ ] **Step 7: Regress title-band assets and video single-item finalization**
+
+Run a real `editorial-ink-v2` two-step publish and a square video overlay from
+the standalone compiler. The title-band extension must be packaged, the video
+compiler must emit `video-text-overlay.json`, raw files must remain unchanged,
+and both final deliverables must retain `pending_human` visual acceptance.
+Before rendering, assert that the selected square text zone and default visual
+anchor are on opposite sides in both single-item and batch shot plans.

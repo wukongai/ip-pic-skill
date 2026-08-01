@@ -1,0 +1,29 @@
+{
+  "id": "editorial-warm-v1",
+  "canvas": {
+    "title_band_ratio": 0.25,
+    "padding_x_ratio": 0.075,
+    "padding_y_ratio": 0.045
+  },
+  "colors": {
+    "text": "#171717",
+    "muted": "#59544D",
+    "kicker": "#4B79A6",
+    "accent": "#E65345",
+    "accent_secondary": "#D89B45"
+  },
+  "typography": {
+    "headline_max_ratio": 0.105,
+    "headline_min_px": 42,
+    "support_max_ratio": 0.044,
+    "support_min_px": 24,
+    "kicker_max_ratio": 0.032,
+    "kicker_min_px": 20,
+    "line_gap_ratio": 0.19
+  },
+  "decoration": {
+    "rule_width_ratio": 0.27,
+    "rule_height_px": 8,
+    "corner_radius_px": 3
+  }
+}

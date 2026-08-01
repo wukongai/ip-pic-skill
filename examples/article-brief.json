@@ -21,23 +21,33 @@
   },
   "visual": {
     "ip_profile": {
-      "schema_version": "ip-profile/v1",
-      "id": "ato",
+      "schema_version": "ip-character-profile/v1",
+      "id": "tutorial-ato-v1",
       "ownership": {
         "status": "project-original-tutorial",
-        "rights_basis": "Original tutorial character distributed by this project."
+        "basis": "Original tutorial character created for the public ip-pic project."
       },
       "identity": {
-        "name": "阿拓",
-        "role": "成年学习向导"
+        "name": "学习向导阿拓",
+        "description": "一位成年学习向导，擅长把抽象知识变成可操作的物理隐喻。"
       },
       "appearance": {
-        "form": "二维成年卡通人物",
-        "silhouette": "清楚、稳定、不过度幼态",
-        "palette": ["炭黑", "暖白", "琥珀橙", "湖蓝"]
+        "description": "成年男性，短黑发，圆角矩形眼镜，深青色工作夹克，暖灰长裤，橙色工具腰包；明确二维编辑插画形象。"
       },
-      "personality": ["好奇", "务实", "耐心"],
-      "continuity_anchors": ["成年比例", "炭黑短发", "琥珀橙围巾", "湖蓝工具袋"]
+      "personality": [
+        "好奇",
+        "冷静",
+        "愿意动手验证",
+        "表达清楚"
+      ],
+      "continuity_anchors": [
+        "短黑发与圆角矩形眼镜",
+        "深青色工作夹克",
+        "暖灰长裤",
+        "橙色工具腰包",
+        "成年、克制的二维编辑插画比例"
+      ],
+      "references": []
     },
     "authorized_assets": []
   },

@@ -29,30 +29,39 @@ def _video_module():
 
 
 class PublishAndVideoTextTests(unittest.TestCase):
-    def _publish_manifest(self, root: Path, *, same_output: bool = False) -> Path:
+    def _publish_manifest(
+        self,
+        root: Path,
+        *,
+        same_output: bool = False,
+        extension_id: str = "",
+    ) -> Path:
         raw = root / "raw.png"
         Image.new("RGB", (800, 800), "#F7F2E9").save(raw)
         output = raw if same_output else root / "final.png"
         path = root / "publish-layout.json"
+        manifest = {
+            "schema_version": "image-publish-layout/v1",
+            "id": "test-publish",
+            "preset": "custom",
+            "width": 640,
+            "height": 853,
+            "layout_profile": "title-band-top",
+            "source_image": str(raw),
+            "output_image": str(output),
+            "title": {
+                "kicker": "测试 · 固定层次",
+                "headline": "原图保留，标题确定性合成",
+                "support": "标题带与视觉底色保持一致",
+            },
+        }
+        if extension_id:
+            manifest["extension_id"] = extension_id
+            manifest["preset"] = "portrait_3_4"
+            manifest.pop("width")
+            manifest.pop("height")
         path.write_text(
-            json.dumps(
-                {
-                    "schema_version": "image-publish-layout/v1",
-                    "id": "test-publish",
-                    "preset": "custom",
-                    "width": 640,
-                    "height": 853,
-                    "layout_profile": "title-band-top",
-                    "source_image": str(raw),
-                    "output_image": str(output),
-                    "title": {
-                        "kicker": "测试 · 固定层次",
-                        "headline": "原图保留，标题确定性合成",
-                        "support": "标题带与视觉底色保持一致",
-                    },
-                },
-                ensure_ascii=False,
-            ),
+            json.dumps(manifest, ensure_ascii=False),
             encoding="utf-8",
         )
         return path
@@ -82,6 +91,24 @@ class PublishAndVideoTextTests(unittest.TestCase):
                         same_output=True,
                     )
                 )
+
+    def test_original_editorial_ink_extension_keeps_heavy_headline(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            result_path = compose_publish_layout(
+                manifest_path=self._publish_manifest(
+                    root,
+                    extension_id="editorial-ink-v2",
+                )
+            )
+            result = json.loads(result_path.read_text(encoding="utf-8"))
+            headline = next(
+                item for item in result["text"] if item["zone"] == "headline"
+            )
+
+            self.assertEqual(result["extension_id"], "editorial-ink-v2")
+            self.assertEqual(headline["font_index"], 2)
+            self.assertGreaterEqual(headline["font_size"], 68)
 
     def test_square_video_overlay_has_exact_typography_hierarchy(self) -> None:
         module = _video_module()

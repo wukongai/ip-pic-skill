@@ -144,7 +144,24 @@ def plan(brief: dict[str, Any], template: dict[str, Any] | None = None) -> dict[
     action = _pick_action(text, index)
     expression = _pick_expression(text, index)
     orientation = ORIENTATIONS[index % len(ORIENTATIONS)]
-    anchor = ANCHORS[index % len(ANCHORS)]
+    existing_composition = (
+        brief.get("composition")
+        if isinstance(brief.get("composition"), dict)
+        else {}
+    )
+    explicit_anchor = _text(existing_composition.get("visual_anchor_position"))
+    text_layout_variant = _text(
+        existing_composition.get("text_layout_variant")
+    )
+    if explicit_anchor:
+        anchor = explicit_anchor
+    elif (
+        _text(brief.get("scene")) == "ip_video_keyframe"
+        and text_layout_variant in {"square-left", "square-right"}
+    ):
+        anchor = "right" if text_layout_variant == "square-left" else "left"
+    else:
+        anchor = ANCHORS[index % len(ANCHORS)]
     gaze_target = ("当前动作对象", "左侧核心物件", "右侧结果出口", "viewer")[index % 4]
     head_pose = ("neutral", "lean-in", "slight-tilt", "turn-back")[index % 4]
     body_weight = ("planted", "leaning-forward", "seated-shift", "turning-back")[index % 4]

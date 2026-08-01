@@ -27,9 +27,10 @@ class Selection:
     canvas: str
     style_variant_id: str
     source: str
+    publish_extension_id: str | None = None
 
     def as_receipt(self) -> dict[str, str]:
-        return {
+        receipt = {
             "status": "confirmed",
             "source": self.source,
             "business_type": self.business_type,
@@ -37,6 +38,9 @@ class Selection:
             "canvas": self.canvas,
             "style_variant_id": self.style_variant_id,
         }
+        if self.publish_extension_id:
+            receipt["publish_extension_id"] = self.publish_extension_id
+        return receipt
 
 
 def _text(value: Any, field: str) -> str:
@@ -70,6 +74,23 @@ def require_confirmed_selection(root: Path, brief: dict[str, Any]) -> Selection 
     if brief_mode and brief_mode != values["delivery_mode"]:
         raise IPPicError("selection_receipt.delivery_mode conflicts with brief.delivery_mode")
     style = resolve_style(root, values["style_variant_id"])["id"]
+    publish_extension_id = None
+    if values["delivery_mode"] == "two-step-publish":
+        publish_extension_id = _text(
+            receipt.get("publish_extension_id"),
+            "selection_receipt.publish_extension_id（标题带样式）",
+        )
+        extension_path = (
+            root
+            / "extensions"
+            / "title-bands"
+            / f"{publish_extension_id}.json"
+        )
+        if not extension_path.is_file():
+            raise IPPicError(
+                "selection_receipt.publish_extension_id 不存在："
+                f"{publish_extension_id}"
+            )
     if source == "user-accepted-recommendation":
         actual = {**values, "style_variant_id": style}
         if actual != RECOMMENDED:
@@ -80,4 +101,5 @@ def require_confirmed_selection(root: Path, brief: dict[str, Any]) -> Selection 
         canvas=values["canvas"],
         style_variant_id=style,
         source=source,
+        publish_extension_id=publish_extension_id,
     )

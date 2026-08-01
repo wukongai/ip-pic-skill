@@ -89,7 +89,7 @@ Prepare with `--backend prompt-only`. The result remains `prompt_ready` and `ren
 ## Delivery behavior
 
 - `direct-integrated`: the generated final image must contain a small amount of legible Chinese text integrated with the character action and physical metaphor. A text-free illustration fails QA.
-- `two-step-publish`: generate a text-free raw image, then create a separate deterministic final image. Raw is never publishable as final.
+- `two-step-publish`: generate a text-free raw image, then create a separate deterministic final image. Raw is never publishable as final. This mode also requires `selection_receipt.publish_extension_id`: use `editorial-ink-v2` for the original heavier Chinese editorial hierarchy or `editorial-warm-v1` for the compatible warm-paper hierarchy.
 - video keyframes: generate text-free raw art, then run `scripts/compose_video_keyframe_text.py` for deterministic Chinese typography and protected safe zones.
 
 The default direct-integrated typography follows the original host workflow: heavy, upright Chinese display type in black, one irregular hand-drawn emphasis line below the claim, and two distinct blue levels for navigation and supporting copy. It remains a single model render rather than switching to `two-step-publish` or adding a second text-overlay pass. Minor glyph variation is expected, but regular-script, calligraphic, childish, thin-serif, thin-weight, and outline lettering are failure signals.

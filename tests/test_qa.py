@@ -21,9 +21,15 @@ from tests.test_selection_and_compiler import article_brief  # noqa: E402
 class ImageQATests(unittest.TestCase):
     def _manifest(self, root: Path, *, mode: str = "direct-integrated") -> dict:
         canvas = "1:1 -> 3:4" if mode == "two-step-publish" else "16:9"
+        brief = article_brief(delivery_mode=mode, canvas=canvas)
+        if mode == "two-step-publish":
+            brief["selection_receipt"]["publish_extension_id"] = (
+                "editorial-ink-v2"
+            )
+            brief["composition"]["publish_preset"] = "portrait_3_4"
         return compile_request(
             ROOT,
-            article_brief(delivery_mode=mode, canvas=canvas),
+            brief,
             root / "compiled",
             write=True,
         )["manifest"]

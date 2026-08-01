@@ -1,0 +1,54 @@
+{
+  "id": "editorial-ink-v2",
+  "canvas": {
+    "title_band_ratio": 0.33,
+    "padding_x_ratio": 0.078,
+    "padding_y_ratio": 0.032
+  },
+  "colors": {
+    "text": "#101828",
+    "muted": "#5C5750",
+    "kicker": "#2F6FA5",
+    "accent": "#F06449",
+    "accent_secondary": "#E3A13B"
+  },
+  "fonts": {
+    "headline": "/System/Library/Fonts/Hiragino Sans GB.ttc",
+    "kicker": "/System/Library/Fonts/Hiragino Sans GB.ttc",
+    "support": "/System/Library/Fonts/Hiragino Sans GB.ttc",
+    "footer": "/System/Library/Fonts/Hiragino Sans GB.ttc"
+  },
+  "font_indices": {
+    "headline": 2,
+    "kicker": 0,
+    "support": 0,
+    "footer": 0
+  },
+  "typography": {
+    "headline_max_ratio": 0.085,
+    "headline_min_px": 68,
+    "headline_max_lines": 2,
+    "headline_line_gap_ratio": 0.08,
+    "support_max_ratio": 0.037,
+    "support_min_px": 30,
+    "support_max_lines": 1,
+    "kicker_max_ratio": 0.027,
+    "kicker_min_px": 24,
+    "footer_max_ratio": 0.022,
+    "footer_min_px": 22,
+    "line_gap_ratio": 0.16,
+    "zone_kicker_ratio": 0.14,
+    "zone_headline_ratio": 0.58,
+    "zone_support_ratio": 0.13,
+    "zone_footer_ratio": 0.07
+  },
+  "decoration": {
+    "headline_bar": true,
+    "headline_bar_width_px": 12,
+    "headline_bar_gap_px": 24,
+    "bottom_rule": false,
+    "rule_width_ratio": 0.16,
+    "rule_height_px": 10,
+    "corner_radius_px": 5
+  }
+}

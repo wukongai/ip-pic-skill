@@ -102,15 +102,21 @@ def build_shot_plan(items: list[dict[str, Any]]) -> dict[str, Any]:
         )
         if _is_square_video(item):
             rotation_index = index % len(SQUARE_FAMILIES)
+            text_layout_variant = (
+                "square-left" if index % 2 == 0 else "square-right"
+            )
             planned = {
                 "composition_family": SQUARE_FAMILIES[rotation_index],
                 "crop": SQUARE_CROPS[rotation_index],
                 "orientation": SQUARE_ORIENTATIONS[rotation_index],
                 "action": SQUARE_ACTIONS[rotation_index],
-                "text_layout_variant": (
-                    "square-left" if index % 2 == 0 else "square-right"
-                ),
+                "text_layout_variant": text_layout_variant,
                 "subtitle_safe_zone": "bottom-12-to-15-percent",
+                "visual_anchor_position": (
+                    "right"
+                    if text_layout_variant == "square-left"
+                    else "left"
+                ),
             }
         else:
             planned = {
@@ -154,7 +160,8 @@ def build_shot_plan(items: list[dict[str, Any]]) -> dict[str, Any]:
                 "orange_motion_path": _text(composition.get("orange_motion_path"))
                 or "single-primary-path",
                 "visual_anchor_position": _text(
-                    composition.get("visual_anchor_position")
+                    planned.get("visual_anchor_position")
+                    or composition.get("visual_anchor_position")
                 )
                 or ("left" if index % 2 == 0 else "right"),
                 **planned,

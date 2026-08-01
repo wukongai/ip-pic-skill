@@ -45,7 +45,14 @@
 
 - direct-integrated 必须生成少量可读画面文字，纯插画为 QA FAIL。
 - two-step raw 必须无字，final 必须有确定性标题层且 raw 不可发布。
+- two-step 必须公开原版 `editorial-ink-v2` 与 `editorial-warm-v1`
+  标题带；其中 `editorial-ink-v2` 的 headline 使用原版 W6 粗字重。
 - 视频关键帧 raw 必须无字，final 必须来自确定性 `video_text_overlay`。
+- 视频关键帧单图编译必须直接输出 `video-text-overlay/v1` 与逐图 QA 合同，
+  不能只在私有批处理壳中补齐。
+- 1:1 `square-left` 的默认人物/主装置锚点必须在右侧，
+  `square-right` 的默认锚点必须在左侧；用户显式专家覆盖仍然优先，
+  不得同时生成“文字区和人物都在同一侧”的冲突 handoff。
 - 数据模块只有源内容存在真实数字时可用。
 
 ### P5 参考图

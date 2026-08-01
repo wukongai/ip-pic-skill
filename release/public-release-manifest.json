@@ -6,6 +6,7 @@
   "compatibility_structure_count": 1,
   "render_style_count": 6,
   "delivery_modes": ["direct-integrated", "two-step-publish"],
+  "publish_title_bands": ["editorial-ink-v2", "editorial-warm-v1"],
   "canvases": ["16:9", "1:1", "3:4", "9:16", "custom"],
   "backends": [
     "codex-image-tool",

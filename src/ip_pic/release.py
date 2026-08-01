@@ -35,6 +35,8 @@ REQUIRED_FILES = {
     "pyproject.toml",
     "parity/ip-parity-manifest.json",
     "release/public-release-manifest.json",
+    "extensions/title-bands/editorial-ink-v2.json",
+    "extensions/title-bands/editorial-warm-v1.json",
 }
 
 
