@@ -124,6 +124,8 @@ python3 scripts/render_ip_pic.py prepare \
 
 prompt 首、中、尾三处都要求图文融合。最终图必须含少量、短、可读的中文标题或标签，并与当前判断和角色动作有直接关系。QA 中 `integrated_text_present` 或 `integrated_text_legible` 为 false 时，只重做渲染层。
 
+默认直出文字沿用原版宿主的中文字体系：主标题使用较粗、端正的黑色中文展示字，接近现代粗黑体或稳重的编辑型宋黑混合；标题下只画单条不规则手绘强调线，栏目名和补充判断分别使用两级说明蓝。该模式仍由模型一次完成图文融合，不切换为 `two-step-publish`，也不做二次文字叠加；不同图片允许存在少量字形波动，但楷体、书法体、儿童体、细宋体和空心描边字均视为失败信号。
+
 ### two-step-publish
 
 raw prompt 禁止文字。取得 raw 后运行 `ip_pic.publish.compose_publish_layout`，生成独立 final 和 `.layout-result.json`。发布层从 raw 边缘采样背景色，确定性排版，不覆盖 raw。

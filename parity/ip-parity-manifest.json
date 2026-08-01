@@ -79,7 +79,7 @@
     {"source":"skills/ip-illustration-factory/references/qa-checklist.md","target":"references/qa-checklist.md","decision":"sanitize","capability":"visual-qa"},
     {"source":"skills/ip-illustration-factory/references/style-dna.md","target":"references/style-dna.md","decision":"sanitize","capability":"style-dna"},
     {"source":"skills/ip-illustration-factory/references/style-variants.md","target":"references/style-variants.md","decision":"sanitize","capability":"style-orthogonality"},
-    {"source":"skills/ip-illustration-factory/references/typography-system.md","target":"references/typography-system.md","decision":"sanitize","capability":"deterministic-typography"},
+    {"source":"skills/ip-illustration-factory/references/typography-system.md","target":"references/typography-system.md","derived_public_targets":["src/ip_pic/typography.py"],"decision":"sanitize","capability":"direct-and-deterministic-typography"},
     {"source":"skills/ip-illustration-factory/references/upstream-mapping.md","target":"references/upstream-mapping.md","decision":"sanitize","capability":"license-lineage"},
     {"source":"skills/ip-illustration-factory/references/user-choice-flow.md","target":"references/user-choice-flow.md","decision":"sanitize","capability":"selection-receipt"},
     {"source":"skills/ip-illustration-factory/references/workflow-kernel.md","target":"references/workflow-kernel.md","decision":"sanitize","capability":"workflow-kernel"},

@@ -90,6 +90,25 @@ class SelectionAndCompilerTests(unittest.TestCase):
             manifest["visual_qa"]["required_checks"],
         )
 
+    def test_direct_integrated_uses_original_heavy_typography_recipe(self) -> None:
+        result = compile_request(ROOT, article_brief(), write=False)
+        prompt = result["prompt"]
+
+        for expected in (
+            "【直出中文字样式】",
+            "8–18 个汉字，最多三行",
+            "大号、厚重、端正的黑色中文展示字",
+            "现代粗黑体或稳重的编辑型宋黑混合",
+            "禁止楷体、书法体、儿童体、细宋体、细字重和空心描边字",
+            "全图最多一组强调线",
+            "55%–82%",
+            "#4B79A6",
+            "#6E93B7",
+            "不得同时使用整词红字、多条红线和红色框",
+        ):
+            with self.subTest(expected=expected):
+                self.assertIn(expected, prompt)
+
     def test_two_step_publish_keeps_raw_text_free_and_unpublishable(self) -> None:
         brief = article_brief(delivery_mode="two-step-publish", canvas="1:1 -> 3:4")
         brief["composition"] = {
@@ -104,6 +123,7 @@ class SelectionAndCompilerTests(unittest.TestCase):
         self.assertIn("无字原始视觉素材", prompt)
         self.assertIn("请直接生成无字原始主视觉图片", prompt)
         self.assertNotIn("一次生成图文融合硬约束", prompt)
+        self.assertNotIn("【直出中文字样式】", prompt)
         self.assertEqual(manifest["delivery"]["operation_count"], 2)
         self.assertFalse(manifest["delivery"]["raw_publishable"])
         self.assertNotEqual(

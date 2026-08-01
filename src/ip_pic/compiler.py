@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from . import character_performance, director
+from . import character_performance, director, typography
 from .canvas import resolve_size
 from .errors import IPPicError
 from .handoff import build_render_handoff
@@ -273,6 +273,9 @@ def compile_prompt(
     if direct:
         lines.extend(
             [
+                "",
+                "【直出中文字样式】",
+                *typography.direct_integrated_prompt_lines(),
                 "",
                 "【一次生成图文融合硬约束】",
                 "- 这是一次生成的正文配图，不进入二次标题带扩展；IP、物件、箭头和少量中文短标注必须组成一个整体画面。",

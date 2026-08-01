@@ -92,6 +92,8 @@ Prepare with `--backend prompt-only`. The result remains `prompt_ready` and `ren
 - `two-step-publish`: generate a text-free raw image, then create a separate deterministic final image. Raw is never publishable as final.
 - video keyframes: generate text-free raw art, then run `scripts/compose_video_keyframe_text.py` for deterministic Chinese typography and protected safe zones.
 
+The default direct-integrated typography follows the original host workflow: heavy, upright Chinese display type in black, one irregular hand-drawn emphasis line below the claim, and two distinct blue levels for navigation and supporting copy. It remains a single model render rather than switching to `two-step-publish` or adding a second text-overlay pass. Minor glyph variation is expected, but regular-script, calligraphic, childish, thin-serif, thin-weight, and outline lettering are failure signals.
+
 ## Batch and QA
 
 `ip_pic.batch` provides shot planning, partial-failure preservation, failed-only retry, and clean full rebuild. Square sequences rotate six composition families and enforce recent-window diversity.

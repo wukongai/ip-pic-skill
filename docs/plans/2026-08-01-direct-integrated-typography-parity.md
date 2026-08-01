@@ -10,7 +10,7 @@
 
 ## Global Constraints
 
-- 不修改 `/Users/aim5/Documents/CodingProject/image-factory`。
+- 不修改调用方通过 `IMAGE_FACTORY_SOURCE` 提供的原版只读事实源。
 - 不把 direct-integrated 改成 two-step-publish。
 - 不公开私人身份、参考图片、品牌或私有路径。
 - 不增加字体配置界面。
@@ -41,7 +41,7 @@
 Run:
 
 ```bash
-IMAGE_FACTORY_SOURCE='/Users/aim5/Documents/CodingProject/image-factory' \
+IMAGE_FACTORY_SOURCE="$IMAGE_FACTORY_SOURCE" \
 python3 -m unittest \
   tests.test_selection_and_compiler \
   tests.test_compiler_dual_end -v
@@ -106,13 +106,13 @@ Expected: FAIL，因为文档尚未声明该 recipe。
 - [ ] **Step 4: Run all automated gates**
 
 ```bash
-IMAGE_FACTORY_SOURCE='/Users/aim5/Documents/CodingProject/image-factory' \
-IP_PIC_PRIVATE_SOURCE_ID='aixiao' \
+IMAGE_FACTORY_SOURCE="$IMAGE_FACTORY_SOURCE" \
+IP_PIC_PRIVATE_SOURCE_ID="$IP_PIC_PRIVATE_SOURCE_ID" \
 python3 -m unittest discover -s tests -v
 
-IP_PIC_PRIVATE_SOURCE_ID='aixiao' \
+IP_PIC_PRIVATE_SOURCE_ID="$IP_PIC_PRIVATE_SOURCE_ID" \
 python3 scripts/verify_parity.py \
-  --source-root '/Users/aim5/Documents/CodingProject/image-factory'
+  --source-root "$IMAGE_FACTORY_SOURCE"
 
 python3 scripts/verify_release.py
 ```
@@ -127,10 +127,10 @@ Expected: 标题较粗、端正，标题下仅一条手绘强调线；QA receipt
 
 - [ ] **Step 6: Commit and sync project E2E copy**
 
-显式暂存文档、映射和测试后提交；从提交快照生成干净 archive，备份并替换：
+显式暂存文档、映射和测试后提交；从提交快照生成干净 archive，备份并替换调用方通过 `IP_PIC_E2E_TARGET` 提供的项目级测试副本：
 
 ```text
-/Users/aim5/Documents/CodingProject/test-table/ip-pic-e2e/.agents/skills/ip-pic
+$IP_PIC_E2E_TARGET
 ```
 
 在项目级副本重新运行全部自动化门禁。

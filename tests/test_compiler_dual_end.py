@@ -138,7 +138,12 @@ class CompilerDualEndTests(unittest.TestCase):
             )
 
             self.assertEqual(actual, expected)
-            self.assertEqual(_headers(public["prompt"]), _headers(source_prompt))
+            public_headers = _headers(public["prompt"])
+            self.assertIn("直出中文字样式", public_headers)
+            self.assertEqual(
+                [header for header in public_headers if header != "直出中文字样式"],
+                _headers(source_prompt),
+            )
             for line in (
                 "请一次生成一张图文融合的 IP 正文配图",
                 "【一次生成图文融合硬约束】",
@@ -147,6 +152,26 @@ class CompilerDualEndTests(unittest.TestCase):
             ):
                 self.assertIn(line, source_prompt)
                 self.assertIn(line, public["prompt"])
+
+            source_typography = (
+                source
+                / "skills"
+                / "ip-illustration-factory"
+                / "references"
+                / "typography-system.md"
+            ).read_text(encoding="utf-8")
+            for source_fact, public_fact in (
+                ("8–18 个汉字", "8–18 个汉字"),
+                ("大号、厚重、清晰的黑色中文展示字体", "大号、厚重、端正的黑色中文展示字"),
+                ("55%–82%", "55%–82%"),
+                ("不规则手绘线", "一条不规则手绘线"),
+                ("#4B79A6", "#4B79A6"),
+                ("#6E93B7", "#6E93B7"),
+                ("整词红字 + 多条红线 + 红色框", "整词红字、多条红线和红色框"),
+            ):
+                with self.subTest(source_fact=source_fact):
+                    self.assertIn(source_fact, source_typography)
+                    self.assertIn(public_fact, public["prompt"])
 
 
 if __name__ == "__main__":
