@@ -24,6 +24,8 @@ class DocumentedUserFlowTests(unittest.TestCase):
         required = (
             "USER-GUIDE.zh-CN.md",
             "USER-GUIDE.en.md",
+            "IMAGE-TOOL-SETUP.zh-CN.md",
+            "IMAGE-TOOL-SETUP.en.md",
             "MAINTAINER-GUIDE.zh-CN.md",
             "MAINTAINER-GUIDE.en.md",
             "references/customization.md",
@@ -40,12 +42,15 @@ class DocumentedUserFlowTests(unittest.TestCase):
             "帮我安装并使用这个配图工具",
             "带我完成第一次配图",
             "学习向导阿拓",
-            "先生成一张阿拓教程参考图",
+            "直接运行示例",
+            "使用 IP Pic 的学习向导阿拓示例",
             "给下面这段文字配 1 张图",
-            "给这篇文章配图",
+            "用刚才的阿拓给这篇文章配图",
             "Obsidian",
             "用我的角色",
             "改成毛毡手作",
+            "新增自己的风格",
+            "保存为我的个人风格",
             "改成 1:1",
             "先无字图再加标题",
         )
@@ -97,9 +102,64 @@ class DocumentedUserFlowTests(unittest.TestCase):
             "普通用户安装段应是一句交给 Agent 的话，而不是技术操作手册",
         )
 
-    def test_beginner_guides_explain_all_real_rendering_routes(self) -> None:
+    def test_first_example_is_one_short_prompt_and_agent_handles_setup(self) -> None:
         chinese = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
         english = (ROOT / "USER-GUIDE.en.md").read_text(encoding="utf-8")
+
+        chinese_example = chinese.split("## 第二步：直接运行示例", 1)[1].split(
+            "## 第三步：", 1
+        )[0]
+        chinese_prompts = re.findall(
+            r"```text\n(.*?)\n```", chinese_example, flags=re.S
+        )
+        self.assertGreaterEqual(len(chinese_prompts), 1)
+        self.assertLessEqual(
+            len(chinese_prompts[0]),
+            180,
+            "第一次示例提示词应短到可以直接复制，不得夹带内部检查流程",
+        )
+        self.assertIn("使用 IP Pic 的学习向导阿拓示例", chinese_prompts[0])
+        self.assertIn("给下面这段文字配 1 张图", chinese_prompts[0])
+
+        english_example = english.split("## 2. Run the example", 1)[1].split(
+            "## 3.", 1
+        )[0]
+        english_prompts = re.findall(
+            r"```text\n(.*?)\n```", english_example, flags=re.S
+        )
+        self.assertGreaterEqual(len(english_prompts), 1)
+        self.assertLessEqual(len(english_prompts[0]), 300)
+        self.assertIn("Use IP Pic's Learning Guide Ato example", english_prompts[0])
+        self.assertIn("give the passage below one illustration", english_prompts[0])
+
+        user_surfaces = "\n".join(
+            (ROOT / relative).read_text(encoding="utf-8")
+            for relative in (
+                "USER-GUIDE.zh-CN.md",
+                "USER-GUIDE.en.md",
+                "README.zh-CN.md",
+                "README.en.md",
+            )
+        )
+        internal_setup_prompts = (
+            "请显式调用 `$imagegen`",
+            "我没有 Codex。请为 ip-pic 使用 OpenAI 官方图片 API",
+            "请把我已有的图片中转站接成当前宿主的图片工具",
+            "请检查当前宿主是否已有 `ai_router.generate_image`",
+            "图片工具检查结果：",
+            "Explicitly invoke `$imagegen`",
+            "Connect my existing image relay",
+            "Image tool readiness:",
+        )
+        for phrase in internal_setup_prompts:
+            with self.subTest(forbidden=phrase):
+                self.assertNotIn(phrase, user_surfaces)
+
+    def test_optional_image_tool_setup_explains_all_real_routes(self) -> None:
+        chinese = (ROOT / "IMAGE-TOOL-SETUP.zh-CN.md").read_text(
+            encoding="utf-8"
+        )
+        english = (ROOT / "IMAGE-TOOL-SETUP.en.md").read_text(encoding="utf-8")
 
         chinese_phrases = (
             "默认推荐使用 GPT Image 2",
@@ -144,6 +204,13 @@ class DocumentedUserFlowTests(unittest.TestCase):
             with self.subTest(language="en", phrase=phrase):
                 self.assertIn(phrase, english)
 
+        chinese_guide = (ROOT / "USER-GUIDE.zh-CN.md").read_text(
+            encoding="utf-8"
+        )
+        english_guide = (ROOT / "USER-GUIDE.en.md").read_text(encoding="utf-8")
+        self.assertIn("IMAGE-TOOL-SETUP.zh-CN.md", chinese_guide)
+        self.assertIn("IMAGE-TOOL-SETUP.en.md", english_guide)
+
     def test_technical_manual_is_retained_for_maintainers(self) -> None:
         chinese = (ROOT / "MAINTAINER-GUIDE.zh-CN.md").read_text(
             encoding="utf-8"
@@ -186,6 +253,31 @@ class DocumentedUserFlowTests(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, guide)
         self.assertNotIn("默认的原版较粗中文标题样式", guide)
+
+    def test_beginner_guide_closes_project_style_and_asset_version_gaps(
+        self,
+    ) -> None:
+        guide = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
+        required_phrases = (
+            "安装与自检通过",
+            "当前写作项目和图片保存位置",
+            "不要把角色参考图、成品或个人风格写进已安装的 IP Pic Skill",
+            "以 IP Pic 的“毛毡手作”为基础",
+            "柔和毛毡-01",
+            "列出“<角色名称>”现有的参考图版本",
+            "列出当前项目中的角色、参考图版本和个人风格",
+            "个人风格默认保存在当前项目",
+            "写作项目只是一个保存文章和图片的文件夹",
+            "IP Pic 教程项目",
+            "保存为“<角色名称>-参考图-02”",
+            "请把当前项目中的个人风格“<名称>”复制到“<新项目>”",
+        )
+        for phrase in required_phrases:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, guide)
+
+        readme = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+        self.assertIn("首次使用时，Agent 可能先问图片保存到哪个项目", readme)
 
     def test_beginner_guides_link_only_to_existing_local_files(self) -> None:
         for relative in ("USER-GUIDE.zh-CN.md", "USER-GUIDE.en.md"):

@@ -2,17 +2,7 @@
 
 IP Pic helps writers use an original or licensed recurring character to illustrate short passages, full articles, and static video frames.
 
-Open Codex, Claude Code, WorkBuddy, or another Agent and send it the prompts below.
-
-## What IP Pic does
-
-IP Pic creates:
-
-- one character-led illustration for a short passage;
-- a continuous image set for a full Chinese article;
-- static 16:9, 1:1, or 9:16 video keyframes.
-
-It does not create knowledge cards, covers, posters, video edits, or publishing-platform content.
+Open Codex, Claude Code, WorkBuddy, or another Agent and send it the examples below. The Agent handles installation, content planning, direction, prompts, rendering, and checks.
 
 ## 1. Ask your Agent to install and begin
 
@@ -22,395 +12,346 @@ https://github.com/wukongai/ip-pic-skill
 After installation, guide me through my first illustration.
 ```
 
-The Agent handles installation and checks automatically. It pauses only when it needs your permission or an action may cost money.
+The Agent handles installation and checks, then reports either “installation and self-check passed” or the single failure reason. It pauses only for your permission, your visual review, or a possible additional charge.
 
-## 2. Choose a real rendering method
+## 2. Run the example
 
-IP Pic recommends GPT Image 2 by default. It supports three real rendering methods. You do not need to run commands yourself; send the matching prompt to your Agent.
-
-| Your situation | Use | Where configuration lives |
-|---|---|---|
-| You use Codex | Codex Image Tool (recommended) | Managed by Codex; no API key to configure |
-| You do not use Codex | OpenAI official API, or a relay already connected to your host | Secrets, service URL, and model stay in the host's secure configuration |
-| You already have ai-router | Host `ai_router.generate_image` | Credentials and routing remain in your own ai-router |
-
-### Method 1: Codex Image Tool (recommended)
-
-Built-in Codex image generation uses GPT Image 2. It needs no API key from you; usage counts toward your Codex limits.
-
-Send this to Codex:
+After installation, send this:
 
 ```text
-Use Codex Image Tool and GPT Image 2 for this run.
-Explicitly invoke `$imagegen` with the complete prompt, canvas size,
-and character references prepared by ip-pic.
-Then run IP Pic's per-image checks and show me the real image.
+Use IP Pic's Learning Guide Ato example to give the passage below one illustration:
+
+Projects move faster when you get a small result to review early, not when you make the plan longer.
 ```
 
-Within the current task, you can later say, “Continue with the same rendering method.”
+You do not need to choose a template, style, aspect ratio, font, or image tool first. The Agent uses IP Pic's recommended defaults and prefers an available GPT Image 2 tool.
 
-### Method 2: Without Codex, use the official API or a relay
+Before rendering, the Agent confirms the current writing project and image location. If no project is open, it explains that a writing project is simply a folder for articles and images, then offers two or three safe choices. After your approval, it may create an “IP Pic Tutorial Project.” It must not put character references, finished images, or personal styles inside the installed IP Pic Skill. After the first run, it reports the actual save location.
 
-#### OpenAI official API
-
-Send this to your Agent:
+The public package includes Ato's original text profile but no character image. On the first run, the Agent automatically creates an Ato reference for you to review. If it looks right, reply:
 
 ```text
-I do not have Codex. Configure ip-pic to use the OpenAI official Image API
-and GPT Image 2.
-Guide me to save `OPENAI_API_KEY` in this Agent's secure secret store
-or the current process environment. Do not ask me to paste the key into chat
-or save it in project files.
-Use the official base URL `https://api.openai.com/v1`.
-Check the connection before continuing with my first illustration.
+Approved. Continue.
 ```
 
-The key belongs in the secure secret surface of your host Agent or an operating-system-managed environment, never in IP Pic, an article, character profile, Obsidian note, or Git repository. Codex, Claude Code, WorkBuddy, and other hosts use different secret surfaces, so IP Pic does not invent one universal file path. Your Agent should use the supported secure configuration for the software you are running.
-
-The Agent must tell you where to enter the key yourself—in the host interface, operating-system secret store, or local secure environment. It must never ask you to send the complete key in a chat message. A check may report only “configured” or “not configured”; it must not echo the key.
-
-IP Pic's OpenAI official direct route selects the correct call automatically: image generation when no reference is present, and image editing with every selected authorized reference for character-guided work. It must never discard a reference just to continue.
-
-After the key is configured, the Agent must also check GPT Image 2 access, whether organization verification is required, and whether usable API credit is available. A configured key alone does not prove rendering readiness.
-
-#### Relay service
-
-A relay service is not the OpenAI official direct route. Store the relay URL, key, and model in the host tool or ai-router user-level configuration—not in IP Pic—then expose it to the Agent as an image tool.
-
-Send this to your Agent:
+If it does not, describe the visible problem:
 
 ```text
-Connect my existing image relay as this host's image tool or through my ai-router.
-Keep its URL, key, and model only in the host or Router's user-level secure
-configuration, never in ip-pic, my article, character profile, or repository.
-First verify that it accepts the prompt, canvas size, and character references,
-then use its GPT Image 2-compatible capability for rendering.
+The character looks too young. Make Ato an adult learning guide, keep the glasses and clothing palette, and create a new version.
 ```
 
-There is no IP Pic relay configuration file. The exact location belongs to the host or ai-router you use. If the host has no secure secret surface, do not save the key in your project; use an operating-system-managed environment for the official API or use Codex Image Tool.
+The Agent keeps the old result and never uses a rejected image as a future reference. After you approve the reference, it continues the example. You should receive a real illustration, not only a prompt.
 
-You must also enter a relay key yourself in the host or Router's secure secret surface; never paste it into chat. The Agent may report only “configured” or “not configured” and must not display the complete key.
+If the Agent says no image tool is available, open [Image Tool Setup](IMAGE-TOOL-SETUP.en.md). Normal use does not require reading it first.
 
-### Method 3: Use your existing ai-router
+## 3. Illustrate your own writing
 
-When the host already exposes `ai_router.generate_image`, IP Pic passes through the prompt, size, reference assets, and expected output path without changing upstream visual direction or text strategy.
-
-Send this to your Agent:
+For a short passage:
 
 ```text
-Check whether this host already exposes `ai_router.generate_image`.
-If it does, use it for ip-pic's real rendering and pass the complete prompt,
-canvas size, character references, and expected output path.
-Do not read, display, or modify the ai-router credentials, providers, routing,
-retries, or fallback settings.
+Use the same Ato to give the passage below one illustration:
+
+<paste passage>
 ```
 
-The ai-router service URL, key, model, and routing stay in its own user-level configuration, outside IP Pic.
-
-### Ask the Agent for a readiness report
-
-Before the first paid render, ask the Agent to reply in plain language:
+For a full article, paste it, attach its Markdown file, or say:
 
 ```text
-Image tool readiness:
-Connection source:
-Rendering method:
-Actual model:
-Supports character references:
-Creates separate API charges:
+Use the same Ato to illustrate this article:
+
+<paste article or attach file>
 ```
 
-“Supports character references” must be “yes” before a fixed-character workflow continues. For an API or relay, the Agent must also identify the connection as “OpenAI official” or “third-party relay.” If the check fails, do not pay for trial-and-error; switch to Codex Image Tool or finish the host / ai-router configuration first.
-
-Before a long multi-image article run, ask the Agent to report the proposed image count, output quality level (low / medium / high), and cost range, explain the quality/speed/cost tradeoff in plain language, then wait for your approval.
-
-### When no real method is available
-
-`prompt-only` does not generate an image. It only prepares the prompt and render requirements. The Agent must clearly say that rendering has not happened. Configure one real method before continuing.
-
-Default priority is Codex Image Tool → a verified reference-capable host image tool → a registered ai-router → OpenAI official API → `prompt-only`. The Agent should explain and obtain approval before using a route that creates separate API charges.
-
-Within the current task, you may say, “Continue with the same rendering method.” In a new task, a different Agent, or another computer, send the matching selection prompt again so the Agent rechecks it.
-
-## 3. Create the tutorial character reference
-
-The package includes the text profile for an original public tutorial character, Learning Guide Ato. It does not distribute character example images.
-
-Before starting, the Agent must have confirmed that the method selected in step 2 can render a real image and accepts character references.
+If the Agent can read your currently open Obsidian article:
 
 ```text
-Use the public Learning Guide Ato profile included with ip-pic.
-First create an Ato tutorial reference image.
-
-Show clear front, side, and full-body views with consistent clothing and color.
-Do not add text, a watermark, or a logo, and do not imitate a third-party character.
-Save it in my current writing project.
-
-Show me the result. Use it as a later character reference only after I say
-that I accept it.
+Use the same Ato to illustrate my currently open Obsidian article.
 ```
 
-If it looks right, say:
+The Agent analyzes the article and first tells you how many images it recommends and what each one expresses. After approval, it renders the set and shows every image. It should not illustrate every paragraph mechanically or ask you to write image prompts.
+
+After you approve every image, you may say:
 
 ```text
-I accept this Ato reference. Continue with it.
+All images are approved.
+Follow this Obsidian project's existing attachment rules,
+save the images, and insert their links at the planned article positions.
+If there is no attachment rule, propose a safe and recoverable project-local option first.
+Before editing, tell me which article and positions will change, and preserve a recoverable original.
 ```
 
-If it does not, describe the visible problem. The Agent must create a new version without overwriting the old one, and rejected output must not become a later reference.
+Your host Agent performs this file operation. IP Pic itself does not manage Obsidian or publish content.
 
-## 4. Illustrate one short passage
+## 4. Use your own character and references
+
+Attach one to five character images that you own or are licensed to use, then say:
 
 ```text
-Use the accepted Learning Guide Ato reference and give the following passage
-one illustration:
+I want to use my own character for IP illustrations.
+These references are my original work or licensed for this use.
 
-Many people think efficiency comes from writing a more detailed plan.
-Projects actually move faster when the feedback loop is shorter:
-deliver one small result that can be checked, then adjust.
-
-Use the IP Pic recommendation: article illustration, 16:9, minimal line art,
-and a small amount of integrated Chinese text.
-Handle content extraction, visual direction, rendering, and checks yourself.
+Build a character profile and continuity anchors from them and show me the result first.
+After approval, save it in my writing project, not in the public Skill.
 ```
 
-A successful run produces a real image. Verify that:
+The Agent organizes the character name, public identity, appearance, personality, and continuity anchors. It should not infer sensitive traits such as age, health, ethnicity, or religion. If something essential is missing, it asks one question at a time.
 
-- Ato still matches the accepted reference;
-- the character performs the core action;
-- the image communicates one judgment;
-- the Chinese text is short and legible;
-- the main title is heavy and upright;
-- there is only one hand-drawn emphasis line;
-- there is no gibberish, watermark, or unrelated logo.
-
-Say either:
+Approve with:
 
 ```text
-This image passes. Keep it.
+The profile is correct. Save it as "<character name>" and use that name from now on.
 ```
 
-or describe the problem:
-
-```text
-The character is correct, but the image has no integrated text.
-Keep the same content judgment and create a new version with the original
-integrated text treatment.
-```
-
-## 5. Illustrate a full Obsidian article
-
-You can paste the article, attach its Markdown file, or tell the Agent its location in the current Obsidian vault.
-
-```text
-Read my currently open Obsidian article and use ip-pic to illustrate it.
-
-Reuse the accepted character reference and recommended style.
-Analyze the title, sections, key judgments, and semantic turns.
-Choose only the moments worth illustrating and decide a sensible image count.
-Do not ask me to write image slots or prompts.
-
-First tell me, in plain language, how many images you propose and what each
-will express. After I approve, generate them and show them one by one.
-```
-
-Approve the plan with:
-
-```text
-Yes. Use those positions and that image count. Show each result to me,
-but do not modify the article yet.
-```
-
-If the Agent cannot see the file, it should ask you to attach it or provide its location—not ask you to configure the Skill.
-
-For direct execution:
-
-```text
-Use the accepted character reference to illustrate this article.
-Use the recommended settings and choose the image count from the content.
-Show every result to me; do not approve the visuals on my behalf.
-
-<paste or attach the article>
-```
-
-The Agent should vary composition, action, expression, gaze, and character scale while preserving identity. If one image fails, it should keep accepted images and retry only the failed item.
-
-After you accept every image, optionally ask the host Agent to place them:
-
-```text
-All images are accepted. Save them according to this Obsidian project's
-existing attachment rules and insert their links at the planned article positions.
-If no attachment rule exists, propose a safe, common, recoverable location
-inside the project first.
-Before editing, tell me which article and positions will change, and keep a
-recoverable original.
-```
-
-This is a host Agent file operation, not an Obsidian-management or publishing capability of IP Pic. The Agent must preview the change scope first.
-
-## 6. Use your own character
-
-Attach one to five reference images that you own or are licensed to use.
-
-```text
-Replace the IP Pic tutorial character with my character.
-I own these reference images or have permission to use them.
-
-Propose a public character name, role, appearance summary, personality,
-and continuity anchors from the material. Do not infer sensitive traits.
-Ask one necessary question at a time and show the profile summary before saving.
-
-Create the character profile, register each reference's purpose, and keep the
-character assets in my current writing project.
-```
-
-Approve the profile with:
-
-```text
-The profile is correct. Save it as "<character name>" and use that name later.
-Do not overwrite the tutorial character.
-```
-
-After approval:
+Normal use is then:
 
 ```text
 Use "<character name>" to illustrate this article:
 
-<paste or attach the article>
+<paste article or provide the Obsidian file>
 ```
 
-## 7. Change the result in natural language
-
-Change style:
+To use only one reference:
 
 ```text
-Change this image set to playful craft. Keep the character and article meaning,
-create a new version, and do not overwrite the old images.
+Use only the front-view character image I just attached. Do not include the others.
 ```
 
-Other supported article styles are minimal line art, sticker collage, expressive hand-drawn, pop impact, and art print.
+### Build a stronger reference set
 
-Change canvas:
+Only do this when you want better character continuity:
 
 ```text
-Change the next image to 1:1. Keep the content and character unchanged.
+Create a new reference set for "<character name>":
+front, side, full-body, and common expressions, with consistent clothing and palette.
+Do not add text, watermarks, or logos.
+
+Show every image first. Save approved images as a new reference version
+named "<character name>-references-02" without overwriting the current default.
 ```
 
+Continue adjusting in ordinary language:
+
 ```text
-Use 16:9 for every article illustration.
+The side view does not match the front view. Keep the face shape, hair, and glasses, and redo only the side view.
 ```
 
-Change text handling:
+To find or switch reference versions:
 
 ```text
-Keep one-step image-and-text integration with only a little Chinese text.
+List the existing reference versions, default version, and creation time for "<character name>".
+Use "<version name>" for this run and do not delete other versions.
 ```
 
+## 5. Change an existing style
+
+Describe the change and ask for a new version. The Agent keeps the character identity, article meaning, and previous results.
+
 ```text
-Switch to a text-free image followed by a deterministic title layer.
-Use IP Pic's default heavy Chinese title style and one hand-drawn emphasis line.
-If an approved text-free image already exists, only create a new text layout.
-If I only have an integrated image with text, first create a new text-free image
-for my approval, then add the title. Never place new text over old text.
+Switch this set to playful craft. Create a new version without overwriting the old one.
 ```
 
-The Agent must determine whether a reusable text-free image exists before following the matching branch above.
-
-For a licensed font, attach the font file and say:
+Other built-in choices are:
 
 ```text
-Use the Chinese font I attached for the title.
-Keep the approved text-free image and create a new text version.
-Do not overwrite the previous final image.
-```
-
-An exact local font cannot control one-step model-generated lettering. When you request an exact font, the Agent should propose the two-step mode.
-
-Change quantity:
-
-```text
-Create only three images for this article. Choose the three strongest moments.
-```
-
-## 8. Create a static video keyframe
-
-```text
-Use my character to turn the following content into a 1:1 static video keyframe.
-Create a text-free visual first, then add the section label, heavy core idea,
-one hand-drawn emphasis line, and supporting text.
-Keep the character and important objects away from the text zone and bottom
-subtitle-safe area.
-
-<paste the content>
-```
-
-For portrait:
-
-```text
-Change it to a 9:16 static keyframe and keep the bottom subtitle-safe area clear.
-```
-
-IP Pic does not create animation, lip sync, voiceover, or video edits.
-
-## 9. Review and retry
-
-```text
-The character in image 2 does not match. Keep all accepted images and retry
-only image 2. Do not overwrite the old image or use it as a new reference.
+Switch to minimal line art.
 ```
 
 ```text
-The character and base image pass. Make only the title heavier and preserve
-the single original hand-drawn emphasis line.
+Switch to sticker collage.
 ```
 
 ```text
-Keep the successful images and retry only failed items. Show every new result
-for my approval.
+Switch to expressive hand-drawn.
 ```
 
-The Agent may assist with character, text, composition, and safe-zone checks, but only you can give final visual approval.
+```text
+Switch to pop impact.
+```
 
-## 10. Rights, privacy, and cost
+```text
+Switch to art print.
+```
 
-- Use only characters and images you own or are licensed to use.
-- Do not request exact imitation of an unlicensed protected character.
-- Ask the Agent to explain the cost and wait for approval before paid rendering.
-- Keep character references in your project, not inside the public Skill.
-- Rejected images must not automatically become future references.
+To customize a built-in style while preserving the original:
+
+```text
+Start from IP Pic's "playful craft" style.
+Lower the saturation and reduce the paper texture; keep all other rules.
+Make one Ato preview, then save the approved result as my personal style "soft-craft-01".
+Do not modify or overwrite the built-in playful craft style.
+```
+
+Aspect ratios are just as simple:
+
+```text
+Make the next image 1:1. Keep the content and character unchanged.
+```
+
+```text
+Use 16:9 landscape for this whole article.
+```
+
+```text
+Switch to 9:16 portrait and keep the lower subtitle-safe area clear.
+```
+
+## 6. Add your own style
+
+When the built-in choices do not fit, create a personal style from words or licensed style references.
+
+### Describe it in words
+
+```text
+I want to add my own illustration style:
+colored-pencil journal sketches, lightly textured paper, low saturation,
+relaxed character lines, but a heavy upright Chinese title and one hand-drawn emphasis line.
+
+Make one Ato example preview first. Do not change any built-in style.
+```
+
+### Explain it with images
+
+Attach original or licensed style references, then say:
+
+```text
+Analyze only the line, material, palette, whitespace, and typography of these images.
+Do not copy their people, brands, wording, or distinctive compositions.
+Make one Ato preview in the new style.
+```
+
+When approved:
+
+```text
+Approved. Save this as my personal style "<style name>".
+Use that name in future and do not overwrite any built-in style.
+```
+
+To tune it:
+
+```text
+Reduce the paper grain and make the character lines slightly heavier.
+Keep everything else. Save it as "<style name>-02" without overwriting the previous version.
+```
+
+Personal styles stay in the current project by default. When changing projects, ask the Agent to copy or register the style in the new project while preserving versions and avoiding overwrite. A style changes visual treatment; it must not silently change character identity, article meaning, canvas, or text mode.
+
+For a different project:
+
+```text
+Copy my personal style "<name>" from the current project to "<new project>".
+Preserve its name and version, and do not overwrite a style with the same name.
+Afterward, report the source and new save location.
+```
+
+## 7. Change the text treatment
+
+For text and illustration in one generation:
+
+```text
+Keep the one-pass integrated layout with a small amount of Chinese text.
+```
+
+The default target is heavy, upright Chinese display lettering with one hand-drawn emphasis line, not calligraphy, children's lettering, or thin type.
+
+For a stable text layer:
+
+```text
+Switch to a text-free image followed by a title.
+Use IP Pic's default heavy Chinese title and hand-drawn emphasis line.
+If an approved text-free image already exists, recompose only the text.
+If only an integrated image exists, create a new text-free image for my approval first,
+then add the title; do not place new text over old text.
+```
+
+To use a font you are licensed to use, attach it and say:
+
+```text
+Use the Chinese font I just provided for the title.
+Keep the approved text-free image and create a new text version without overwriting.
+```
+
+Model-generated integrated text cannot precisely lock to a local font. Use the two-step flow when the exact font matters.
+
+## 8. Control count, versions, and retries
+
+```text
+Make only three illustrations for this article. Choose the three most useful moments.
+```
+
+```text
+Make the first two and wait for my approval before continuing.
+```
+
+```text
+The character in image two does not match. Keep all accepted images and redo only image two.
+Do not overwrite or use the rejected image as a reference.
+```
+
+```text
+The character and base image are approved. Make only the title heavier and keep one emphasis line.
+```
+
+```text
+Keep this set as the old version and rebuild the whole set in a new direction.
+Do not inherit rejected images.
+```
+
+The Agent may assist with character, composition, text, and safe-area checks, but only you can give final visual approval.
+
+To inspect accumulated assets without changing them:
+
+```text
+List the characters, reference versions, and personal styles in this project.
+Explain the current defaults in plain language and do not modify anything.
+```
+
+## 9. Static video keyframes
+
+```text
+Use my character to turn the content below into a 1:1 static video keyframe.
+Create a text-free image first, then add the series name, a heavy key message,
+one hand-drawn emphasis line, and supporting text. Keep the lower subtitle area clear.
+
+<paste content>
+```
+
+IP Pic creates static keyframes only. It does not animate, lip-sync, narrate, or edit video.
+
+## Rights, privacy, and cost
+
+- Use only original or licensed characters, fonts, and reference images.
+- Do not request an exact copy of an unlicensed known character.
+- Character profiles, references, and personal styles stay in your project, not the public Skill.
+- Rejected images never become future references automatically.
+- The Agent must explain and ask before a route may create additional API charges.
 
 ## If the Agent gets stuck
 
+Start with:
+
 ```text
-Follow the IP Pic user guide and complete my illustration task.
-Stop only for permission, possible cost,
-missing character rights, or my real visual review.
-If something fails, explain what did not complete and give me one next step.
-For access, quota, rate-limit, or temporary service failures, fix the cause and
-safely retry the same request. If the prompt, references, or content must change,
-create a new request instead of treating it as the same one.
-Do not claim an image was generated when it was not, and never overwrite old output.
+Continue using the IP Pic user guide. Do not make me handle internal commands or configuration.
+If an image tool is truly missing, tell me the single next step.
 ```
 
-## Short prompts
+Only when the Agent explicitly says no image tool is available, give it [Image Tool Setup](IMAGE-TOOL-SETUP.en.md).
+
+## Useful one-line prompts
 
 ```text
-Install and use IP Pic, then guide me through my first illustration.
-```
-
-```text
-Use Learning Guide Ato to give this passage one illustration.
+Use IP Pic's Learning Guide Ato example to give this passage one illustration: <passage>
 ```
 
 ```text
-Use my character to illustrate this article.
-```
-
-```text
-Read my current Obsidian article and choose the moments worth illustrating.
+Use "<character name>" to illustrate this article: <article or file>
 ```
 
 ```text
 Switch to playful craft and 1:1. Create a new version without overwriting.
+```
+
+```text
+Save this as my personal style "<style name>" without overwriting built-in styles.
 ```
 
 ```text

@@ -19,11 +19,15 @@ After installation, guide me through my first illustration.
 Then say:
 
 ```text
-Use Learning Guide Ato to give this passage one illustration.
+Use IP Pic's Learning Guide Ato example to give the passage below one illustration:
+
+Projects move faster when you get a small result to review early, not when you make the plan longer.
 ```
 
+On the first run, the Agent may ask which project should hold the images. If you do not have one, it offers simple choices.
+
 ```text
-Use my character to illustrate this article.
+After setting up my character, use it to illustrate this article.
 ```
 
 ```text
@@ -34,17 +38,7 @@ Guides:
 
 - [Writer User Guide](USER-GUIDE.en.md)
 
-## Rendering methods
-
-GPT Image 2 is the default recommendation. IP Pic supports three real rendering methods:
-
-- with Codex, use the built-in Codex Image Tool / `$imagegen`; no API key is required;
-- without Codex, ask the Agent to connect the OpenAI official API or a relay already supported by the host;
-- with an existing ai-router, use the host's `ai_router.generate_image`.
-
-Keep `OPENAI_API_KEY` in the host's secure secret store or process environment. Keep a relay URL, key, and model in the host tool or ai-router user-level configuration. Never store them in IP Pic or the article project. `prompt-only` prepares prompts but does not generate images.
-
-See [step 2 of the user guide](USER-GUIDE.en.md#2-choose-a-real-rendering-method) for copyable Agent prompts and exact configuration boundaries.
+GPT Image 2 is preferred by default. During normal use, the Agent selects an available image tool automatically. Open [Image Tool Setup](IMAGE-TOOL-SETUP.en.md) only when the Agent explicitly says no image tool is available.
 
 ## Natural-language choices
 

@@ -19,6 +19,8 @@
   prompt-only adapters without changing the upstream director or prompt contract.
 - Restored the clear GPT Image 2 rendering guide and completed OpenAI Direct
   reference-image support through the official Images Edit endpoint.
+- Reduced first use to one copyable Ato example prompt; moved image-tool setup
+  to an exception-only guide and expanded project-local reference/style versioning.
 - Added production contracts, fail-closed credential handling, privacy release
   gates, dual-end parity tests, Skill Engineering evidence, Skill Up behavior
   cases, and Waza structural evaluations.
