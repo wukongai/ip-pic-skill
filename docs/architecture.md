@@ -86,7 +86,7 @@
 四条路径消费同一个 `image-render-handoff/v1`：
 
 - `codex-image-tool`：宿主 Agent 调用 Codex Image Tool。
-- `openai-direct`：本地 adapter 读取仓库外环境凭证并调用 OpenAI Images API。
+- `openai-direct`：本地 adapter 读取仓库外环境凭证；无参考图时调用 OpenAI Images Generate，有参考图时调用 Images Edit 并提交全部已选授权素材；model、quality、operation 与输入图哈希共同构成可重试请求身份。
 - `host-ai-router`：宿主 Agent 调用已安装 ai-router；仓库不含其实现或配置。
 - `prompt-only`：只输出 prompt、handoff 和 manifest。
 

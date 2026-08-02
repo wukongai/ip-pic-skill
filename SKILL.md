@@ -16,9 +16,10 @@ metadata:
 ## 流程
 
 1. 按[用户选择](references/user-choice-flow.md)确认模式、画布、风格和角色权利。
-2. 按[工作流内核](references/workflow-kernel.md)导演、编译和渲染；后端不得改写计划。
-3. direct 一次融合中文；two-step 先做无字图再确定性加字。
-4. 逐图执行[质量检查](references/qa-checklist.md)，最后由用户看图。
+2. 真实出图优先使用 Codex Image Tool / GPT Image 2；否则复用宿主安全配置的 OpenAI 官方图片能力或 `ai_router.generate_image`。`prompt-only` 不得声称已出图。
+3. 按[工作流内核](references/workflow-kernel.md)导演、编译和渲染；后端不得改写计划。
+4. direct 一次融合中文；two-step 先做无字图再确定性加字。
+5. 逐图执行[质量检查](references/qa-checklist.md)，最后由用户看图。
 
 ## Examples
 

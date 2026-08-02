@@ -24,9 +24,119 @@ After installation, guide me through my first illustration.
 
 The Agent handles installation and checks automatically. It pauses only when it needs your permission or an action may cost money.
 
-## 2. Create the tutorial character reference
+## 2. Choose a real rendering method
+
+IP Pic recommends GPT Image 2 by default. It supports three real rendering methods. You do not need to run commands yourself; send the matching prompt to your Agent.
+
+| Your situation | Use | Where configuration lives |
+|---|---|---|
+| You use Codex | Codex Image Tool (recommended) | Managed by Codex; no API key to configure |
+| You do not use Codex | OpenAI official API, or a relay already connected to your host | Secrets, service URL, and model stay in the host's secure configuration |
+| You already have ai-router | Host `ai_router.generate_image` | Credentials and routing remain in your own ai-router |
+
+### Method 1: Codex Image Tool (recommended)
+
+Built-in Codex image generation uses GPT Image 2. It needs no API key from you; usage counts toward your Codex limits.
+
+Send this to Codex:
+
+```text
+Use Codex Image Tool and GPT Image 2 for this run.
+Explicitly invoke `$imagegen` with the complete prompt, canvas size,
+and character references prepared by ip-pic.
+Then run IP Pic's per-image checks and show me the real image.
+```
+
+Within the current task, you can later say, “Continue with the same rendering method.”
+
+### Method 2: Without Codex, use the official API or a relay
+
+#### OpenAI official API
+
+Send this to your Agent:
+
+```text
+I do not have Codex. Configure ip-pic to use the OpenAI official Image API
+and GPT Image 2.
+Guide me to save `OPENAI_API_KEY` in this Agent's secure secret store
+or the current process environment. Do not ask me to paste the key into chat
+or save it in project files.
+Use the official base URL `https://api.openai.com/v1`.
+Check the connection before continuing with my first illustration.
+```
+
+The key belongs in the secure secret surface of your host Agent or an operating-system-managed environment, never in IP Pic, an article, character profile, Obsidian note, or Git repository. Codex, Claude Code, WorkBuddy, and other hosts use different secret surfaces, so IP Pic does not invent one universal file path. Your Agent should use the supported secure configuration for the software you are running.
+
+The Agent must tell you where to enter the key yourself—in the host interface, operating-system secret store, or local secure environment. It must never ask you to send the complete key in a chat message. A check may report only “configured” or “not configured”; it must not echo the key.
+
+IP Pic's OpenAI official direct route selects the correct call automatically: image generation when no reference is present, and image editing with every selected authorized reference for character-guided work. It must never discard a reference just to continue.
+
+After the key is configured, the Agent must also check GPT Image 2 access, whether organization verification is required, and whether usable API credit is available. A configured key alone does not prove rendering readiness.
+
+#### Relay service
+
+A relay service is not the OpenAI official direct route. Store the relay URL, key, and model in the host tool or ai-router user-level configuration—not in IP Pic—then expose it to the Agent as an image tool.
+
+Send this to your Agent:
+
+```text
+Connect my existing image relay as this host's image tool or through my ai-router.
+Keep its URL, key, and model only in the host or Router's user-level secure
+configuration, never in ip-pic, my article, character profile, or repository.
+First verify that it accepts the prompt, canvas size, and character references,
+then use its GPT Image 2-compatible capability for rendering.
+```
+
+There is no IP Pic relay configuration file. The exact location belongs to the host or ai-router you use. If the host has no secure secret surface, do not save the key in your project; use an operating-system-managed environment for the official API or use Codex Image Tool.
+
+You must also enter a relay key yourself in the host or Router's secure secret surface; never paste it into chat. The Agent may report only “configured” or “not configured” and must not display the complete key.
+
+### Method 3: Use your existing ai-router
+
+When the host already exposes `ai_router.generate_image`, IP Pic passes through the prompt, size, reference assets, and expected output path without changing upstream visual direction or text strategy.
+
+Send this to your Agent:
+
+```text
+Check whether this host already exposes `ai_router.generate_image`.
+If it does, use it for ip-pic's real rendering and pass the complete prompt,
+canvas size, character references, and expected output path.
+Do not read, display, or modify the ai-router credentials, providers, routing,
+retries, or fallback settings.
+```
+
+The ai-router service URL, key, model, and routing stay in its own user-level configuration, outside IP Pic.
+
+### Ask the Agent for a readiness report
+
+Before the first paid render, ask the Agent to reply in plain language:
+
+```text
+Image tool readiness:
+Connection source:
+Rendering method:
+Actual model:
+Supports character references:
+Creates separate API charges:
+```
+
+“Supports character references” must be “yes” before a fixed-character workflow continues. For an API or relay, the Agent must also identify the connection as “OpenAI official” or “third-party relay.” If the check fails, do not pay for trial-and-error; switch to Codex Image Tool or finish the host / ai-router configuration first.
+
+Before a long multi-image article run, ask the Agent to report the proposed image count, output quality level (low / medium / high), and cost range, explain the quality/speed/cost tradeoff in plain language, then wait for your approval.
+
+### When no real method is available
+
+`prompt-only` does not generate an image. It only prepares the prompt and render requirements. The Agent must clearly say that rendering has not happened. Configure one real method before continuing.
+
+Default priority is Codex Image Tool → a verified reference-capable host image tool → a registered ai-router → OpenAI official API → `prompt-only`. The Agent should explain and obtain approval before using a route that creates separate API charges.
+
+Within the current task, you may say, “Continue with the same rendering method.” In a new task, a different Agent, or another computer, send the matching selection prompt again so the Agent rechecks it.
+
+## 3. Create the tutorial character reference
 
 The package includes the text profile for an original public tutorial character, Learning Guide Ato. It does not distribute character example images.
+
+Before starting, the Agent must have confirmed that the method selected in step 2 can render a real image and accepts character references.
 
 ```text
 Use the public Learning Guide Ato profile included with ip-pic.
@@ -48,7 +158,7 @@ I accept this Ato reference. Continue with it.
 
 If it does not, describe the visible problem. The Agent must create a new version without overwriting the old one, and rejected output must not become a later reference.
 
-## 3. Illustrate one short passage
+## 4. Illustrate one short passage
 
 ```text
 Use the accepted Learning Guide Ato reference and give the following passage
@@ -87,7 +197,7 @@ Keep the same content judgment and create a new version with the original
 integrated text treatment.
 ```
 
-## 4. Illustrate a full Obsidian article
+## 5. Illustrate a full Obsidian article
 
 You can paste the article, attach its Markdown file, or tell the Agent its location in the current Obsidian vault.
 
@@ -137,7 +247,7 @@ recoverable original.
 
 This is a host Agent file operation, not an Obsidian-management or publishing capability of IP Pic. The Agent must preview the change scope first.
 
-## 5. Use your own character
+## 6. Use your own character
 
 Attach one to five reference images that you own or are licensed to use.
 
@@ -168,7 +278,7 @@ Use "<character name>" to illustrate this article:
 <paste or attach the article>
 ```
 
-## 6. Change the result in natural language
+## 7. Change the result in natural language
 
 Change style:
 
@@ -221,7 +331,7 @@ Change quantity:
 Create only three images for this article. Choose the three strongest moments.
 ```
 
-## 7. Create a static video keyframe
+## 8. Create a static video keyframe
 
 ```text
 Use my character to turn the following content into a 1:1 static video keyframe.
@@ -241,7 +351,7 @@ Change it to a 9:16 static keyframe and keep the bottom subtitle-safe area clear
 
 IP Pic does not create animation, lip sync, voiceover, or video edits.
 
-## 8. Review and retry
+## 9. Review and retry
 
 ```text
 The character in image 2 does not match. Keep all accepted images and retry
@@ -260,7 +370,7 @@ for my approval.
 
 The Agent may assist with character, text, composition, and safe-zone checks, but only you can give final visual approval.
 
-## 9. Rights, privacy, and cost
+## 10. Rights, privacy, and cost
 
 - Use only characters and images you own or are licensed to use.
 - Do not request exact imitation of an unlicensed protected character.
@@ -275,6 +385,9 @@ Follow the IP Pic user guide and complete my illustration task.
 Stop only for permission, possible cost,
 missing character rights, or my real visual review.
 If something fails, explain what did not complete and give me one next step.
+For access, quota, rate-limit, or temporary service failures, fix the cause and
+safely retry the same request. If the prompt, references, or content must change,
+create a new request instead of treating it as the same one.
 Do not claim an image was generated when it was not, and never overwrite old output.
 ```
 

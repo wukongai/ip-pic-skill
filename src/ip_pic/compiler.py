@@ -131,6 +131,9 @@ def normalize_brief(brief: dict[str, Any], template: dict[str, Any]) -> dict[str
                 "must_show": _list(visual.get("must_show"))[:6],
                 "avoid": _list(visual.get("avoid"))[:8],
                 "authorized_assets": list(visual.get("authorized_assets", [])),
+                "reference_strategy": copy.deepcopy(
+                    visual.get("reference_strategy")
+                ),
                 "ip_profile": visual.get("ip_profile"),
             },
             "composition": copy.deepcopy(composition),

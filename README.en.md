@@ -34,6 +34,18 @@ Guides:
 
 - [Writer User Guide](USER-GUIDE.en.md)
 
+## Rendering methods
+
+GPT Image 2 is the default recommendation. IP Pic supports three real rendering methods:
+
+- with Codex, use the built-in Codex Image Tool / `$imagegen`; no API key is required;
+- without Codex, ask the Agent to connect the OpenAI official API or a relay already supported by the host;
+- with an existing ai-router, use the host's `ai_router.generate_image`.
+
+Keep `OPENAI_API_KEY` in the host's secure secret store or process environment. Keep a relay URL, key, and model in the host tool or ai-router user-level configuration. Never store them in IP Pic or the article project. `prompt-only` prepares prompts but does not generate images.
+
+See [step 2 of the user guide](USER-GUIDE.en.md#2-choose-a-real-rendering-method) for copyable Agent prompts and exact configuration boundaries.
+
 ## Natural-language choices
 
 Supported article styles are minimal line art, playful craft, sticker collage, expressive hand-drawn, pop impact, and art print.

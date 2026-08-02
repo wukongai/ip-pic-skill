@@ -12,7 +12,7 @@ license = { file = "LICENSE" }
 dependencies = ["Pillow>=10.0"]
 
 [project.optional-dependencies]
-openai = ["openai>=1.0"]
+openai = ["openai>=2.35.1"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]

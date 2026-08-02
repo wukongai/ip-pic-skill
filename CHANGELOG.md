@@ -17,6 +17,8 @@
   characters and the required MIT lineage notice.
 - Added provider-neutral Codex Image Tool, OpenAI Direct, host ai-router, and
   prompt-only adapters without changing the upstream director or prompt contract.
+- Restored the clear GPT Image 2 rendering guide and completed OpenAI Direct
+  reference-image support through the official Images Edit endpoint.
 - Added production contracts, fail-closed credential handling, privacy release
   gates, dual-end parity tests, Skill Engineering evidence, Skill Up behavior
   cases, and Waza structural evaluations.

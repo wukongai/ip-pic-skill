@@ -34,6 +34,18 @@ https://github.com/wukongai/ip-pic-skill
 
 - [普通用户手册](USER-GUIDE.zh-CN.md)
 
+## 出图方式
+
+默认推荐 GPT Image 2，共有三种真实出图方式：
+
+- 使用 Codex 时，直接调用内置 Codex Image Tool / `$imagegen`，不需要配置 API Key；
+- 没有 Codex 时，由 Agent 接入 OpenAI 官方 API，或接入宿主已有的图片中转站；
+- 已经有 ai-router 时，使用宿主的 `ai_router.generate_image`。
+
+官方 API 的 `OPENAI_API_KEY` 放在宿主安全凭证存储或运行环境中；中转站的地址、Key 和模型放在宿主工具或 ai-router 的用户级配置中。它们都不能写进 IP Pic 或文章项目。`prompt-only` 只准备提示词，不会生成图片。
+
+每一种方式可以直接复制给 Agent 的话，以及“配置到底放在哪里”，都在[普通用户手册的第二步](USER-GUIDE.zh-CN.md#第二步选择真实出图方式)。
+
 ## 用户可以选择什么
 
 文章风格：

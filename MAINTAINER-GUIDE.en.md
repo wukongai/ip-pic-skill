@@ -93,7 +93,9 @@ python3 scripts/render_ip_pic.py openai-direct \
   --quality high
 ```
 
-Never store credentials in the Skill, a brief, Markdown, JSON, or committed `.env*`. Reference-image requests fail closed in the current direct adapter; use a host backend for those jobs. For this example, `output_image` must be `outputs/manual-direct-01/image/ato-intelligence-value.png`, and the receipt must include `status=ok`, `rendered=true`, and `output_sha256`.
+Never store credentials in the Skill, a brief, Markdown, JSON, or committed `.env*`. OpenAI Direct chooses Images Generate when `assets` is empty and Images Edit when selected references are present; every selected reference is submitted, and missing files fail closed. For this example, `output_image` must be `outputs/manual-direct-01/image/ato-intelligence-value.png`, and the receipt must include `status=ok`, `rendered=true`, and `output_sha256`.
+
+Images Edit accepts at most 16 references. Each must be a regular, non-symlink PNG, JPEG, or WebP file smaller than 50MB. Before a paid call, the adapter revalidates path, ownership, purpose, required status, actual image format, size, output, and receipt. Request identity binds model, quality, operation, and the SHA-256 of every input image. The same path is reusable only when all of those values remain identical; a prompt, reference, model, or quality change requires a new request. An existing receipt stops the call before any provider request. Returned bytes must be a PNG with the exact requested dimensions before an image or success receipt is written.
 
 ### Host ai-router
 

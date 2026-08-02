@@ -216,7 +216,9 @@ python3 scripts/render_ip_pic.py openai-direct \
   --quality high
 ```
 
-当前 OpenAI Direct 对带参考图的任务失败关闭，不会静默丢掉角色素材。这种任务改用 Codex Image Tool 或宿主 ai-router。
+OpenAI Direct 会按 handoff 自动选择端点：没有 `assets` 时调用 Images Generate；有 `assets` 时调用 Images Edit，并把所有已选择参考图作为输入。任一参考图路径缺失或文件不存在都会失败关闭，不能静默丢掉角色素材。
+
+Images Edit 最多接收 16 张参考图；每张必须是小于 50MB 的 PNG、JPEG 或 WebP 普通文件，不能是符号链接。后端在付费调用前会再次校验路径、ownership、purpose、required、真实图片格式和文件大小。request 身份同时绑定 model、quality、operation 和每张输入图的 SHA-256；只有这些内容完全不变时，API 失败后才能用同一路径重试。修改 prompt、参考图、model 或 quality 时必须新建 request。已存在 receipt 时会在调用前停止。返回内容还必须是与 request 尺寸完全一致的 PNG，才能写图片和成功回执。
 
 对本手册的 direct 示例，真实图片必须写到：
 

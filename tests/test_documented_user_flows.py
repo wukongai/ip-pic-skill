@@ -97,6 +97,53 @@ class DocumentedUserFlowTests(unittest.TestCase):
             "普通用户安装段应是一句交给 Agent 的话，而不是技术操作手册",
         )
 
+    def test_beginner_guides_explain_all_real_rendering_routes(self) -> None:
+        chinese = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
+        english = (ROOT / "USER-GUIDE.en.md").read_text(encoding="utf-8")
+
+        chinese_phrases = (
+            "默认推荐使用 GPT Image 2",
+            "三种真实出图方式",
+            "Codex Image Tool（推荐）",
+            "`$imagegen`",
+            "不需要配置 API Key",
+            "没有 Codex",
+            "OpenAI 官方 API",
+            "`OPENAI_API_KEY`",
+            "`https://api.openai.com/v1`",
+            "带有角色参考图时使用图片编辑",
+            "中转站",
+            "宿主工具或 ai-router 的用户级配置",
+            "中转站 Key 也必须由你本人",
+            "`ai_router.generate_image`",
+            "图片工具检查结果",
+            "`prompt-only` 不会生成图片",
+        )
+        for phrase in chinese_phrases:
+            with self.subTest(language="zh-CN", phrase=phrase):
+                self.assertIn(phrase, chinese)
+
+        english_phrases = (
+            "recommends GPT Image 2 by default",
+            "three real rendering methods",
+            "Codex Image Tool (recommended)",
+            "`$imagegen`",
+            "no API key",
+            "OpenAI official API",
+            "`OPENAI_API_KEY`",
+            "`https://api.openai.com/v1`",
+            "image editing with every selected authorized reference",
+            "relay service",
+            "host tool or ai-router user-level configuration",
+            "enter a relay key yourself",
+            "`ai_router.generate_image`",
+            "Image tool readiness",
+            "`prompt-only` does not generate an image",
+        )
+        for phrase in english_phrases:
+            with self.subTest(language="en", phrase=phrase):
+                self.assertIn(phrase, english)
+
     def test_technical_manual_is_retained_for_maintainers(self) -> None:
         chinese = (ROOT / "MAINTAINER-GUIDE.zh-CN.md").read_text(
             encoding="utf-8"
