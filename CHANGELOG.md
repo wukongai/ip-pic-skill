@@ -2,6 +2,12 @@
 
 ## 0.3.0-rc.2
 
+- Restored the original agent-first onboarding journey: give the public address
+  to the agent, generate and approve the Ato tutorial reference, illustrate one
+  short passage, then illustrate a complete Obsidian article.
+- Split documentation by audience. Ordinary users now work entirely through
+  natural-language prompts in `USER-GUIDE.*`; the preserved command and
+  extension reference is now `MAINTAINER-GUIDE.*`.
 - Rebuilt the public Skill from the complete IP-only upstream behavior graph.
 - Restored 13 formal structures, six render styles, the full content director,
   direct-integrated Chinese typography, deterministic two-step publishing,

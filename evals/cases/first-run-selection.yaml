@@ -22,6 +22,8 @@ judge:
         any:
           - "交付模式"
           - "delivery_mode"
+          - "文字策略"
+          - "文字模式"
     - output_contains:
         any:
           - "画布"

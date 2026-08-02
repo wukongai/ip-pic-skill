@@ -1,277 +1,352 @@
-# IP Pic Beginner User Guide
+# IP Pic User Guide
 
-This guide is for a first-time user. Follow the steps in order. Start with the no-cost `prompt-only` route before calling a real image backend.
+This guide is for writers who use Codex, Claude Code, WorkBuddy, or another Agent that supports skills. You do not need to use a terminal, locate the Skill directory, edit JSON, or run Python yourself.
 
-## 1. Enter the complete Skill directory
+Give the Agent the prompts below. The Agent handles installation, article analysis, image planning, file management, rendering, and checks.
 
-Open a terminal, type `cd `, drag the complete `ip-pic` folder into the terminal, and press Enter. Verify:
+Developers and maintainers should use the [Maintainer Guide](MAINTAINER-GUIDE.en.md).
 
-```bash
-pwd
-test -f SKILL.md && test -f scripts/compile_ip_pic.py && echo "IP Pic root is correct"
+## What IP Pic does
+
+IP Pic creates:
+
+- one character-led illustration for a short passage;
+- a continuous image set for a full Chinese article;
+- static 16:9, 1:1, or 9:16 video keyframes.
+
+It does not create knowledge cards, covers, posters, video edits, or publishing-platform content.
+
+## 1. Give the installation address to your Agent
+
+The public installation address is:
+
+```text
+https://github.com/wukongai/ip-pic-skill
 ```
 
-The full directory is required. Copying only `SKILL.md` is not enough.
+Open your Agent in the project where you write. For an Obsidian article, open the vault or the folder containing that article. Then send:
 
-## 2. Install in an isolated environment
+```text
+Install this Agent Skill in my current writing project:
+https://github.com/wukongai/ip-pic-skill
 
-```bash
-python3 --version
-python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install -e .
+Keep the installed name as ip-pic. Prefer a project-level installation;
+do not change my global skills unless I explicitly approve it.
+Handle downloading, path discovery, dependency checks, installation,
+and self-tests yourself. Do not ask me to run Python, find the Skill root,
+or edit configuration files.
+
+If a permission is required, explain what it affects and wait for approval.
+After installation, use ip-pic, verify it, and guide me through first use.
 ```
 
-Python 3.10 or newer is required. Re-run `source .venv/bin/activate` after opening a new terminal.
+The Agent should report whether installation succeeded, whether real image generation is available, which image route it proposes, and the single next choice it needs from you.
 
-## 3. Verify before rendering
+If the public address is unavailable, the Agent must stop and report the real error. It must not install a similarly named unknown repository.
 
-```bash
-python3 -B -m unittest discover -s tests -v
-python3 scripts/verify_release.py
+## 2. Let the Agent choose an available image tool
+
+```text
+Check which image-generation capability is available in this Agent.
+Prefer the host's built-in image tool. If that is unavailable, check only
+image capabilities I have already configured.
+
+Recommend the best option that is already available and tell me whether it costs money.
+Ask one result-changing question at a time.
+Do not ask me to paste a secret into chat, and do not read or display secrets.
+If you can only prepare a prompt, explicitly say that no image was generated.
 ```
 
-The unit-test run must end in `OK`, and the release check must report no errors.
+The normal order is:
 
-## 4. Compile the first article illustration
+1. the Agent host's built-in image tool;
+2. the user's securely configured OpenAI image capability;
+3. an image router already installed by the user;
+4. prompt preparation without rendering.
 
-```bash
-python3 scripts/compile_ip_pic.py \
-  --brief examples/article-brief.json \
-  --output-dir outputs/manual-direct-01 \
-  --print-prompt
+## 3. Create the tutorial character reference
+
+The package includes the text profile for an original public tutorial character, Learning Guide Ato. It does not distribute character example images.
+
+```text
+Use the public Learning Guide Ato profile included with ip-pic.
+First create an Ato tutorial reference image.
+
+Show clear front, side, and full-body views with consistent clothing and color.
+Do not add text, a watermark, or a logo, and do not imitate a third-party character.
+Save it in my current project, never inside the installed Skill.
+
+Show me the result. Use it as a later character reference only after I say
+that I accept it.
 ```
 
-Success creates `image_brief.json`, `ip-director-plan.json`, a prompt file, and `run-manifest.json`. Compilation never calls an image API.
+If it looks right, say:
 
-Do not reuse an existing output directory. Give every retry a new task `id` and output directory.
-
-## 5. Run the no-cost prompt-only handoff
-
-```bash
-python3 scripts/render_ip_pic.py prepare \
-  --manifest outputs/manual-direct-01/run-manifest.json \
-  --backend prompt-only \
-  --request outputs/manual-direct-01/prompt-only.json
+```text
+I accept this Ato reference. Continue with it.
 ```
 
-Success means `status=prompt_ready` and `rendered=false`. This verifies the handoff but is not a rendered or visually accepted image.
+If it does not, describe the visible problem. The Agent must create a new version without overwriting the old one, and rejected output must not become a later reference.
 
-## 6. Choose one real backend
+## 4. Illustrate one short passage
 
-### Codex Image Tool
+```text
+Use the accepted Learning Guide Ato reference and give the following passage
+one illustration:
 
-```bash
-python3 scripts/render_ip_pic.py prepare \
-  --manifest outputs/manual-direct-01/run-manifest.json \
-  --backend codex-image-tool \
-  --request outputs/manual-direct-01/codex-request.json
+Many people think efficiency comes from writing a more detailed plan.
+Projects actually move faster when the feedback loop is shorter:
+deliver one small result that can be checked, then adjust.
+
+Use the IP Pic recommendation: article illustration, 16:9, minimal line art,
+and a small amount of integrated Chinese text.
+Handle content extraction, visual direction, rendering, and checks yourself.
+Do not ask me to edit JSON, fill forms, or choose internal templates.
 ```
 
-Ask the host Agent to read that request without rewriting its prompt, size, or reference selection; generate the image at `expected_output`; and complete the finalize flow.
+A successful run produces a real image. Verify that:
 
-```bash
-python3 scripts/render_ip_pic.py finalize \
-  --request outputs/manual-direct-01/codex-request.json \
-  --output outputs/manual-direct-01/image/ato-intelligence-value.png \
-  --receipt-id your-host-run-id
+- Ato still matches the accepted reference;
+- the character performs the core action;
+- the image communicates one judgment;
+- the Chinese text is short and legible;
+- the main title is heavy and upright;
+- there is only one hand-drawn emphasis line;
+- there is no gibberish, watermark, or unrelated logo.
+
+Say either:
+
+```text
+This image passes. Keep it.
 ```
 
-The prepared host request must say `status=awaiting_host` and `rendered=false`. The final receipt must say `status=ok`, `rendered=true`, and include `output_sha256`.
+or describe the problem:
 
-### OpenAI Direct
-
-```bash
-python3 -m pip install -e '.[openai]'
-export OPENAI_API_KEY='your-key-from-a-secure-shell'
-python3 scripts/render_ip_pic.py openai-direct \
-  --manifest outputs/manual-direct-01/run-manifest.json \
-  --request outputs/manual-direct-01/openai-request.json \
-  --model gpt-image-2 \
-  --quality high
+```text
+The character is correct, but the image has no integrated text.
+Keep the same content judgment and create a new version with the original
+integrated text treatment.
 ```
 
-Never store credentials in the Skill, a brief, Markdown, JSON, or committed `.env*`. Reference-image requests fail closed in the current direct adapter; use a host backend for those jobs. For this example, `output_image` must be `outputs/manual-direct-01/image/ato-intelligence-value.png`, and the receipt must include `status=ok`, `rendered=true`, and `output_sha256`.
+## 5. Illustrate a full Obsidian article
 
-### Host ai-router
+You can paste the article, attach its Markdown file, or tell the Agent its location in the current Obsidian vault.
 
-Prepare with `--backend host-ai-router` and request path `outputs/manual-direct-01/ai-router-request.json`. Ask the installed host Agent to read that request and preserve its `prompt`, `size`, `assets`, and `expected_output`. The public Skill contains no private provider registry, adapter, balance, retry, fallback, or credential implementation.
+```text
+Read my currently open Obsidian article and use ip-pic to illustrate it.
 
-After the host creates the real file:
+Reuse the accepted character reference and recommended style.
+Analyze the title, sections, key judgments, and semantic turns.
+Choose only the moments worth illustrating and decide a sensible image count.
+Do not ask me to write image slots or prompts.
 
-```bash
-python3 scripts/render_ip_pic.py finalize \
-  --request outputs/manual-direct-01/ai-router-request.json \
-  --output outputs/manual-direct-01/image/ato-intelligence-value.png \
-  --receipt-id your-ai-router-run-id
+First tell me, in plain language, how many images you propose and what each
+will express. After I approve, generate them and show them one by one.
 ```
 
-Verify `ai-router-request.receipt.json` contains `status=ok`, `rendered=true`, and `output_sha256`.
+Approve the plan with:
 
-## 7. Choose the article text mode
-
-`direct-integrated` generates the character, objects, action, and a small amount of Chinese text in one image. A text-free illustration fails. The target is heavy upright black Chinese display lettering, one irregular hand-drawn emphasis line, and two supporting blue levels. A local font file cannot control this model-generated lettering.
-
-`two-step-publish` first renders a text-free raw image and then adds a deterministic title layer:
-
-```bash
-python3 scripts/compile_ip_pic.py \
-  --brief examples/article-two-step-brief.json \
-  --output-dir outputs/manual-two-step-01 \
-  --print-prompt
+```text
+Yes. Use those positions and that image count. Show each result to me,
+but do not modify the article yet.
 ```
 
-Prepare the complete Codex-hosted two-step run:
+If the Agent cannot see the file, it should ask you to attach it or provide its location—not ask you to configure the Skill.
 
-```bash
-python3 scripts/render_ip_pic.py prepare \
-  --manifest outputs/manual-two-step-01/run-manifest.json \
-  --backend codex-image-tool \
-  --request outputs/manual-two-step-01/codex-request.json
+For direct execution:
+
+```text
+Use the accepted character reference to illustrate this article.
+Use the recommended settings and choose the image count from the content.
+Show every result to me; do not approve the visuals on my behalf.
+
+<paste or attach the article>
 ```
 
-Ask the host to generate a text-free raw image at `outputs/manual-two-step-01/image/ato-two-step-judgement.png`, then finalize it:
+The Agent should vary composition, action, expression, gaze, and character scale while preserving identity. If one image fails, it should keep accepted images and retry only the failed item.
 
-```bash
-python3 scripts/render_ip_pic.py finalize \
-  --request outputs/manual-two-step-01/codex-request.json \
-  --output outputs/manual-two-step-01/image/ato-two-step-judgement.png \
-  --receipt-id your-two-step-host-run-id
+After you accept every image, optionally ask the host Agent to place them:
+
+```text
+All images are accepted. Save them according to this Obsidian project's
+existing attachment rules and insert their links at the planned article positions.
+If no attachment rule exists, propose a safe, common, recoverable location
+inside the project first; do not ask me to find a path.
+Before editing, tell me which article and positions will change, and keep a
+recoverable original. Do not ask me to find the attachment folder or edit Markdown.
 ```
 
-After the receipt says `status=ok`, `rendered=true`, and includes `output_sha256`, choose one composition command. The default original typography is:
+This is a host Agent file operation, not an Obsidian-management or publishing capability of IP Pic. The Agent must preview the change scope first.
 
-```bash
-python3 scripts/compose_publish_layout.py \
-  --run-manifest outputs/manual-two-step-01/run-manifest.json
+## 6. Use your own character
+
+Attach one to five reference images that you own or are licensed to use.
+
+```text
+Replace the IP Pic tutorial character with my character.
+I own these reference images or have permission to use them.
+
+Propose a public character name, role, appearance summary, personality,
+and continuity anchors from the material. Do not infer sensitive traits.
+Ask one necessary question at a time and show the profile summary before saving.
+
+Create the character profile and register each reference's purpose yourself.
+Do not ask me to edit JSON, and never write my images into the installed Skill.
 ```
 
-The command preserves raw and creates `publish-layout.json`, a separate final PNG, and `.layout-result.json`.
+Approve the profile with:
 
-To use a legally licensed Chinese font without overwriting any existing final:
-
-```bash
-python3 scripts/compose_publish_layout.py \
-  --run-manifest outputs/manual-two-step-01/run-manifest.json \
-  --layout-manifest outputs/manual-two-step-01/publish-layout-custom-font-01.json \
-  --output-image outputs/manual-two-step-01/publish/custom-font-01/ato-two-step-judgement.png \
-  --font-path "/full/path/to/YourChineseFont.ttf"
+```text
+The profile is correct. Save it as "<character name>" and use that name later.
+Do not overwrite the tutorial character.
 ```
 
-The explicit font uses face index 0. Visually inspect glyph coverage, wrapping, clipping, and tone.
+After approval:
 
-The original default article title-band uses a macOS font path. On Windows or Linux, always supply `--font-path` on the first two-step composition, even if another Chinese system font is installed. Do not try to overwrite an already-created final.
+```text
+Use "<character name>" to illustrate this article:
 
-## 8. Use your own character
-
-The public package contains text-only profiles for original tutorial characters and no character reference images.
-
-Copy [examples/article-brief.json](examples/article-brief.json) to a new work file. Replace `visual.ip_profile` with a non-sensitive public description and a rights declaration. Accepted ownership statuses are:
-
-- `user-owned`
-- `licensed`
-- `project-original-tutorial`
-
-Provide a non-empty rights basis, identity, appearance description, personality, at least three continuity anchors, and `authorized: true` for every profile reference. Register each real asset under `visual.authorized_assets` with `path`, `purpose`, `ownership`, and `required`.
-
-Validate your edited JSON with `python3 -m json.tool path/to/brief.json`. The compiler validates the explicit profile. Every `authorized_assets` entry must also use an existing absolute path and an allowed ownership value; missing fields or files fail before handoff creation. Profile-reference paths are removed from public prompt text. A reference enters the actual render handoff only when it is also registered under `visual.authorized_assets`; those entries appear in `render_handoff.assets` and, after prepare, in the request's top-level `assets`.
-
-A prepared reference is a local image that you selected, rights-checked, and registered before compilation. Inspect the manifest's `render_handoff.assets`, then the backend request's `assets`; they must match. Tell the host to attach every asset with `required=true` instead of copying only the text prompt. A receipt hash proves file identity, not character likeness, so a human must still compare the face, hair, palette, and continuity anchors.
-
-## 9. Choose one of six article styles
-
-Set `selection_receipt.style_variant_id` to:
-
-- `minimal-lineart`
-- `playful-craft`
-- `sticker-collage`
-- `expressive-handdrawn`
-- `pop-impact`
-- `art-print`
-
-The style layer may change material, line, color, shape, and surface tone. It must not change identity, business scene, canvas, delivery mode, or director structure.
-
-## 10. Compile a static video keyframe
-
-```bash
-python3 scripts/compile_ip_pic.py \
-  --brief examples/video-square-brief.json \
-  --template ip-editorial-video-square-v1 \
-  --output-dir outputs/manual-video-square-01 \
-  --print-prompt
+<paste or attach the article>
 ```
 
-Render the text-free raw image, then:
+## 7. Change the result in natural language
 
-```bash
-python3 scripts/compose_video_keyframe_text.py \
-  --manifest outputs/manual-video-square-01/video-text-overlay.json
+Change style:
+
+```text
+Change this image set to playful craft. Keep the character and article meaning,
+create a new version, and do not overwrite the old images.
 ```
 
-The prompt must begin with a text-free raw instruction and end with `无字视频关键帧 raw`; it must not say `请直接生成成品图片`. For the bundled example, raw is `outputs/manual-video-square-01/image/ato-video-square-01.png` and final is `outputs/manual-video-square-01/final/ato-video-square-01.png`. The overlay also creates `final/video-text-overlay-result.json` and refuses to overwrite an existing final.
+Other supported article styles are minimal line art, sticker collage, expressive hand-drawn, pop impact, and art print.
 
-Article and video style selection are not the same interface. Articles use `selection_receipt.style_variant_id`; video keyframes use existing video templates. The current video compiler does not consume the article selection receipt to switch style.
+Change canvas:
 
-Square style templates are listed in [references/customization.md](references/customization.md). Portrait structures include `custom-ip-handdrawn-video-portrait-v1`, `ip-editorial-video-v3`, and `ip-editorial-video-subtitle-safe-v4`.
-
-For video font overrides, add top-level `font_path` and optional `headline_font_path` to `video-text-overlay.json`, then validate it with `python3 -m json.tool outputs/manual-video-square-01/video-text-overlay.json`. A 9:16 headline uses `font_path`; a 1:1 headline may use `headline_font_path`. Windows requires an explicit Chinese font path. Linux only auto-falls back when one of the Noto CJK paths listed by the script exists; explicit paths are more reproducible. Verify the result on the target operating system. If a final already exists, copy the overlay and change its top-level `output_dir` to a new directory. Keep `items[0].output_file` as the filename; do not add `output` or `result_receipt`, because the composer creates the receipt automatically inside the new output directory.
-
-## 11. Perform per-image QA
-
-Read `visual_qa.required_checks` from `run-manifest.json`. Pass only checks that you actually observed:
-
-```bash
-python3 scripts/qa_ip_pic.py \
-  --manifest outputs/manual-direct-01/run-manifest.json \
-  --image outputs/manual-direct-01/image/ato-intelligence-value.png \
-  --pass-check ip_identity \
-  --pass-check semantic_action \
-  --pass-check integrated_text_present \
-  --pass-check integrated_text_legible \
-  --pass-check text_does_not_overlap_subject
+```text
+Change the next image to 1:1. Keep the content and character unchanged.
 ```
 
-`checks_passed` still produces `visual_acceptance=pending_human` and `approved_for_release=false`. Automated structure is not human visual approval. Use `--fail-check` to record failures; the receipt identifies `render` or `publish-layout` as the retry scope.
-
-See [references/qa-checklist.md](references/qa-checklist.md).
-
-## 12. Retry and rebuild
-
-- If only rendering failed and no expected image exists, prepare a new backend request against the same manifest.
-- If content, selection, or director data is wrong, change the brief `id` and compile into a new directory.
-- If an existing rendered image fails QA, keep it for audit, copy the brief to a new retry id, compile into a new directory, and never use the rejected image as a reference.
-- If only a two-step title layer fails, preserve raw and write a new final:
-
-```bash
-python3 scripts/compose_publish_layout.py \
-  --run-manifest outputs/manual-two-step-01/run-manifest.json \
-  --layout-manifest outputs/manual-two-step-01/publish-layout-retry-01.json \
-  --output-image outputs/manual-two-step-01/publish/retry-01/ato-two-step-judgement.png \
-  --font-path "/full/path/to/YourChineseFont.ttf"
+```text
+Use 16:9 for every article illustration.
 ```
 
-- Never use rejected output as a later reference.
-- The Agent-level batch API provides `build_shot_plan`, `run_batch`, `retry_failed`, and `rebuild_batch`. It preserves successful items and rebuilds into a clean directory.
+Change text handling:
 
-See [references/full-rebuild-playbook.md](references/full-rebuild-playbook.md).
+```text
+Keep one-step image-and-text integration with only a little Chinese text.
+```
 
-## 13. Customize or add styles
+```text
+Switch to a text-free image followed by a deterministic title layer.
+Use IP Pic's default heavy Chinese title style and one hand-drawn emphasis line.
+If an approved text-free image already exists, only create a new text layout.
+If I only have an integrated image with text, first create a new text-free image
+for my approval, then add the title. Never place new text over old text.
+```
 
-Safe task-level customization—choosing a built-in style, supplying an authorized character, changing content/canvas/composition, or specifying a two-step font—does not modify the official Skill.
+The Agent must determine whether a reusable text-free image exists before following the matching branch above.
 
-Editing a render-style profile, adding a seventh style, adding a title band, or changing video typography requires a personal fork. That fork is no longer the official fixed-six exact-parity distribution. Keep the MIT attribution, back up first, run all tests, and perform fresh visual regression.
+For a licensed font, attach the font file and say:
 
-Follow [references/customization.md](references/customization.md).
+```text
+Use the Chinese font I attached for the title.
+Keep the approved text-free image and create a new text version.
+Do not overwrite the previous final image.
+```
 
-## Final release checklist
+An exact local font cannot control one-step model-generated lettering. When you request an exact font, the Agent should propose the two-step mode.
 
-- Every character and asset has documented rights.
-- No personal information, credentials, private paths, or private business data entered the Skill.
-- Direct mode has real integrated Chinese text and one emphasis line.
-- Two-step raw and final are separate, with legible typography.
-- Video safe zones are clear.
-- Every image has its own QA receipt.
-- Automated tests pass.
-- A human opened and accepted every final image.
+Change quantity:
 
-Use [references/README.md](references/README.md) for the complete capability index.
+```text
+Create only three images for this article. Choose the three strongest moments.
+```
+
+## 8. Create a static video keyframe
+
+```text
+Use my character to turn the following content into a 1:1 static video keyframe.
+Create a text-free visual first, then add the section label, heavy core idea,
+one hand-drawn emphasis line, and supporting text.
+Keep the character and important objects away from the text zone and bottom
+subtitle-safe area.
+
+<paste the content>
+```
+
+For portrait:
+
+```text
+Change it to a 9:16 static keyframe and keep the bottom subtitle-safe area clear.
+```
+
+IP Pic does not create animation, lip sync, voiceover, or video edits.
+
+## 9. Review and retry
+
+```text
+The character in image 2 does not match. Keep all accepted images and retry
+only image 2. Do not overwrite the old image or use it as a new reference.
+```
+
+```text
+The character and base image pass. Make only the title heavier and preserve
+the single original hand-drawn emphasis line.
+```
+
+```text
+Keep the successful images and retry only failed items. Show every new result
+for my approval.
+```
+
+The Agent may assist with character, text, composition, and safe-zone checks, but only you can give final visual approval.
+
+## 10. Rights, privacy, and secrets
+
+- Use only characters and images you own or are licensed to use.
+- Do not request exact imitation of an unlicensed protected character.
+- Never paste API keys, tokens, cookies, or private keys into chat or article files.
+- Ask the Agent to use secure system storage for paid image access and explain cost first.
+- Keep character references in your project, not inside the public Skill.
+- Rejected images must not automatically become future references.
+
+## If the Agent gets stuck
+
+```text
+Read ip-pic's USER-GUIDE.en.md and SKILL.md again.
+I am a content user. I do not run installation commands, locate the Skill root,
+edit JSON, manage internal filenames, or diagnose implementation stages.
+
+Handle those operations yourself. Stop only for permission, possible cost,
+missing character rights, or my real visual review.
+If something fails, explain what did not complete and give me one next step.
+Do not claim an image was generated when it was not, and never overwrite old output.
+```
+
+## Short prompts
+
+```text
+Use ip-pic, verify the installation, and guide me through first use.
+```
+
+```text
+Use Learning Guide Ato to give this passage one illustration.
+```
+
+```text
+Use my character to illustrate this article.
+```
+
+```text
+Read my current Obsidian article and choose the moments worth illustrating.
+```
+
+```text
+Switch to playful craft and 1:1. Create a new version without overwriting.
+```
+
+```text
+Keep accepted images and retry only failed items.
+```
+
+Implementation details, backend setup, file contracts, font paths, recovery, and release validation belong in the [Maintainer Guide](MAINTAINER-GUIDE.en.md), which the Agent or maintainer reads when needed.
