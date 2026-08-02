@@ -22,7 +22,7 @@ metadata:
 
 ## Examples
 
-普通用户不运行命令；可说“给下面这段文字配 1 张图”或“给这篇文章配图”。首次按[用户手册](USER-GUIDE.zh-CN.md)确认阿拓参考图，技术步骤由 Agent 完成。
+普通用户可直接说“给下面这段文字配 1 张图”或“给这篇文章配图”。首次按[用户手册](USER-GUIDE.zh-CN.md)确认阿拓参考图，其余步骤由 Agent 完成。
 
 技术见[维护者手册](MAINTAINER-GUIDE.zh-CN.md)，样式见[定制](references/customization.md)，完整索引见[能力与资源](references/README.md)，许可见[NOTICE](NOTICE.md)。
 

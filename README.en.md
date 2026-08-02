@@ -4,30 +4,16 @@
 
 `ip-pic` is an Agent Skill for writers. It uses an original or licensed recurring character to create one illustration for a short passage, a continuous image set for a full Chinese article, or a static video keyframe.
 
-Writers do not need to run commands, locate the Skill directory, or edit configuration. Give the public address and article to Codex, Claude Code, WorkBuddy, or another compatible Agent.
+Give it to Codex, Claude Code, WorkBuddy, or another compatible Agent and start illustrating your article.
 
 ## Start in 30 seconds
-
-Public installation address:
-
-```text
-https://github.com/wukongai/ip-pic-skill
-```
 
 Send this to your Agent:
 
 ```text
-Install this Agent Skill in my current writing project:
+Install and use this illustration tool:
 https://github.com/wukongai/ip-pic-skill
-
-Keep the installed name as ip-pic. Prefer a project-level installation and
-do not change my global skills. Download to a temporary inspection location
-without overwriting or enabling an existing copy. Read `metadata.version` from
-the downloaded SKILL.md. Only `0.3.0-rc.2` may be installed and enabled.
-If it differs or is missing, stop without installing or overwriting anything.
-After the version passes, handle dependency checks, installation, and self-test
-yourself; do not ask me to run commands or locate the Skill directory. Then use
-ip-pic and guide me through first use.
+After installation, guide me through my first illustration.
 ```
 
 Then say:
@@ -47,8 +33,6 @@ Read my current Obsidian article and choose the moments worth illustrating.
 Guides:
 
 - [Writer User Guide](USER-GUIDE.en.md)
-- [Maintainer Technical Guide](MAINTAINER-GUIDE.en.md)
-- [Customization and Personal Forks](references/customization.md)
 
 ## Natural-language choices
 
@@ -67,20 +51,16 @@ and one hand-drawn emphasis line.
 Keep accepted images and retry only failed items.
 ```
 
-## Complete capability
+## What it can do
 
-- 13 formal IP illustration structures and one compatibility structure;
 - 16:9, 1:1, 3:4, 9:16, and custom canvases;
-- one-step integrated image and Chinese text;
-- text-free raw images followed by deterministic Chinese title composition;
+- one-step integrated image and Chinese text, or a text-free image followed by stable Chinese title composition;
 - original heavy Chinese display type, two blue text levels, and one emphasis line;
-- direction for character scale, crop, action, expression, gaze, pose, and orientation;
 - one image for short content and continuous multi-image article sets;
 - square, landscape, and portrait static video keyframes;
-- authorized reference selection, batch continuity, retries, and per-image checks;
-- a host image tool, user-configured OpenAI image access, an already-installed image router, or prompt preparation only.
+- character continuity, retries, and per-image approval.
 
-For one-pass integrated text, the original visual contract uses heavy, upright Chinese display type with one irregular hand-drawn emphasis line. The image model completes this in one pass; it does not silently switch to two-step publishing or add a second text overlay.
+For one-pass integrated text, the original visual contract uses heavy, upright Chinese display type with one irregular hand-drawn emphasis line.
 
 ## Scope
 
@@ -89,9 +69,8 @@ IP Pic does not create knowledge cards, covers, posters, animations, lip sync, v
 ## Safety and license
 
 - Character assets must be original or licensed.
-- Credentials, tokens, cookies, private keys, and private router implementations do not enter the public Skill.
 - User references remain in the user's project.
 - Rejected images do not automatically become future references.
 - Automated checks never replace the user's real visual review.
 
-Project code is MIT licensed. Workflow methods derive from MIT-licensed Ian Xiaohei Illustrations; attribution is retained in `UPSTREAM-LICENSE.txt`, `NOTICE.md`, and `upstream.lock.json`. This project does not redistribute Ian's Xiaohei character or upstream example images.
+Project code is MIT licensed. Workflow methods derive from MIT-licensed Ian Xiaohei Illustrations, with its license and attribution retained. This project does not redistribute Ian's Xiaohei character or upstream example images.

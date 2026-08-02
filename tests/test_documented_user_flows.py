@@ -37,16 +37,8 @@ class DocumentedUserFlowTests(unittest.TestCase):
         guide = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
         required_phrases = (
             "https://github.com/wukongai/ip-pic-skill",
-            "不要让我运行 Python",
-            "检查安装并带我完成第一次使用",
-            "0.3.0-rc.2",
-            "如果版本不符",
-            "临时检查位置",
-            "不要覆盖或启用现有 ip-pic",
-            "只有版本严格等于 0.3.0-rc.2",
-            "不要安装、不要启用、不要覆盖现有版本",
-            "只有版本确认正确后",
-            "你不需要进行本地技术处理",
+            "帮我安装并使用这个配图工具",
+            "带我完成第一次配图",
             "学习向导阿拓",
             "先生成一张阿拓教程参考图",
             "给下面这段文字配 1 张图",
@@ -56,15 +48,36 @@ class DocumentedUserFlowTests(unittest.TestCase):
             "改成毛毡手作",
             "改成 1:1",
             "先无字图再加标题",
-            "MAINTAINER-GUIDE.zh-CN.md",
         )
         for phrase in required_phrases:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, guide)
 
+        user_surfaces = "\n".join(
+            (ROOT / relative).read_text(encoding="utf-8")
+            for relative in (
+                "USER-GUIDE.zh-CN.md",
+                "USER-GUIDE.en.md",
+                "README.zh-CN.md",
+                "README.en.md",
+            )
+        )
         forbidden_implementation_details = (
             "```bash",
-            "python3 ",
+            "终端",
+            "Python",
+            "JSON",
+            "Skill 安装目录",
+            "metadata.version",
+            "0.3.0-rc.2",
+            "临时检查位置",
+            "安装名称保持",
+            "全局 Skill",
+            "不要覆盖或启用",
+            "run Python",
+            "Skill directory",
+            "temporary inspection",
+            "global Skill",
             "pip install",
             "json.tool",
             "run-manifest.json",
@@ -73,7 +86,16 @@ class DocumentedUserFlowTests(unittest.TestCase):
         )
         for phrase in forbidden_implementation_details:
             with self.subTest(forbidden=phrase):
-                self.assertNotIn(phrase, guide)
+                self.assertNotIn(phrase, user_surfaces)
+
+        install_section = guide.split("## 第一步：", 1)[1].split(
+            "## 第二步：", 1
+        )[0]
+        self.assertLess(
+            len(install_section),
+            500,
+            "普通用户安装段应是一句交给 Agent 的话，而不是技术操作手册",
+        )
 
     def test_technical_manual_is_retained_for_maintainers(self) -> None:
         chinese = (ROOT / "MAINTAINER-GUIDE.zh-CN.md").read_text(
@@ -88,16 +110,15 @@ class DocumentedUserFlowTests(unittest.TestCase):
     def test_readme_routes_writers_to_agent_first_guide(self) -> None:
         chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
         self.assertIn("USER-GUIDE.zh-CN.md", chinese)
-        self.assertIn("MAINTAINER-GUIDE.zh-CN.md", chinese)
         self.assertIn("https://github.com/wukongai/ip-pic-skill", chinese)
-        self.assertIn("0.3.0-rc.2", chinese)
+        self.assertIn("帮我安装并使用这个配图工具", chinese)
         self.assertIn("给这篇文章配图", chinese)
         self.assertNotIn("python3 -m venv", chinese)
         self.assertNotIn("pip install", chinese)
 
     def test_root_skill_keeps_technical_work_inside_the_agent(self) -> None:
         root_entry = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("普通用户不运行命令", root_entry)
+        self.assertIn("普通用户可直接说", root_entry)
         self.assertIn("MAINTAINER-GUIDE.zh-CN.md", root_entry)
         self.assertIn("给这篇文章配图", root_entry)
         self.assertNotIn("```bash", root_entry)

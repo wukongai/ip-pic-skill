@@ -1,10 +1,8 @@
 # IP Pic User Guide
 
-This guide is for writers who use Codex, Claude Code, WorkBuddy, or another Agent that supports skills. You do not need to use a terminal, locate the Skill directory, edit JSON, or run Python yourself.
+IP Pic helps writers use an original or licensed recurring character to illustrate short passages, full articles, and static video frames.
 
-Give the Agent the prompts below. The Agent handles installation, article analysis, image planning, file management, rendering, and checks.
-
-Developers and maintainers should use the [Maintainer Guide](MAINTAINER-GUIDE.en.md).
+Open Codex, Claude Code, WorkBuddy, or another Agent and send it the prompts below.
 
 ## What IP Pic does
 
@@ -16,63 +14,17 @@ IP Pic creates:
 
 It does not create knowledge cards, covers, posters, video edits, or publishing-platform content.
 
-## 1. Give the installation address to your Agent
-
-The public installation address is:
+## 1. Ask your Agent to install and begin
 
 ```text
+Install and use this illustration tool:
 https://github.com/wukongai/ip-pic-skill
+After installation, guide me through my first illustration.
 ```
 
-Open your Agent in the project where you write. For an Obsidian article, open the vault or the folder containing that article. Then send:
+The Agent handles installation and checks automatically. It pauses only when it needs your permission or an action may cost money.
 
-```text
-Install this Agent Skill in my current writing project:
-https://github.com/wukongai/ip-pic-skill
-
-Keep the installed name as ip-pic. Prefer a project-level installation;
-do not change my global skills unless I explicitly approve it.
-First download the public repository to a temporary inspection location.
-Do not overwrite or enable any existing ip-pic installation.
-Read `metadata.version` from SKILL.md in the candidate just downloaded from
-that public address. Only version `0.3.0-rc.2` may be installed, enabled,
-and tested in this project.
-If the version differs or is missing, do not install, enable, or overwrite
-anything. Stop and tell me the actual value, then say that the public version
-has not been updated and I only need to retry this same request after release.
-Do not ask me to perform a local technical workaround.
-
-Only after the version passes, handle path discovery, dependency checks,
-installation, and self-tests yourself. Do not ask me to run Python, find the
-Skill root, or edit configuration files. Explain any required permission and
-wait for approval. Then use ip-pic and guide me through first use.
-```
-
-The Agent should report whether installation succeeded, confirm version `0.3.0-rc.2`, say whether real image generation is available, name the proposed image route, and give the single next choice it needs from you.
-
-If the public address is unavailable, the Agent must stop and report the real error. It must not install a similarly named unknown repository.
-
-## 2. Let the Agent choose an available image tool
-
-```text
-Check which image-generation capability is available in this Agent.
-Prefer the host's built-in image tool. If that is unavailable, check only
-image capabilities I have already configured.
-
-Recommend the best option that is already available and tell me whether it costs money.
-Ask one result-changing question at a time.
-Do not ask me to paste a secret into chat, and do not read or display secrets.
-If you can only prepare a prompt, explicitly say that no image was generated.
-```
-
-The normal order is:
-
-1. the Agent host's built-in image tool;
-2. the user's securely configured OpenAI image capability;
-3. an image router already installed by the user;
-4. prompt preparation without rendering.
-
-## 3. Create the tutorial character reference
+## 2. Create the tutorial character reference
 
 The package includes the text profile for an original public tutorial character, Learning Guide Ato. It does not distribute character example images.
 
@@ -82,7 +34,7 @@ First create an Ato tutorial reference image.
 
 Show clear front, side, and full-body views with consistent clothing and color.
 Do not add text, a watermark, or a logo, and do not imitate a third-party character.
-Save it in my current project, never inside the installed Skill.
+Save it in my current writing project.
 
 Show me the result. Use it as a later character reference only after I say
 that I accept it.
@@ -96,7 +48,7 @@ I accept this Ato reference. Continue with it.
 
 If it does not, describe the visible problem. The Agent must create a new version without overwriting the old one, and rejected output must not become a later reference.
 
-## 4. Illustrate one short passage
+## 3. Illustrate one short passage
 
 ```text
 Use the accepted Learning Guide Ato reference and give the following passage
@@ -109,7 +61,6 @@ deliver one small result that can be checked, then adjust.
 Use the IP Pic recommendation: article illustration, 16:9, minimal line art,
 and a small amount of integrated Chinese text.
 Handle content extraction, visual direction, rendering, and checks yourself.
-Do not ask me to edit JSON, fill forms, or choose internal templates.
 ```
 
 A successful run produces a real image. Verify that:
@@ -136,7 +87,7 @@ Keep the same content judgment and create a new version with the original
 integrated text treatment.
 ```
 
-## 5. Illustrate a full Obsidian article
+## 4. Illustrate a full Obsidian article
 
 You can paste the article, attach its Markdown file, or tell the Agent its location in the current Obsidian vault.
 
@@ -179,14 +130,14 @@ After you accept every image, optionally ask the host Agent to place them:
 All images are accepted. Save them according to this Obsidian project's
 existing attachment rules and insert their links at the planned article positions.
 If no attachment rule exists, propose a safe, common, recoverable location
-inside the project first; do not ask me to find a path.
+inside the project first.
 Before editing, tell me which article and positions will change, and keep a
-recoverable original. Do not ask me to find the attachment folder or edit Markdown.
+recoverable original.
 ```
 
 This is a host Agent file operation, not an Obsidian-management or publishing capability of IP Pic. The Agent must preview the change scope first.
 
-## 6. Use your own character
+## 5. Use your own character
 
 Attach one to five reference images that you own or are licensed to use.
 
@@ -198,8 +149,8 @@ Propose a public character name, role, appearance summary, personality,
 and continuity anchors from the material. Do not infer sensitive traits.
 Ask one necessary question at a time and show the profile summary before saving.
 
-Create the character profile and register each reference's purpose yourself.
-Do not ask me to edit JSON, and never write my images into the installed Skill.
+Create the character profile, register each reference's purpose, and keep the
+character assets in my current writing project.
 ```
 
 Approve the profile with:
@@ -217,7 +168,7 @@ Use "<character name>" to illustrate this article:
 <paste or attach the article>
 ```
 
-## 7. Change the result in natural language
+## 6. Change the result in natural language
 
 Change style:
 
@@ -270,7 +221,7 @@ Change quantity:
 Create only three images for this article. Choose the three strongest moments.
 ```
 
-## 8. Create a static video keyframe
+## 7. Create a static video keyframe
 
 ```text
 Use my character to turn the following content into a 1:1 static video keyframe.
@@ -290,7 +241,7 @@ Change it to a 9:16 static keyframe and keep the bottom subtitle-safe area clear
 
 IP Pic does not create animation, lip sync, voiceover, or video edits.
 
-## 9. Review and retry
+## 8. Review and retry
 
 ```text
 The character in image 2 does not match. Keep all accepted images and retry
@@ -309,23 +260,19 @@ for my approval.
 
 The Agent may assist with character, text, composition, and safe-zone checks, but only you can give final visual approval.
 
-## 10. Rights, privacy, and secrets
+## 9. Rights, privacy, and cost
 
 - Use only characters and images you own or are licensed to use.
 - Do not request exact imitation of an unlicensed protected character.
-- Never paste API keys, tokens, cookies, or private keys into chat or article files.
-- Ask the Agent to use secure system storage for paid image access and explain cost first.
+- Ask the Agent to explain the cost and wait for approval before paid rendering.
 - Keep character references in your project, not inside the public Skill.
 - Rejected images must not automatically become future references.
 
 ## If the Agent gets stuck
 
 ```text
-Read ip-pic's USER-GUIDE.en.md and SKILL.md again.
-I am a content user. I do not run installation commands, locate the Skill root,
-edit JSON, manage internal filenames, or diagnose implementation stages.
-
-Handle those operations yourself. Stop only for permission, possible cost,
+Follow the IP Pic user guide and complete my illustration task.
+Stop only for permission, possible cost,
 missing character rights, or my real visual review.
 If something fails, explain what did not complete and give me one next step.
 Do not claim an image was generated when it was not, and never overwrite old output.
@@ -334,7 +281,7 @@ Do not claim an image was generated when it was not, and never overwrite old out
 ## Short prompts
 
 ```text
-Use ip-pic, verify the installation, and guide me through first use.
+Install and use IP Pic, then guide me through my first illustration.
 ```
 
 ```text
@@ -356,5 +303,3 @@ Switch to playful craft and 1:1. Create a new version without overwriting.
 ```text
 Keep accepted images and retry only failed items.
 ```
-
-Implementation details, backend setup, file contracts, font paths, recovery, and release validation belong in the [Maintainer Guide](MAINTAINER-GUIDE.en.md), which the Agent or maintainer reads when needed.

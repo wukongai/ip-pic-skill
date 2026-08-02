@@ -63,9 +63,10 @@ class ReleaseGateTests(unittest.TestCase):
 
         self.assertIn("较粗、端正的黑色中文展示字", zh)
         self.assertIn("单条不规则手绘强调线", zh)
-        self.assertIn("two-step-publish`，也不做二次文字叠加", zh)
+        self.assertNotIn("two-step-publish", zh)
         self.assertIn("heavy, upright Chinese display type", en)
         self.assertIn("one irregular hand-drawn emphasis line", en)
+        self.assertNotIn("two-step-publish", en)
         self.assertIn(
             "direct-integrated 由生图模型一次生成最终中文",
             typography_reference,
