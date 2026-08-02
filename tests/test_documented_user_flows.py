@@ -39,6 +39,8 @@ class DocumentedUserFlowTests(unittest.TestCase):
             "https://github.com/wukongai/ip-pic-skill",
             "不要让我运行 Python",
             "检查安装并带我完成第一次使用",
+            "0.3.0-rc.2",
+            "如果版本不符",
             "学习向导阿拓",
             "先生成一张阿拓教程参考图",
             "给下面这段文字配 1 张图",
@@ -82,6 +84,7 @@ class DocumentedUserFlowTests(unittest.TestCase):
         self.assertIn("USER-GUIDE.zh-CN.md", chinese)
         self.assertIn("MAINTAINER-GUIDE.zh-CN.md", chinese)
         self.assertIn("https://github.com/wukongai/ip-pic-skill", chinese)
+        self.assertIn("0.3.0-rc.2", chinese)
         self.assertIn("给这篇文章配图", chinese)
         self.assertNotIn("python3 -m venv", chinese)
         self.assertNotIn("pip install", chinese)

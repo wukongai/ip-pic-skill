@@ -22,6 +22,8 @@ https://github.com/wukongai/ip-pic-skill
 
 安装名称保持为 ip-pic，优先安装到当前项目，不要修改全局 Skill。
 请你自己完成安装、依赖检查和自检，不要让我运行命令或寻找 Skill 路径。
+安装后检查 SKILL.md 的 metadata.version，必须是 0.3.0-rc.2。
+如果版本不符或没有版本字段，请停止，不要使用旧版流程。
 安装完成后，请使用 ip-pic，检查安装并带我完成第一次使用。
 ```
 

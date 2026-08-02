@@ -37,10 +37,13 @@ and self-tests yourself. Do not ask me to run Python, find the Skill root,
 or edit configuration files.
 
 If a permission is required, explain what it affects and wait for approval.
+After installation, read `metadata.version` in SKILL.md. It must be
+`0.3.0-rc.2`. If the version differs or is missing, stop and do not use the
+old workflow.
 After installation, use ip-pic, verify it, and guide me through first use.
 ```
 
-The Agent should report whether installation succeeded, whether real image generation is available, which image route it proposes, and the single next choice it needs from you.
+The Agent should report whether installation succeeded, confirm version `0.3.0-rc.2`, say whether real image generation is available, name the proposed image route, and give the single next choice it needs from you.
 
 If the public address is unavailable, the Agent must stop and report the real error. It must not install a similarly named unknown repository.
 
