@@ -21,11 +21,13 @@ Install this Agent Skill in my current writing project:
 https://github.com/wukongai/ip-pic-skill
 
 Keep the installed name as ip-pic. Prefer a project-level installation and
-do not change my global skills. Handle installation, dependency checks,
-and self-tests yourself. Do not ask me to run commands or find the Skill root.
-After installation, verify that `metadata.version` in SKILL.md is
-`0.3.0-rc.2`. If it differs or is missing, stop and do not use the old workflow.
-After installation, use ip-pic, verify it, and guide me through first use.
+do not change my global skills. Download to a temporary inspection location
+without overwriting or enabling an existing copy. Read `metadata.version` from
+the downloaded SKILL.md. Only `0.3.0-rc.2` may be installed and enabled.
+If it differs or is missing, stop without installing or overwriting anything.
+After the version passes, handle dependency checks, installation, and self-test
+yourself; do not ask me to run commands or locate the Skill directory. Then use
+ip-pic and guide me through first use.
 ```
 
 Then say:

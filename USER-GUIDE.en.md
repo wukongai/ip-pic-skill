@@ -32,15 +32,20 @@ https://github.com/wukongai/ip-pic-skill
 
 Keep the installed name as ip-pic. Prefer a project-level installation;
 do not change my global skills unless I explicitly approve it.
-Handle downloading, path discovery, dependency checks, installation,
-and self-tests yourself. Do not ask me to run Python, find the Skill root,
-or edit configuration files.
+First download the public repository to a temporary inspection location.
+Do not overwrite or enable any existing ip-pic installation.
+Read `metadata.version` from SKILL.md in the candidate just downloaded from
+that public address. Only version `0.3.0-rc.2` may be installed, enabled,
+and tested in this project.
+If the version differs or is missing, do not install, enable, or overwrite
+anything. Stop and tell me the actual value, then say that the public version
+has not been updated and I only need to retry this same request after release.
+Do not ask me to perform a local technical workaround.
 
-If a permission is required, explain what it affects and wait for approval.
-After installation, read `metadata.version` in SKILL.md. It must be
-`0.3.0-rc.2`. If the version differs or is missing, stop and do not use the
-old workflow.
-After installation, use ip-pic, verify it, and guide me through first use.
+Only after the version passes, handle path discovery, dependency checks,
+installation, and self-tests yourself. Do not ask me to run Python, find the
+Skill root, or edit configuration files. Explain any required permission and
+wait for approval. Then use ip-pic and guide me through first use.
 ```
 
 The Agent should report whether installation succeeded, confirm version `0.3.0-rc.2`, say whether real image generation is available, name the proposed image route, and give the single next choice it needs from you.
