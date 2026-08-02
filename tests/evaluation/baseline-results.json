@@ -1,0 +1,28 @@
+{
+  "schema_version": "1",
+  "suite_id": "ip-pic-release-readiness-v1",
+  "subject": "rejected-lightweight-baseline",
+  "subject_fingerprint": "0.2.0-rc.1",
+  "runs": {
+    "direct-integrated-contract": {
+      "status": "failed",
+      "output": "direct text was optional; 8 rewritten templates",
+      "artifact": "rejected baseline audit"
+    },
+    "missing-key-fails-closed": {
+      "status": "failed",
+      "output": "credential boundary not declared",
+      "artifact": "rejected baseline audit"
+    },
+    "privacy-release-gate": {
+      "status": "failed",
+      "output": "private extraction helper and reconstructable literals found",
+      "artifact": "privacy audit"
+    },
+    "partial-batch-retry": {
+      "status": "failed",
+      "output": "exact partial-failure parity not demonstrated",
+      "artifact": "rejected baseline audit"
+    }
+  }
+}

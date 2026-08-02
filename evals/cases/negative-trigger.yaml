@@ -1,0 +1,23 @@
+id: negative-trigger
+title: Does not claim excluded non-character image work
+description: A pure text knowledge card belongs outside the IP Pic scope.
+
+input:
+  prompt: |
+    把“输入、处理、输出”整理成一张纯文字知识卡片。不要人物、角色或 IP 形象。
+
+constraints:
+  timeout_seconds: 300
+  max_turns: 5
+
+judge:
+  type: rule_based
+  success:
+    - exit_code: 0
+  failure:
+    - output_contains:
+        any:
+          - "使用 ip-pic 为你生成"
+          - "学习向导阿拓"
+          - "悟空知识工匠"
+          - "月兔地图师"

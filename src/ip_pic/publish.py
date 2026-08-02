@@ -226,6 +226,11 @@ def compose_publish_layout(*, manifest_path: Path, font_path: str = "") -> Path:
         output_path = (manifest_path.parent / output_path).resolve()
     if output_path.resolve() == source_path.resolve():
         raise ImageFactoryError("二次合成不得覆盖原始图片")
+    if output_path.exists():
+        raise ImageFactoryError(f"最终图片已存在，拒绝覆盖：{output_path}")
+    result_path = output_path.with_suffix(".layout-result.json")
+    if result_path.exists() or result_path.is_symlink():
+        raise ImageFactoryError(f"文字层回执已存在，拒绝覆盖：{result_path}")
 
     preset = str(manifest.get("preset") or "portrait_3_4")
     if preset == "custom":
@@ -257,6 +262,13 @@ def compose_publish_layout(*, manifest_path: Path, font_path: str = "") -> Path:
     draw = ImageDraw.Draw(canvas)
     font_cfg = extension.get("fonts") if isinstance(extension.get("fonts"), dict) else {}
     font_indices = extension.get("font_indices") if isinstance(extension.get("font_indices"), dict) else {}
+    explicit_font_override = bool(str(font_path).strip())
+
+    def font_index(name: str) -> int:
+        if explicit_font_override:
+            return 0
+        return int(font_indices.get(name) or font_indices.get("base") or 0)
+
     headline_font = _font_path(font_path or str(font_cfg.get("headline") or font_cfg.get("base") or ""))
     kicker_font = _font_path(font_path or str(font_cfg.get("kicker") or font_cfg.get("base") or ""))
     support_font = _font_path(font_path or str(font_cfg.get("support") or font_cfg.get("base") or ""))
@@ -323,21 +335,21 @@ def compose_publish_layout(*, manifest_path: Path, font_path: str = "") -> Path:
             y += fitted_font.size + line_gap
         text_results.append({"zone": name, "text": value, "font_path": str(text_font), "font_index": text_font_index, "font_size": fitted_font.size, "lines": lines, "line_boxes_px": line_boxes, "zone_box_px": [zone["x"], zone["y"], zone["x"] + zone["w"], zone["y"] + zone["h"]]})
 
-    render_text("kicker", kicker, zones["kicker"], kicker_font, int(font_indices.get("kicker") or font_indices.get("base") or 0), float(typo.get("kicker_max_ratio") or 0.032), int(typo.get("kicker_min_px") or 20), 1, str(colors["kicker"]))
+    render_text("kicker", kicker, zones["kicker"], kicker_font, font_index("kicker"), float(typo.get("kicker_max_ratio") or 0.032), int(typo.get("kicker_min_px") or 20), 1, str(colors["kicker"]))
     render_text(
         "headline",
         headline,
         zones["headline"],
         headline_font,
-        int(font_indices.get("headline") or font_indices.get("base") or 0),
+        font_index("headline"),
         float(typo.get("headline_max_ratio") or 0.105),
         int(typo.get("headline_min_px") or 42),
         int(typo.get("headline_max_lines") or 3),
         str(colors["text"]),
         line_gap_ratio=float(typo.get("headline_line_gap_ratio") or typo.get("line_gap_ratio") or 0.19),
     )
-    render_text("support", support, zones["support"], support_font, int(font_indices.get("support") or font_indices.get("base") or 0), float(typo.get("support_max_ratio") or 0.044), int(typo.get("support_min_px") or 24), int(typo.get("support_max_lines") or 2), str(colors["muted"]))
-    render_text("footer", footer, zones["footer"], footer_font, int(font_indices.get("footer") or font_indices.get("base") or 0), float(typo.get("footer_max_ratio") or typo.get("kicker_max_ratio") or 0.032), int(typo.get("footer_min_px") or typo.get("kicker_min_px") or 20), 1, str(colors["muted"]))
+    render_text("support", support, zones["support"], support_font, font_index("support"), float(typo.get("support_max_ratio") or 0.044), int(typo.get("support_min_px") or 24), int(typo.get("support_max_lines") or 2), str(colors["muted"]))
+    render_text("footer", footer, zones["footer"], footer_font, font_index("footer"), float(typo.get("footer_max_ratio") or typo.get("kicker_max_ratio") or 0.032), int(typo.get("footer_min_px") or typo.get("kicker_min_px") or 20), 1, str(colors["muted"]))
 
     decoration = extension["decoration"]
     if bool(decoration.get("headline_bar")):
@@ -374,6 +386,5 @@ def compose_publish_layout(*, manifest_path: Path, font_path: str = "") -> Path:
         "text": text_results,
         "quality_gates": {"source_preserved": True, "title_band_matches_visual": background.upper() == matched_color.upper(), "zone_overlap": False, "text_clipped": False},
     }
-    result_path = output_path.with_suffix(".layout-result.json")
     result_path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return result_path

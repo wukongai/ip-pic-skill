@@ -1,0 +1,42 @@
+schema_version: "1"
+id: ip-pic-release-readiness-v1
+description: Deterministic release evidence for parity, failure handling, privacy, and batch recovery.
+cases:
+  - id: direct-integrated-contract
+    split: development
+    category: success
+    expected:
+      status: completed
+      contains:
+        - direct-integrated one-pass typography required
+        - 13 templates
+        - 6 styles
+  - id: missing-key-fails-closed
+    split: development
+    category: failure
+    expected:
+      status: blocked
+      contains:
+        - OPENAI_API_KEY is required
+        - secret absent
+  - id: privacy-release-gate
+    split: holdout
+    category: high_risk
+    expected:
+      status: completed
+      contains:
+        - no private extraction helper
+        - no obfuscated path literals
+  - id: partial-batch-retry
+    split: holdout
+    category: success
+    expected:
+      status: completed
+      contains:
+        - partial failure preserved success items
+gates:
+  min_candidate_pass_rate: 1.0
+  min_holdout_pass_rate: 1.0
+  min_high_risk_pass_rate: 1.0
+  max_negative_transfer: 0
+  min_delta: 0.5

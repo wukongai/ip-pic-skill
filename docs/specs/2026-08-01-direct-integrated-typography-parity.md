@@ -31,7 +31,7 @@
 - `two-step-publish`、视频关键帧确定性文字脚本和字体回退链不变。
 - 四种后端只消费更新后的同一 render handoff，不允许各自追加或改写文字规则。
 - 本次不开放用户字体配置；后续可在不改变默认 recipe 的前提下增加公开 typography preset。
-- 原版 Image Factory 不修改。
+- 私有上游不修改。
 
 ## 可执行设计
 

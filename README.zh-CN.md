@@ -4,6 +4,8 @@
 
 它不包含知识卡片、封面、海报、笔记系统、课程项目或内容发布平台，也不包含任何私有图片路由、凭证、余额和供应商容错实现。
 
+第一次使用请从[傻瓜式用户手册](USER-GUIDE.zh-CN.md)开始；修改样式、新增风格和回退见[定制与个人 fork](references/customization.md)。
+
 ## 能力
 
 - 文章：16:9、1:1、3:4、9:16 或自定义尺寸。
@@ -128,7 +130,7 @@ prompt 首、中、尾三处都要求图文融合。最终图必须含少量、�
 
 ### two-step-publish
 
-raw prompt 禁止文字。取得 raw 后运行 `ip_pic.publish.compose_publish_layout`，生成独立 final 和 `.layout-result.json`。发布层从 raw 边缘采样背景色，确定性排版，不覆盖 raw。
+raw prompt 禁止文字。取得 raw 后运行 `python3 scripts/compose_publish_layout.py --run-manifest <run-manifest.json>`，生成独立 final 和 `.layout-result.json`。发布层从 raw 边缘采样背景色，确定性排版，不覆盖 raw。
 
 选择该模式时必须同时确认标题带：`editorial-ink-v2` 保留原版较粗的
 中文字重和墨线层级，`editorial-warm-v1` 保留兼容暖纸层级。把选择写入

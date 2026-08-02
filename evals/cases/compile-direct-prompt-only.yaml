@@ -1,0 +1,26 @@
+id: compile-direct-prompt-only
+title: Compiles the bundled authorized direct-integrated example without rendering
+description: The installed Skill must create the full prompt-only artifact contract from its bundled tutorial character example.
+
+input:
+  prompt: |
+    使用已安装的 ip-pic Skill 完成一次真实编译测试。读取该 Skill 自带的
+    examples/article-brief.json（其中选择与角色授权已经确认），在当前项目中新建
+    ip-pic-eval-output 目录，只做 prompt-only 编译，不调用图片 API，不修改 Skill。
+    完成后明确回复 IP_PIC_COMPILE_PASS；如果失败，说明真实错误，不得假装成功。
+
+constraints:
+  timeout_seconds: 420
+  max_turns: 8
+
+expect:
+  must_contain:
+    - "IP_PIC_COMPILE_PASS"
+  must_not_contain:
+    - "已经生成图片"
+    - "出图完成"
+
+judge:
+  type: script
+  script_path: evals/fixtures/scripts/check-direct-compile.sh
+  timeout_seconds: 30

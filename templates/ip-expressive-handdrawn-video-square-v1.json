@@ -24,7 +24,7 @@
   "template_parameters": {
     "style_variant_id": "expressive-handdrawn",
     "cognitive_anchor_first": "先画清主因果，再允许线条松弛；不能用凌乱掩盖结构。",
-    "character_policy": "保留成熟脸型、所选角色 profile 的连续性锚点、窄眼镜和服装色；允许夸张挑眉与动作线。",
+    "character_policy": "保留所选角色 profile 声明的年龄比例、连续性锚点、眼镜和服装色；允许夸张挑眉与动作线。",
     "text_strategy": "raw 不生成文字；最终中文由确定性叠字完成。",
     "text_zone_contract": "square-left 保持 x=110..920,y=180..1040 为干净纸面。"
   },

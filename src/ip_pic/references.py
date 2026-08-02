@@ -20,6 +20,11 @@ STRATEGIES = {
 }
 DEFAULT_STRATEGY = "primary_reference"
 DEFAULT_PURPOSE_ORDER = ("identity", "content", "composition", "style")
+ALLOWED_ASSET_OWNERSHIP = {
+    "user-owned",
+    "licensed",
+    "project-original-tutorial",
+}
 
 
 def _as_text(value: Any) -> str:
@@ -75,6 +80,40 @@ def _handoff_asset(asset: dict[str, Any], *, required_default: bool = True) -> d
         "ownership": _as_text(asset.get("ownership")) or "authorized",
         "required": bool(asset.get("required", required_default)),
     }
+
+
+def _authorized_asset(raw: Any, index: int) -> dict[str, Any]:
+    if not isinstance(raw, dict):
+        raise ImageFactoryError(f"authorized_assets[{index}] 必须是 object")
+    asset = dict(raw)
+    path_text = _as_text(asset.get("path"))
+    if not path_text:
+        raise ImageFactoryError(f"authorized_assets[{index}].path 不能为空")
+    path = Path(path_text).expanduser()
+    if not path.is_absolute():
+        raise ImageFactoryError(
+            f"authorized_assets[{index}].path 必须使用完整绝对路径"
+        )
+    if not path.is_file():
+        raise ImageFactoryError(f"授权素材不存在：{path}")
+    purpose = _as_text(asset.get("purpose"))
+    if not purpose:
+        raise ImageFactoryError(f"authorized_assets[{index}].purpose 不能为空")
+    ownership = _as_text(asset.get("ownership"))
+    if ownership not in ALLOWED_ASSET_OWNERSHIP:
+        raise ImageFactoryError(
+            f"authorized_assets[{index}].ownership 必须是 "
+            "user-owned、licensed 或 project-original-tutorial"
+        )
+    asset.update(
+        {
+            "path": str(path.resolve()),
+            "purpose": purpose,
+            "ownership": ownership,
+            "required": bool(asset.get("required", True)),
+        }
+    )
+    return asset
 
 
 def _primary_asset(assets: list[dict[str, Any]], strategy: dict[str, Any]) -> dict[str, Any]:
@@ -163,7 +202,10 @@ def compile_reference_plan(
     output_dir: Path,
     source_manifest_name: str = "image-asset-manifest.json",
 ) -> dict[str, Any]:
-    assets = [dict(asset) for asset in authorized_assets]
+    assets = [
+        _authorized_asset(asset, index)
+        for index, asset in enumerate(authorized_assets)
+    ]
     strategy = resolve_strategy(template, brief)
     strategy_type = strategy["type"]
     plan: dict[str, Any] = {

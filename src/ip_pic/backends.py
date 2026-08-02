@@ -6,6 +6,7 @@ import base64
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +19,8 @@ BACKENDS = {
     "host-ai-router",
     "prompt-only",
 }
+
+OPENAI_DIRECT_BASE_URL = "https://api.openai.com/v1"
 
 
 def _text(value: Any) -> str:
@@ -187,7 +190,7 @@ def render_openai_direct(
     model: str = "gpt-image-2",
     quality: str = "high",
 ) -> Path:
-    """Render with OpenAI's Image API using credentials owned by the SDK."""
+    """Render with OpenAI's Image API using an external environment secret."""
 
     request_file = request_path.resolve()
     request = prepare_backend(manifest, "openai-direct", request_file)
@@ -197,13 +200,22 @@ def render_openai_direct(
             "use a host backend for this handoff"
         )
     if client is None:
+        api_key = os.environ.get("OPENAI_API_KEY", "").strip()
+        if not api_key:
+            raise IPPicError(
+                "OPENAI_API_KEY is required for openai-direct; "
+                "keep it outside the Skill directory"
+            )
         try:
             from openai import OpenAI
         except ModuleNotFoundError as exc:  # pragma: no cover - runtime guard
             raise IPPicError(
                 "openai package is required for the openai-direct backend"
             ) from exc
-        client = OpenAI()
+        client = OpenAI(
+            api_key=api_key,
+            base_url=OPENAI_DIRECT_BASE_URL,
+        )
     response = client.images.generate(
         model=model,
         prompt=request["prompt"],

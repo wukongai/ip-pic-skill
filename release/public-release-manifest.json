@@ -1,7 +1,7 @@
 {
   "schema_version": "ip-pic-public-release/v1",
   "name": "ip-pic",
-  "version": "0.3.0-rc.1",
+  "version": "0.3.0-rc.2",
   "formal_structure_count": 13,
   "compatibility_structure_count": 1,
   "render_style_count": 6,

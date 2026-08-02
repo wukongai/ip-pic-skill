@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from ip_pic.references import compile_reference_plan  # noqa: E402
+from ip_pic.errors import IPPicError  # noqa: E402
 
 
 class ReferenceStrategyTests(unittest.TestCase):
@@ -120,6 +121,51 @@ class ReferenceStrategyTests(unittest.TestCase):
             '"balance"',
         ):
             self.assertNotIn(forbidden, payload)
+
+    def test_asset_without_explicit_ownership_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            image = root / "identity.png"
+            Image.new("RGB", (32, 32), "white").save(image)
+            with self.assertRaisesRegex(IPPicError, "ownership"):
+                compile_reference_plan(
+                    item_id="neutral-item",
+                    template={},
+                    brief={"visual": {}},
+                    authorized_assets=[
+                        {
+                            "id": "identity",
+                            "path": str(image),
+                            "purpose": "identity",
+                            "required": True,
+                        }
+                    ],
+                    prompt_file=root / "prompt.md",
+                    size="1536x864",
+                    output_dir=root / "output",
+                )
+
+    def test_missing_authorized_asset_file_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            with self.assertRaisesRegex(IPPicError, "不存在|not found"):
+                compile_reference_plan(
+                    item_id="neutral-item",
+                    template={},
+                    brief={"visual": {}},
+                    authorized_assets=[
+                        {
+                            "id": "identity",
+                            "path": str(root / "missing.png"),
+                            "purpose": "identity",
+                            "ownership": "user-owned",
+                            "required": True,
+                        }
+                    ],
+                    prompt_file=root / "prompt.md",
+                    size="1536x864",
+                    output_dir=root / "output",
+                )
 
 
 if __name__ == "__main__":

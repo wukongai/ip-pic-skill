@@ -21,7 +21,7 @@
   "default_layout_pattern": "portrait_ip_action_above_deterministic_key_copy_zone",
   "template_parameters": {
     "reading_context": "9:16 竖屏短视频，主要投放静态竖屏与移动端竖屏；手机端一眼识别人和一句观点。",
-    "ip_continuity": "严格保持 visual.ip_profile.continuity_anchors 与角色圣经；腰线自然收窄，腿部修长，长裤基本盖住鞋面。",
+    "ip_continuity": "严格保持 visual.ip_profile.continuity_anchors 与已授权角色 profile；体态、服装和鞋履只采用 profile 明确声明的连续性锚点。",
     "action_first": "固定 IP 必须推动一个核心认知动作，人物高度约占画布 40%–48%，不可缩成角落贴纸。",
     "text_strategy": "生图阶段不得生成最终中文。仅留出干净的大字区和短批注落点；headline 与 points 由确定性后处理叠加。"
   },
@@ -120,7 +120,7 @@
   },
   "quality_gates": [
     "输出必须是 9:16 竖屏，人物不小于画面高度的 40%。",
-    "人物腰线更利落、腿部更修长、裤长基本覆盖鞋面，同时保持真实成熟比例。",
+    "人物体态、腿部比例、裤型和鞋履严格遵循所选角色 profile，同时保持其声明的年龄与比例。",
     "大字区保持干净，可在不遮挡人物与道具的情况下叠加两行中文。",
     "静态图片中的观点句与当前口播镜头一一对应，逐字字幕留给视频轨。",
     "同一 visual.ip_profile 的脸、眼镜、发型、服装、所选角色 profile 的连续性锚点和所选角色 profile 的连续性锚点稳定可辨。"
@@ -137,7 +137,7 @@
     "必须为确定性大字观点和平台 UI 保留安全区域。",
     "不得在生图阶段生成中文、英文、数字、logo 或水印。"
   ],
-  "negative_prompt": "未授权第三方角色,第三方 IP,受保护角色,复刻示例图,角色很小,角落贴纸,大头娃娃,Q版,腰粗,短腿,九分裤,收腿裤,裤脚露出整个鞋面,夸张蜂腰,幼态,儿童卡通,商业矢量插画,PPT信息图,复杂背景,纸张纹理,渐变,阴影,噪点,模型生成中文,英文乱码,中文错字,字幕墙,二维码,营销按钮,水印,logo,裁切",
+  "negative_prompt": "未授权第三方角色,第三方 IP,受保护角色,复刻示例图,角色很小,角落贴纸,大头娃娃,Q版,偏离角色 profile 的体态,偏离角色 profile 的服装,幼态,儿童卡通,商业矢量插画,PPT信息图,复杂背景,纸张纹理,渐变,阴影,噪点,模型生成中文,英文乱码,中文错字,字幕墙,二维码,营销按钮,水印,logo,裁切",
   "default_for_scene": false,
   "aliases": [
     "连续内容竖屏配图",

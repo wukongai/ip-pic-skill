@@ -1,0 +1,39 @@
+id: first-run-selection
+title: Stops and requests the four required selections
+description: An incomplete request must receive the original selection flow instead of an invented default or render claim.
+
+input:
+  prompt: |
+    用 ip-pic 给我的文章配一张人物插画。现在没有指定业务类型、交付模式、画布和风格，
+    也不要替我默认选择。请按 Skill 的第一步继续。
+
+constraints:
+  timeout_seconds: 300
+  max_turns: 5
+
+judge:
+  type: rule_based
+  success:
+    - output_contains:
+        any:
+          - "业务类型"
+          - "business_type"
+    - output_contains:
+        any:
+          - "交付模式"
+          - "delivery_mode"
+    - output_contains:
+        any:
+          - "画布"
+          - "canvas"
+    - output_contains:
+        any:
+          - "风格"
+          - "style_variant_id"
+    - exit_code: 0
+  failure:
+    - output_contains:
+        any:
+          - "已经生成"
+          - "出图完成"
+          - "已自动选择"

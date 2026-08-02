@@ -1,0 +1,63 @@
+{
+  "schema_version": "image-asset-brief/v1",
+  "id": "ato-two-step-judgement",
+  "scene": "ip_article_illustration",
+  "goal": "explain_concept",
+  "audience": "中文内容读者",
+  "delivery_mode": "two-step-publish",
+  "selection_receipt": {
+    "status": "confirmed",
+    "source": "user-explicit",
+    "business_type": "ip_article_illustration",
+    "delivery_mode": "two-step-publish",
+    "canvas": "1:1 -> 3:4",
+    "style_variant_id": "minimal-lineart",
+    "publish_extension_id": "editorial-ink-v2"
+  },
+  "content": {
+    "headline": "信息很多，判断很少",
+    "subheadline": "学习向导",
+    "summary": "把散乱信息压成可以执行的判断",
+    "points": [
+      "过滤噪声",
+      "形成判断",
+      "推动行动"
+    ],
+    "brand": "IP Pic 教程"
+  },
+  "visual": {
+    "ip_profile": {
+      "schema_version": "ip-character-profile/v1",
+      "id": "tutorial-ato-v1",
+      "ownership": {
+        "status": "project-original-tutorial",
+        "basis": "Original tutorial character created for the public ip-pic project."
+      },
+      "identity": {
+        "name": "学习向导阿拓",
+        "description": "一位成年学习向导，擅长把抽象知识变成可操作的物理隐喻。"
+      },
+      "appearance": {
+        "description": "成年男性，短黑发，圆角矩形眼镜，深青色工作夹克，暖灰长裤，橙色工具腰包；明确二维编辑插画形象。"
+      },
+      "personality": [
+        "好奇",
+        "冷静",
+        "愿意动手验证",
+        "表达清楚"
+      ],
+      "continuity_anchors": [
+        "短黑发与圆角矩形眼镜",
+        "深青色工作夹克",
+        "暖灰长裤",
+        "橙色工具腰包",
+        "成年、克制的二维编辑插画比例"
+      ],
+      "references": []
+    },
+    "authorized_assets": []
+  },
+  "composition": {
+    "publish_preset": "portrait_3_4"
+  }
+}

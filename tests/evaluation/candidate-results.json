@@ -1,0 +1,28 @@
+{
+  "schema_version": "1",
+  "suite_id": "ip-pic-release-readiness-v1",
+  "subject": "ip-pic-exact-parity-candidate",
+  "subject_fingerprint": "0.3.0-rc.2-working-tree",
+  "runs": {
+    "direct-integrated-contract": {
+      "status": "completed",
+      "output": "unittest PASS: direct-integrated one-pass typography required; 13 templates; 6 styles",
+      "artifact": "tests/test_templates_and_styles.py"
+    },
+    "missing-key-fails-closed": {
+      "status": "blocked",
+      "output": "unittest PASS: OPENAI_API_KEY is required; secret absent from request and receipt",
+      "artifact": "tests/test_backends.py"
+    },
+    "privacy-release-gate": {
+      "status": "completed",
+      "output": "unittest PASS: no private extraction helper; no obfuscated path literals",
+      "artifact": "tests/test_identity_and_license.py"
+    },
+    "partial-batch-retry": {
+      "status": "completed",
+      "output": "unittest PASS: partial failure preserved success items",
+      "artifact": "tests/test_batch_workflow.py"
+    }
+  }
+}

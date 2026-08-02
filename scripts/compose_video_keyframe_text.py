@@ -728,8 +728,25 @@ def run(manifest_path: Path, output_override: str = "") -> Path:
     items = manifest.get("items")
     if not isinstance(items, list) or not items:
         raise ValueError("manifest.items 必须是非空数组")
-    results = [render_item(item, manifest_dir, output_dir, font_path, headline_font_path) for item in items]
     result_path = output_dir / "video-text-overlay-result.json"
+    if result_path.exists():
+        raise ValueError(f"结果回执已存在，拒绝覆盖：{result_path}")
+    planned_outputs: list[Path] = []
+    for item in items:
+        if not isinstance(item, dict):
+            raise ValueError("manifest.items 中的每一项必须是 object")
+        source = _resolve(_text(item.get("input_image")), manifest_dir)
+        output_name = (
+            _text(item.get("output_file"))
+            or f"{_text(item.get('id')) or source.stem}-text.png"
+        )
+        output_path = (output_dir / output_name).resolve()
+        if output_path.exists():
+            raise ValueError(f"视频文字成品已存在，拒绝覆盖：{output_path}")
+        planned_outputs.append(output_path)
+    if len(set(planned_outputs)) != len(planned_outputs):
+        raise ValueError("多个视频文字 item 不能写入同一个 output_file")
+    results = [render_item(item, manifest_dir, output_dir, font_path, headline_font_path) for item in items]
     result_path.write_text(
         json.dumps(
             {

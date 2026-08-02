@@ -1,9 +1,10 @@
-"""Exact IP-only compiler extracted from Image Factory's shared behavior."""
+"""Exact IP-only compiler extracted from the private upstream behavior."""
 
 from __future__ import annotations
 
 import copy
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -11,6 +12,7 @@ from . import character_performance, director, typography
 from .canvas import resolve_size
 from .errors import IPPicError
 from .handoff import build_render_handoff
+from .profiles import load_character_profile
 from .references import compile_reference_plan
 from .selection import Selection, require_confirmed_selection
 from .styles import resolve_style
@@ -140,6 +142,10 @@ def normalize_brief(brief: dict[str, Any], template: dict[str, Any]) -> dict[str
     )
     if performance is not None:
         result["composition"]["character_performance"] = performance
+    if result["visual"].get("ip_profile") is not None:
+        result["visual"]["ip_profile"] = load_character_profile(
+            result["visual"]["ip_profile"]
+        )
     return result
 
 
@@ -159,7 +165,50 @@ def _prompt_brief(brief: dict[str, Any]) -> dict[str, Any]:
                 for item in assets
                 if isinstance(item, dict)
             ]
+        profile = visual.get("ip_profile")
+        if isinstance(profile, dict) and isinstance(profile.get("references"), list):
+            profile["references"] = [
+                {
+                    key: item.get(key)
+                    for key in ("id", "purpose", "authorized")
+                    if key in item
+                }
+                for item in profile["references"]
+                if isinstance(item, dict)
+            ]
     return value
+
+
+def _canvas_descriptor(size: str) -> tuple[str, str]:
+    width_text, height_text = size.lower().split("x", 1)
+    width, height = int(width_text), int(height_text)
+    divisor = math.gcd(width, height)
+    ratio = f"{width // divisor}:{height // divisor}"
+    if width == height:
+        return ratio, "方形"
+    if width > height:
+        return ratio, "横版"
+    return ratio, "竖版"
+
+
+def _adapt_template_canvas(value: Any, size: str) -> Any:
+    ratio, orientation = _canvas_descriptor(size)
+    if ratio == "16:9" and orientation == "横版":
+        return value
+    if isinstance(value, dict):
+        return {
+            key: _adapt_template_canvas(item, size)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [_adapt_template_canvas(item, size) for item in value]
+    if not isinstance(value, str):
+        return value
+    result = value.replace("16:9", ratio)
+    if orientation != "横版":
+        result = result.replace("横版画面", f"{orientation}画面")
+        result = result.replace("横版", orientation)
+    return result
 
 
 def compile_prompt(
@@ -168,18 +217,21 @@ def compile_prompt(
     size: str,
     style_profile: dict[str, Any] | None,
 ) -> str:
+    prompt_template = _adapt_template_canvas(template, size)
     content = brief["content"]
     visual = brief["visual"]
     composition = brief["composition"]
     mode = _text(brief.get("delivery_mode"))
     direct = mode == "direct-integrated"
     two_step = mode == "two-step-publish"
+    video_raw = brief["scene"] == "ip_video_keyframe"
+    raw_ratio, _raw_orientation = _canvas_descriptor(size)
     lines = [
-        _text(template.get("prompt_role"))
+        _text(prompt_template.get("prompt_role"))
         or "你是资深中文视觉设计师和 AI 生图提示词编排师。",
         (
             "请生成一张用于二次扩展排版的无字原始视觉素材。只生成主体画面，不要生成任何文字、标题、字幕或标签。"
-            if two_step
+            if two_step or video_raw
             else "请一次生成一张图文融合的 IP 正文配图。文字必须是画面中的少量短标题、标签或手写说明，与人物、物件和动作共同表达一个判断；不要生成长段落、文字墙或乱码。"
             if direct
             else "请生成一张可直接用于内容发布的中文图片素材。"
@@ -187,7 +239,12 @@ def compile_prompt(
         "",
         "【图片规格】",
         f"- 尺寸: {size}",
-        f"- 模板: {_text(template.get('name')) or _text(template.get('id'))}",
+        *(
+            [f"- 当前 raw 画布: {raw_ratio}"]
+            if two_step or video_raw
+            else []
+        ),
+        f"- 模板: {_text(prompt_template.get('name')) or _text(prompt_template.get('id'))}",
         f"- 场景: {brief['scene']}",
         f"- 目标: {brief['goal']}",
         f"- 受众: {brief['audience']}",
@@ -242,7 +299,7 @@ def compile_prompt(
         ("内容契约", "content_contract"),
         ("版式结构", "layout"),
     ):
-        _append_block(lines, title, template.get(key))
+        _append_block(lines, title, prompt_template.get(key))
     if style_profile:
         lines.extend(
             [
@@ -253,7 +310,7 @@ def compile_prompt(
         )
         lines.extend(_render_config(style_profile))
     else:
-        _append_block(lines, "视觉风格", template.get("style"))
+        _append_block(lines, "视觉风格", prompt_template.get("style"))
     for title, key in (
         ("参考图复用政策", "reference_policy"),
         ("画布稳定性", "canvas"),
@@ -269,7 +326,7 @@ def compile_prompt(
         ("文字规则", "copy_rules"),
         ("硬性约束", "constraints"),
     ):
-        _append_block(lines, title, template.get(key))
+        _append_block(lines, title, prompt_template.get(key))
     if direct:
         lines.extend(
             [
@@ -283,8 +340,8 @@ def compile_prompt(
                 "- 所有文字必须服务于当前判断、流程或生意关系，并与人物动作和物件关系共同表达。",
             ]
         )
-    if _text(template.get("negative_prompt")):
-        lines.extend(["", "【避免】", _text(template.get("negative_prompt"))])
+    if _text(prompt_template.get("negative_prompt")):
+        lines.extend(["", "【避免】", _text(prompt_template.get("negative_prompt"))])
     if two_step:
         lines.extend(
             [
@@ -297,6 +354,13 @@ def compile_prompt(
             [
                 "",
                 "请直接生成一次性图文融合成品。不要输出解释，不要加无关 logo、水印或额外文案。",
+            ]
+        )
+    elif video_raw:
+        lines.extend(
+            [
+                "",
+                "请直接生成无字视频关键帧 raw。不要输出解释，不要生成标题、字幕、标签、logo、水印或伪文字；最终中文由 video-text-overlay/v1 确定性合成。",
             ]
         )
     else:

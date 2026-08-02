@@ -1,40 +1,107 @@
 name: ip-pic
-kind: workflow
+kind: orchestrator
 owner: ip-pic
 status: candidate
+purpose: >-
+  Plan, compile, hand off, publish and review authorized IP article
+  illustrations and static video keyframes without owning provider routing.
 scope: standalone-public-skill
+
 license_lineage:
   upstream: Ian Xiaohei Illustrations
   license: MIT
   notice: NOTICE.md
+
+triggers:
+  use_when:
+    - 用户要求 IP 配图、自定义角色配图、文章人物插画或 IP 静态关键帧。
+  do_not_use_when:
+    - 用户要求知识卡片、封面、海报、笔记系统或内容发布平台业务。
+
 inputs:
-  required:
-    - image_brief
-    - confirmed_selection_receipt
-    - authorized_character_profile
-  optional:
-    - authorized_assets
-    - source_content
-    - expert_composition_overrides
+  - name: image_brief
+    type: json
+    required: true
+  - name: confirmed_selection_receipt
+    type: json
+    required: true
+  - name: authorized_character_profile
+    type: json
+    required: true
+  - name: authorized_assets
+    type: paths
+    required: false
+  - name: source_content
+    type: text
+    required: false
+  - name: expert_composition_overrides
+    type: json
+    required: false
+
 outputs:
-  - ip-director-plan/v1
-  - image-render-handoff/v1
-  - run-manifest
-  - raw_image
-  - final_image
-  - ip-pic-image-qa/v1
-backends:
-  - codex-image-tool
-  - openai-direct
-  - host-ai-router
-  - prompt-only
+  - name: selection_receipt
+    type: selection-receipt/v1
+    required: true
+  - name: director_plan
+    type: ip-director-plan/v1
+    required: true
+  - name: render_handoff
+    type: image-render-handoff/v1
+    required: true
+  - name: run_manifest
+    type: json
+    required: true
+  - name: raw_image
+    type: path
+    required: false
+  - name: final_image
+    type: path
+    required: false
+  - name: qa_receipt
+    type: ip-pic-image-qa/v1
+    required: true
+
+profiles:
+  governance:
+    default: personal
+    supported:
+      - personal
+      - team
+      - production
+
+providers:
+  - name: openai-direct
+    classification: open_source_byok
+    credential_sources:
+      - env
+    secrets_outside_skill_dir: true
+    network_allowlist:
+      - api.openai.com
+    side_effect_boundary:
+      dry_run_no_remote_side_effects: true
+      apply_requires_explicit_user_approval: true
+    redaction:
+      enabled: true
+      forbidden_output_fields:
+        - api_key
+        - authorization
+    docs:
+      revoke_rotate_delete: references/credential-lifecycle.md
+
 stops:
-  - missing_selection_receipt
-  - missing_character_rights
-  - unsupported_non_ip_business
-  - overwrite_attempt
-  - unresolved_reference_selection
-  - visual_qa_failure
+  - name: missing_selection_receipt
+    condition: 用户尚未确认业务类型、交付模式、画布与风格。
+  - name: missing_character_rights
+    condition: 角色 profile 没有可验证的权利依据。
+  - name: unsupported_non_ip_business
+    condition: 请求属于明确排除的非 IP 配图业务。
+  - name: overwrite_attempt
+    condition: 任一目标输出、符号链接或回执已经存在。
+  - name: unresolved_reference_selection
+    condition: 参考图计划尚未生成或素材不满足要求。
+  - name: visual_qa_failure
+    condition: 逐图 QA 未通过或尚未完成人工视觉验收。
+
 forbidden:
   - private_identity_or_reference_assets
   - third_party_character_without_rights
@@ -42,6 +109,98 @@ forbidden:
   - publish_raw_as_final
   - structural_test_claimed_as_visual_acceptance
   - reuse_rejected_batch_as_reference
+  - non_allowlisted_network_host
+
+state:
+  files:
+    - name: selection_receipt
+      path: <output-dir>/image_brief.json#selection_receipt
+      required: true
+    - name: run_manifest
+      path: <output-dir>/run-manifest.json
+      required: true
+    - name: backend_receipt
+      path: <output-dir>/<backend-request>.receipt.json
+      required: false
+    - name: qa_receipt
+      path: <output-dir>/qa-receipt.json
+      required: false
+  approvals:
+    - name: render_apply
+      required_before:
+        - remote_render
+    - name: visual_acceptance
+      required_before:
+        - claim_visual_pass
+  transitions:
+    - from: selection_confirmed
+      to: compiled
+      when: 全部上游合同已写入且输出目录为空。
+    - from: compiled
+      to: rendered
+      when: 后端生成真实图片并写入可验证回执。
+    - from: rendered
+      to: visually_accepted
+      when: 自动 QA 与用户真实看图均通过。
+
+scripts:
+  - path: scripts/compile_ip_pic.py
+    required_flags:
+      - --brief
+      - --output-dir
+  - path: scripts/render_ip_pic.py
+    required_flags:
+      - prepare
+      - --manifest
+      - --backend
+      - --request
+  - path: scripts/compose_publish_layout.py
+    required_flags:
+      - --run-manifest
+  - path: scripts/verify_release.py
+    required_flags: []
+
 tests:
-  command: python3 -m unittest discover -s tests -v
-  release_gate: python3 scripts/verify_release.py
+  regression_cases:
+    - tests/evaluation/suite.yaml
+    - tests/test_selection_and_compiler.py
+    - tests/test_templates_and_styles.py
+    - tests/test_publish_and_video_text.py
+    - tests/test_batch_workflow.py
+    - tests/test_backends.py
+    - tests/test_identity_and_license.py
+    - tests/test_release_gate.py
+  security_cases:
+    - missing credentials returns redacted JSON error
+    - redaction masks api_key and authorization
+    - blocked non-allowlisted host exits before request
+    - no secret JSON output includes provider tokens
+  verification_commands:
+    - python3 -m unittest discover -s tests -v
+    - python3 scripts/verify_release.py
+    - skill-engineering doctor . --profile production
+
+evaluation:
+  suite_id: ip-pic-release-readiness-v1
+  score_scope: structural_readiness
+  claims:
+    utility: false
+  case_portfolio:
+    success: tests/evaluation/suite.yaml#direct-integrated-contract
+    failure: tests/evaluation/suite.yaml#missing-key-fails-closed
+    high_risk: tests/evaluation/suite.yaml#privacy-release-gate
+  baseline: tests/evaluation/baseline-results.json
+  holdout: tests/evaluation/suite.yaml
+  negative_transfer: reject when any accepted baseline case regresses
+  behavioral_results: tests/evaluation/candidate-results.json
+  independent_review: user-required-real-visual-e2e
+  type_checks:
+    - cross_stage_io
+    - partial_failure
+    - aggregation
+
+review:
+  lint:
+    command: skill-engineering lint .
+  notes:
+    - 自动结构与行为门禁不能替代用户真实视觉验收。

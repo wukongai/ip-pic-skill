@@ -92,6 +92,21 @@ class PublishAndVideoTextTests(unittest.TestCase):
                     )
                 )
 
+    def test_publish_layout_refuses_to_overwrite_existing_result_receipt(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            manifest_path = self._publish_manifest(root)
+            result_path = compose_publish_layout(manifest_path=manifest_path)
+            (root / "final.png").unlink()
+            sentinel = '{"audit":"preserve-me"}\n'
+            result_path.write_text(sentinel, encoding="utf-8")
+
+            with self.assertRaisesRegex(IPPicError, "回执"):
+                compose_publish_layout(manifest_path=manifest_path)
+
+            self.assertEqual(result_path.read_text(encoding="utf-8"), sentinel)
+            self.assertFalse((root / "final.png").exists())
+
     def test_original_editorial_ink_extension_keeps_heavy_headline(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
@@ -174,6 +189,37 @@ class PublishAndVideoTextTests(unittest.TestCase):
                 ],
                 module._font_path(),
             )
+
+    def test_video_overlay_refuses_to_overwrite_existing_final(self) -> None:
+        module = _video_module()
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            source = root / "square.png"
+            Image.new("RGB", module.SQUARE_CANVAS_SIZE, "white").save(source)
+            output_dir = root / "out"
+            output_dir.mkdir()
+            existing = output_dir / "square-final.png"
+            Image.new("RGB", (32, 32), "red").save(existing)
+            manifest = {
+                "schema_version": module.SCHEMA_VERSION,
+                "output_dir": str(output_dir),
+                "items": [
+                    {
+                        "id": "square-01",
+                        "input_image": str(source),
+                        "output_file": existing.name,
+                        "layout_variant": "square-left",
+                        "headline": "不得覆盖旧结果",
+                    }
+                ],
+            }
+            path = root / "overlay.json"
+            path.write_text(
+                json.dumps(manifest, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ValueError, "覆盖|存在"):
+                module.run(path)
 
 
 if __name__ == "__main__":

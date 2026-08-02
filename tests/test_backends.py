@@ -4,11 +4,13 @@ import base64
 import copy
 import io
 import json
+import os
 import sys
 import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from PIL import Image
 
@@ -156,6 +158,54 @@ class BackendContractTests(unittest.TestCase):
             self.assertEqual(receipt["status"], "ok")
             self.assertTrue(Path(receipt["output_image"]).is_file())
             self.assertEqual(receipt["request_id"], "req_test_123")
+
+    def test_openai_direct_fails_closed_without_external_api_key(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            manifest = self._compiled(root / "compiled")
+            with patch.dict(os.environ, {}, clear=True):
+                with self.assertRaisesRegex(IPPicError, "OPENAI_API_KEY"):
+                    render_openai_direct(
+                        manifest,
+                        root / "openai-request.json",
+                    )
+
+    def test_openai_direct_pins_official_endpoint_and_redacts_secret(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            manifest = self._compiled(root / "compiled")
+            created: list[dict] = []
+            fake = _FakeClient()
+
+            def create_client(**kwargs):
+                created.append(kwargs)
+                return fake
+
+            fake_module = SimpleNamespace(OpenAI=create_client)
+            test_secret = "test-api-token-for-redaction"
+            with (
+                patch.dict(os.environ, {"OPENAI_API_KEY": test_secret}, clear=True),
+                patch.dict(sys.modules, {"openai": fake_module}),
+            ):
+                receipt_path = render_openai_direct(
+                    manifest,
+                    root / "openai-request.json",
+                )
+
+            self.assertEqual(
+                created,
+                [
+                    {
+                        "api_key": test_secret,
+                        "base_url": "https://api.openai.com/v1",
+                    }
+                ],
+            )
+            public_artifacts = (
+                (root / "openai-request.json").read_text(encoding="utf-8")
+                + receipt_path.read_text(encoding="utf-8")
+            )
+            self.assertNotIn(test_secret, public_artifacts)
 
 
 if __name__ == "__main__":

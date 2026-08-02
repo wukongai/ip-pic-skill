@@ -1,0 +1,25 @@
+schemaVersion: "1.2"
+name: ip-pic-structural-readiness
+description: Offline Waza contract smoke suite; real agent behavior is covered by Skill Up.
+skill: ip-pic
+version: "0.3.0-rc.2"
+config:
+  trials_per_task: 1
+  timeout_seconds: 60
+  parallel: false
+  executor: mock
+  model: mock
+range:
+  - 0
+  - 0
+graders: []
+metrics:
+  - name: contract_completion
+    weight: 1.0
+    threshold: 1.0
+    description: All offline contract probes pass their deterministic graders.
+tasks:
+  - waza/tasks/authorized-direct.yaml
+  - waza/tasks/selection-stop.yaml
+  - waza/tasks/privacy-boundary.yaml
+  - waza/tasks/partial-failure.yaml

@@ -15,14 +15,14 @@
 
 | style_variant_id | render style profile | 定位 | 状态 |
 |---|---|---|---|
-| `minimal-lineart` | `minimal-lineart-style-v1` | 纯白底、极简黑线、低科技怪物件与少量强调色 | production · 个人推荐 |
-| `playful-craft` | `playful-craft-style-v1` | 毛毡为主、贴纸轮廓为辅、一本正经地胡闹 | experimental |
-| `sticker-collage` | `sticker-collage-style-v1` | 手撕纸、贴画拼贴、印刷网点与错位套色 | experimental |
-| `expressive-handdrawn` | `expressive-handdrawn-style-v1` | 墨线、马克笔、蜡笔和松弛草稿痕迹 | experimental |
-| `pop-impact` | `pop-impact-style-v1` | 高饱和撞色、粗轮廓与第一秒视觉爆点 | experimental |
-| `art-print` | `art-print-style-v1` | 木刻、单版画、水粉色域与艺术书构成 | experimental |
+| `minimal-lineart` | `minimal-lineart-v1.json` | 纯白底、极简黑线、低科技怪物件与少量强调色 | production · 公开默认推荐 |
+| `playful-craft` | `playful-craft-v1.json` | 毛毡为主、贴纸轮廓为辅、一本正经地胡闹 | experimental |
+| `sticker-collage` | `sticker-collage-v1.json` | 手撕纸、贴画拼贴、印刷网点与错位套色 | experimental |
+| `expressive-handdrawn` | `expressive-handdrawn-v1.json` | 墨线、马克笔、蜡笔和松弛草稿痕迹 | experimental |
+| `pop-impact` | `pop-impact-v1.json` | 高饱和撞色、粗轮廓与第一秒视觉爆点 | experimental |
+| `art-print` | `art-print-v1.json` | 木刻、单版画、水粉色域与艺术书构成 | experimental |
 
-六个风格是同级可选项。用户已指定 `minimal-lineart` 为个人推荐；只有用户说“按默认/沿用推荐”时才采用，不把模板 JSON 的 `default_for_scene` 当作用户确认。六种 profile 均不得携带 scene、aspect、size、delivery_mode 或 layout 选择，因此同一个 16:9 短字正文结构可以独立切换毛毡、拼贴等视觉表面。
+六个风格是同级可选项。`minimal-lineart` 是公开默认推荐；只有用户说“按默认/沿用推荐”时才采用，不把模板 JSON 的 `default_for_scene` 当作用户确认。六种 profile 均不得携带 scene、aspect、size、delivery_mode 或 layout 选择，因此同一个 16:9 短字正文结构可以独立切换毛毡、拼贴等视觉表面。
 
 ## 变体边界
 
@@ -31,3 +31,5 @@
 - “丑萌”允许不对称、笨拙和表情反差，不允许幼态化、恶意丑化或身体羞辱。
 - 一张只使用一个主笑点；幽默必须帮助观众理解主题。
 - 新风格先以 `experimental` 加入，经过样图和跨镜头一致性验收后再升为 `production`。
+
+公开发行合同固定为六个风格。新增第七种在运行时可以加载，但属于个人 fork，官方“恰好六风格”发行门禁会按设计失败。操作与回退见[定制说明](customization.md)。

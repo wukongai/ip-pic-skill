@@ -10,5 +10,4 @@ project-original character profile.
 - Upstream: <https://github.com/helloianneo/ian-xiaohei-illustrations>
 - Locked commit: `91b560849e8f883922cc2fa8a358a668caa94105`
 - Author: <https://github.com/helloianneo>
-- Website: <https://www.ianneo.xyz/opc>
 - License: MIT, Copyright (c) 2026 Ian

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Rebuild the standalone public `ip-pic` Skill from the complete Image Factory IP behavior graph while allowing only the four approved publication differences.
+**Goal:** Rebuild the standalone public `ip-pic` Skill from the complete private-upstream IP behavior graph while allowing only the four approved publication differences.
 
 **Architecture:** Extract the original director, structural templates, style profiles, delivery contracts, reference selection, deterministic typography, batch continuity and QA into an identity-neutral package. Keep rendering behind an immutable provider-neutral handoff and adapt only that boundary to Codex Image Tool, OpenAI Direct, host ai-router and prompt-only.
 
@@ -10,7 +10,7 @@
 
 ## Global Constraints
 
-- The current Image Factory working tree is read-only and remains unchanged.
+- The private upstream working tree is read-only and remains unchanged.
 - The rejected `0.2.0-rc.1` candidate is evidence and optional public backend-shell material, not an architecture source.
 - Every original IP file or shared dependency has an explicit parity decision.
 - No private identity, path, business data, credential or private ai-router implementation enters the candidate.

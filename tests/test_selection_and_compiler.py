@@ -134,6 +134,9 @@ class SelectionAndCompilerTests(unittest.TestCase):
             manifest["publish_layout"]["extension_id"],
             "editorial-ink-v2",
         )
+        self.assertNotIn("必须是 16:9 横版", prompt)
+        self.assertNotIn("不得改变 16:9 画幅", prompt)
+        self.assertIn("当前 raw 画布: 1:1", prompt)
 
     def test_two_step_publish_requires_confirmed_title_band_extension(self) -> None:
         brief = article_brief(
@@ -170,6 +173,10 @@ class SelectionAndCompilerTests(unittest.TestCase):
             "final_text_does_not_overlap_visual",
             manifest["visual_qa"]["required_checks"],
         )
+        self.assertIn("无字原始视觉素材", result["prompt"])
+        self.assertIn("请直接生成无字视频关键帧 raw", result["prompt"])
+        self.assertNotIn("可直接用于内容发布的中文图片素材", result["prompt"])
+        self.assertNotIn("请直接生成成品图片", result["prompt"])
 
         with tempfile.TemporaryDirectory() as temp:
             written = compile_request(

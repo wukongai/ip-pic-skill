@@ -7,4 +7,4 @@
 | `direct-integrated` | 一次生成图文融合 | 像原始未授权第三方角色配图一样，一次生成 IP、物件、动作和少量画面文字，直接交付正文配图。 |
 | `two-step-publish` | 纯图后二次扩展 | 第一次只生成纯画面；第二次由 `image-publish-layout-factory` 扩展画布并合成顶部标题、副标题和说明，最终只交付发布图。 |
 
-用户已指定个人推荐预设：`direct-integrated`（一次生成少量短字）。当用户说“按默认/沿用推荐”时可采用该值；未接受推荐也未明确选择时必须停止并展示两个选项。`two-step-publish` 的两次操作由宿主在一次任务内编排，不能要求用户手动接力；`direct-integrated` 不应偷偷进入二次标题扩展。切换文字策略不应修改角色、动作、表情、画风、尺寸或 layout profile。
+公开默认推荐为 `direct-integrated`（一次生成少量短字）。当用户说“按默认/沿用推荐”时可采用该值；未接受推荐也未明确选择时必须停止并展示两个选项。支持编排的宿主可以在一次任务内完成 `two-step-publish` 的两次操作；独立安装用户也可以按 `USER-GUIDE.zh-CN.md` 使用公开 CLI 手动完成 raw 渲染和文字层合成。`direct-integrated` 不应偷偷进入二次标题扩展。切换文字策略不应修改角色、动作、表情、画风、尺寸或 layout profile。

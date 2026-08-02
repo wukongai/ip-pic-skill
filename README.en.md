@@ -6,6 +6,8 @@ It preserves the complete IP director, 13 formal structures plus one compatibili
 
 It intentionally excludes non-IP cards, covers, posters, note systems, course projects, publishing platforms, and all private routing, credentials, balance checks, retries, or provider fallbacks.
 
+First-time users should start with the [beginner guide](USER-GUIDE.en.md). Style editing, new styles, and rollback are documented in [customization and personal forks](references/customization.md).
+
 ## Install
 
 Python 3.10+ is required.

@@ -1,0 +1,30 @@
+id: partial-failure-recovery
+title: Preserves successes and retries only failed batch items
+description: The orchestrator must explain the exact partial-failure recovery contract without overwriting accepted artifacts.
+
+input:
+  prompt: |
+    我用 ip-pic 批量做 6 张图，其中 4 张已经通过、2 张失败。按照 Skill 的原版流程，
+    下一步怎么重试？请明确说明成功项、失败项、回执和覆盖策略。
+
+constraints:
+  timeout_seconds: 300
+  max_turns: 5
+
+judge:
+  type: rule_based
+  success:
+    - output_contains:
+        all:
+          - "成功"
+          - "失败"
+          - "只"
+          - "回执"
+          - "覆盖"
+    - exit_code: 0
+  failure:
+    - output_contains:
+        any:
+          - "overwrite_success = true"
+          - "preserve_success = false"
+          - "删除成功项再重跑"

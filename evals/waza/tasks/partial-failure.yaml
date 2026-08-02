@@ -1,0 +1,19 @@
+id: partial-failure-recovery
+name: Partial batch failure recovery
+description: Covers cross-stage aggregation, preserving successful items, and retrying only failed items.
+tags:
+  - orchestrator
+  - recovery
+inputs:
+  prompt: "Contract probe: partial batch failure preserves successful items, retries failed items only, and writes a new receipt without overwriting prior outputs."
+expected:
+  output_contains:
+    - partial batch failure
+    - preserves successful items
+    - retries failed items only
+graders:
+  - name: recovery_terms
+    type: text
+    config:
+      contains:
+        - without overwriting prior outputs

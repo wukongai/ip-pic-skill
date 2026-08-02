@@ -39,7 +39,7 @@
 
 ## 行为内核
 
-下列模块从 Image Factory 共享核心提取并做最小脱敏：
+下列模块从私有上游共享核心提取并做最小脱敏：
 
 - `character_performance`
 - `ip_director`

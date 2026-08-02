@@ -5,7 +5,7 @@
 - 日期：2026-08-01
 - 工作分支：`codex/exact-parity-rebuild`
 - 产品名：`ip-pic` / “IP 配图”
-- 唯一行为事实源：当前工作树中的 Image Factory `skills/ip-illustration-factory`、其共享 IP 核心、模板、脚本和回归测试。
+- 唯一行为事实源：只读私有上游中的 IP Skill、其共享 IP 核心、模板、脚本和回归测试。
 - 失败对照：`<rejected-baseline>` 的 `0.2.0-rc.1`，只用于证明能力缺失。
 
 ## 观察到的回归
@@ -82,7 +82,7 @@
 
 - 私人身份、外貌、服装、饰品、bible、品牌锁定、参考图、私有路径和业务信息零泄漏。
 - Ian MIT LICENSE 与 NOTICE 保留；不分发小黑角色或示例图。
-- 不包含知识卡片、封面、海报、OB、布丁、训练营或平台发布能力。
+- 不包含知识卡片、封面、海报、笔记系统、课程项目或平台发布能力。
 - 不包含私有 ai-router provider、adapter、凭证、余额、重试或 fallback。
 - 所有输出新建；禁止覆盖、目录穿越和 symlink 逃逸。
 

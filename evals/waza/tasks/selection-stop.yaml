@@ -1,0 +1,19 @@
+id: missing-selection-stop
+name: Missing selection stops compilation
+description: Covers the failure path when delivery mode, canvas, or style has not been confirmed.
+tags:
+  - failure
+  - selection
+inputs:
+  prompt: "Contract probe: missing selection must stop before compilation; no render request and no output overwrite."
+expected:
+  output_contains:
+    - missing selection
+    - stop before compilation
+    - no render request
+graders:
+  - name: fail_closed_terms
+    type: text
+    config:
+      contains:
+        - no output overwrite

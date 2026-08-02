@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ip-pic"
-version = "0.3.0rc1"
+version = "0.3.0rc2"
 description = "Exact-parity, privacy-sanitized IP illustration Skill"
 readme = "README.en.md"
 requires-python = ">=3.10"

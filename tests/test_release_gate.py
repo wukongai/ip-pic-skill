@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
+import shutil
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -20,6 +22,32 @@ class ReleaseGateTests(unittest.TestCase):
         self.assertEqual(report.formal_templates, 13)
         self.assertEqual(report.compatibility_templates, 1)
         self.assertEqual(report.render_styles, 6)
+
+    def test_release_rejects_obfuscated_local_absolute_path(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            candidate = Path(temp) / "candidate"
+            shutil.copytree(
+                ROOT,
+                candidate,
+                ignore=shutil.ignore_patterns(".git", "build", "__pycache__"),
+            )
+            probe = candidate / "tests" / "obfuscated-private-path.py"
+            local_root = f"{chr(47)}Users{chr(47)}"
+            probe.write_text(
+                "LEAK = "
+                + repr(local_root)
+                + " + "
+                + repr("example-user/private-source")
+                + "\n",
+                encoding="utf-8",
+            )
+
+            report = verify_release(candidate)
+
+            self.assertTrue(
+                any("obfuscated literal" in error for error in report.errors),
+                report.errors,
+            )
 
     def test_direct_typography_recipe_is_documented_and_traceable(self) -> None:
         zh = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")

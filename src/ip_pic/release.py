@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ast
 import json
 import re
 from dataclasses import dataclass
@@ -38,6 +39,21 @@ REQUIRED_FILES = {
     "extensions/title-bands/editorial-ink-v2.json",
     "extensions/title-bands/editorial-warm-v1.json",
 }
+FORBIDDEN_PUBLIC_BUILD_HELPERS = {
+    "scripts/extract_public_slice.py",
+}
+_SLASH = chr(47)
+_LOCAL_ROOTS = (
+    f"{_SLASH}Users{_SLASH}",
+    f"{_SLASH}home{_SLASH}",
+    f"{_SLASH}private{_SLASH}tmp{_SLASH}",
+    f"{_SLASH}private{_SLASH}var{_SLASH}",
+)
+LOCAL_ABSOLUTE_PATH_PATTERN = re.compile(
+    r"(?<![A-Za-z0-9_.-])(?:"
+    + "|".join(re.escape(root) for root in _LOCAL_ROOTS)
+    + r")[^\s`'\"<>]+"
+)
 
 
 @dataclass(frozen=True)
@@ -89,9 +105,41 @@ def _walk_keys(value: Any, prefix: str = "") -> list[str]:
     return hits
 
 
+def _constant_string(node: ast.AST) -> str | None:
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return node.value
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+        left = _constant_string(node.left)
+        right = _constant_string(node.right)
+        if left is not None and right is not None:
+            return left + right
+    return None
+
+
+def _obfuscated_literal_lines(path: Path, text: str) -> list[int]:
+    if path.suffix.casefold() != ".py":
+        return []
+    try:
+        tree = ast.parse(text, filename=str(path))
+    except SyntaxError:
+        return []
+    return sorted(
+        {
+            node.lineno
+            for node in ast.walk(tree)
+            if isinstance(node, ast.BinOp)
+            and isinstance(node.op, ast.Add)
+            and _constant_string(node) is not None
+        }
+    )
+
+
 def verify_release(root: Path) -> ReleaseReport:
     root = root.resolve()
     errors: list[str] = []
+    for relative in sorted(FORBIDDEN_PUBLIC_BUILD_HELPERS):
+        if (root / relative).exists():
+            errors.append(f"private build helper must not be public: {relative}")
     for relative in sorted(REQUIRED_FILES):
         if not (root / relative).is_file():
             errors.append(f"missing required public file: {relative}")
@@ -137,16 +185,14 @@ def verify_release(root: Path) -> ReleaseReport:
         if not target.is_file():
             errors.append(f"missing parity target: {entry.get('target')}")
 
-    private_tokens = (
-        "艾" + "笑",
-        "aix" + "iao",
-        "/Users/" + "aim5",
-        "/private/tmp/" + "ip-pic-style-parity-20260731",
-    )
     secret_pattern = re.compile(r"\bsk-[A-Za-z0-9_-]{20,}\b")
     scanned = 0
     for path in root.rglob("*"):
-        if ".git" in path.parts or "__pycache__" in path.parts:
+        if (
+            ".git" in path.parts
+            or "__pycache__" in path.parts
+            or "build" in path.parts
+        ):
             continue
         if path.is_symlink():
             errors.append(f"public candidate contains a symbolic link: {path.relative_to(root)}")
@@ -162,9 +208,12 @@ def verify_release(root: Path) -> ReleaseReport:
             continue
         scanned += 1
         text = path.read_text(encoding="utf-8", errors="ignore")
-        for token in private_tokens:
-            if token.casefold() in text.casefold():
-                errors.append(f"private token in {path.relative_to(root)}")
+        if LOCAL_ABSOLUTE_PATH_PATTERN.search(text):
+            errors.append(f"local absolute path in {path.relative_to(root)}")
+        for line in _obfuscated_literal_lines(path, text):
+            errors.append(
+                f"obfuscated literal in {path.relative_to(root)}:{line}"
+            )
         if secret_pattern.search(text):
             errors.append(f"credential-shaped value in {path.relative_to(root)}")
 
