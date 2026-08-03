@@ -36,7 +36,7 @@
     "compatibility_template_count": 1
   },
   "entries": [
-    {"source":"skills/ip-illustration-factory/SKILL.md","target":"SKILL.md","decision":"sanitize","capability":"skill-router"},
+    {"source":"skills/ip-illustration-factory/SKILL.md","target":"SKILL.md","derived_public_targets":["scripts/manage_ip_pic_project.py"],"decision":"sanitize","capability":"skill-router"},
     {"source":"skills/ip-illustration-factory/skill.contract.yaml","target":"skill.contract.yaml","decision":"sanitize","capability":"public-contract"},
     {"source":"skills/ip-illustration-factory/UPSTREAM-LICENSE.txt","target":"UPSTREAM-LICENSE.txt","decision":"copy","capability":"license"},
     {"source":"skills/ip-illustration-factory/UPSTREAM-NOTICE.md","target":"NOTICE.md","decision":"sanitize","capability":"attribution"},
@@ -69,7 +69,7 @@
     {"source":"skills/ip-illustration-factory/profiles/{private-id}-art-print-style-v1.json","target":"profiles/render-styles/art-print-v1.json","decision":"sanitize","capability":"render-style"},
 
     {"source":"skills/ip-illustration-factory/references/character-performance.md","target":"references/character-performance.md","decision":"copy","capability":"character-performance"},
-    {"source":"skills/ip-illustration-factory/references/character-style-lock.md","target":"references/character-style-lock.md","decision":"sanitize","capability":"identity-lock"},
+    {"source":"skills/ip-illustration-factory/references/character-style-lock.md","target":"references/character-style-lock.md","derived_public_targets":["src/ip_pic/project_assets.py","src/ip_pic/project_store.py"],"decision":"sanitize","capability":"identity-lock"},
     {"source":"skills/ip-illustration-factory/references/composition-patterns.md","target":"references/composition-patterns.md","decision":"sanitize","capability":"composition-families"},
     {"source":"skills/ip-illustration-factory/references/delivery-modes.md","target":"references/delivery-modes.md","decision":"sanitize","capability":"delivery-modes"},
     {"source":"skills/ip-illustration-factory/references/full-rebuild-playbook.md","target":"references/full-rebuild-playbook.md","decision":"sanitize","capability":"full-rebuild"},
@@ -106,11 +106,7 @@
 
     {"source":"src/image_factory/errors.py","target":"src/ip_pic/errors.py","decision":"copy","capability":"errors"},
     {"source":"src/image_factory/character_performance.py","target":"src/ip_pic/character_performance.py","decision":"copy","capability":"character-performance-runtime"},
-    {"source":"skills/ip-illustration-factory/references/character-style-lock.md","target":"src/ip_pic/project_assets.py","decision":"sanitize","capability":"project-customization-runtime"},
-    {"source":"skills/ip-illustration-factory/references/character-style-lock.md","target":"src/ip_pic/project_store.py","decision":"sanitize","capability":"project-customization-runtime"},
-    {"source":"src/image_factory/ip_director.py","target":"src/ip_pic/project_resolver.py","decision":"sanitize","capability":"project-customization-runtime"},
-    {"source":"skills/ip-illustration-factory/SKILL.md","target":"scripts/manage_ip_pic_project.py","decision":"sanitize","capability":"project-customization-runtime"},
-    {"source":"src/image_factory/ip_director.py","target":"src/ip_pic/director.py","decision":"sanitize","capability":"director-runtime"},
+    {"source":"src/image_factory/ip_director.py","target":"src/ip_pic/director.py","derived_public_targets":["src/ip_pic/project_resolver.py"],"decision":"sanitize","capability":"director-runtime"},
     {"source":"src/image_factory/ip_style_variants.py","target":"src/ip_pic/styles.py","decision":"sanitize","capability":"style-runtime"},
     {"source":"src/image_factory/delivery_modes.py","target":"src/ip_pic/delivery_modes.py","decision":"sanitize","capability":"delivery-runtime"},
     {"source":"src/image_factory/canvas_presets.py","target":"src/ip_pic/canvas.py","decision":"exclude","replacement":"ip-only-canvas-subset","capability":"canvas-runtime"},

@@ -38,20 +38,32 @@ class ReleaseGateTests(unittest.TestCase):
                 encoding="utf-8"
             )
         )
-        mapped = {
-            item.get("target")
-            for item in parity["entries"]
-            if item.get("capability") == "project-customization-runtime"
-        }
-        self.assertEqual(
-            mapped,
-            {
-                "src/ip_pic/project_assets.py",
-                "src/ip_pic/project_store.py",
-                "src/ip_pic/project_resolver.py",
+        expected_derived = {
+            "skills/ip-illustration-factory/SKILL.md": {
                 "scripts/manage_ip_pic_project.py",
             },
-        )
+            "skills/ip-illustration-factory/references/character-style-lock.md": {
+                "src/ip_pic/project_assets.py",
+                "src/ip_pic/project_store.py",
+            },
+            "src/image_factory/ip_director.py": {
+                "src/ip_pic/project_resolver.py",
+            },
+        }
+        for source, expected_targets in expected_derived.items():
+            matches = [
+                item for item in parity["entries"] if item["source"] == source
+            ]
+            self.assertEqual(
+                len(matches),
+                1,
+                f"{source} must remain a unique parity source mapping",
+            )
+            self.assertTrue(
+                expected_targets.issubset(
+                    set(matches[0].get("derived_public_targets", []))
+                )
+            )
 
     def test_public_candidate_passes_static_release_gate(self) -> None:
         report = verify_release(ROOT)
