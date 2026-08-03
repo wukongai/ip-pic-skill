@@ -82,6 +82,41 @@ class PublishAndVideoTextTests(unittest.TestCase):
             with Image.open(root / "raw.png") as raw_image:
                 self.assertEqual(raw_image.size, (800, 800))
 
+    def test_portrait_publish_layout_keeps_top_and_bottom_visual_content(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            manifest_path = self._publish_manifest(root)
+            raw = Image.new("RGB", (600, 800), "#F7F2E9")
+            for y in range(0, 80):
+                for x in range(120, 480):
+                    raw.putpixel((x, y), (220, 40, 40))
+            for y in range(720, 800):
+                for x in range(120, 480):
+                    raw.putpixel((x, y), (30, 80, 210))
+            raw.save(root / "raw.png")
+
+            result_path = compose_publish_layout(manifest_path=manifest_path)
+            result = json.loads(result_path.read_text(encoding="utf-8"))
+            visual = result["zones"]["visual"]
+            with Image.open(root / "final.png") as final_image:
+                crop = final_image.crop(
+                    (
+                        visual["x"],
+                        visual["y"],
+                        visual["x"] + visual["w"],
+                        visual["y"] + visual["h"],
+                    )
+                ).convert("RGB")
+                colors = {
+                    color
+                    for _count, color in (crop.getcolors(maxcolors=640 * 853) or [])
+                }
+
+            self.assertIn((220, 40, 40), colors)
+            self.assertIn((30, 80, 210), colors)
+            self.assertEqual(result["visual_fit_mode"], "contain")
+            self.assertTrue(result["quality_gates"]["visual_source_fully_visible"])
+
     def test_publish_layout_rejects_overwriting_raw(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             with self.assertRaisesRegex(IPPicError, "不得覆盖"):

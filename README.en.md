@@ -6,6 +6,10 @@
 
 Give it to Codex, Claude Code, WorkBuddy, or another compatible Agent and start illustrating your article.
 
+Direct-integrated image and text is the default. For full articles, the Agent analyzes paragraph meaning, plans scene, expression, action, and gaze, and verifies that every image remains associated with its source paragraph.
+
+<!-- IP-PIC-ILLUSTRATION:readme-hero Add an original IP visual of a writer, an Agent, and a continuous article illustration set. -->
+
 ## Start in 30 seconds
 
 Send this to your Agent:
@@ -37,6 +41,7 @@ Read my current Obsidian article and choose the moments worth illustrating.
 Guides:
 
 - [Writer User Guide](USER-GUIDE.en.md)
+- [Verification Notes](docs/VERIFICATION.en.md)
 
 GPT Image 2 is preferred by default. During normal use, the Agent selects an available image tool automatically. Open [Image Tool Setup](IMAGE-TOOL-SETUP.en.md) only when the Agent explicitly says no image tool is available.
 
@@ -80,3 +85,7 @@ IP Pic does not create knowledge cards, covers, posters, animations, lip sync, v
 - Automated checks never replace the user's real visual review.
 
 Project code is MIT licensed. Workflow methods derive from MIT-licensed Ian Xiaohei Illustrations, with its license and attribution retained. This project does not redistribute Ian's Xiaohei character or upstream example images.
+
+## Standalone release note
+
+IP Pic was extracted from a larger workflow and has automated contract, privacy, security, and real-image test coverage. Different agents, image models, fonts, and environments can still produce visual differences. Start with the Ato example and report reproducible failures without credentials or unauthorized assets.

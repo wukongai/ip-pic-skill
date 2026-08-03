@@ -6,6 +6,10 @@
 
 把它交给 Codex、Claude Code、WorkBuddy 等 Agent，就可以开始给文章配图。
 
+默认优先使用一次图文融合。给整篇文章配图时，Agent 会逐段分析，规划每张图的内容锚点、表情、动作和视线，并检查每张图与对应段落是否真正相关。
+
+<!-- IP-PIC-ILLUSTRATION:readme-hero 建议插入原创 IP 主视觉：内容创作者把文章交给 Agent，得到连续图文配图。 -->
+
 ## 30 秒开始
 
 把下面这句话发给 Agent：
@@ -37,6 +41,7 @@ https://github.com/wukongai/ip-pic-skill
 完整的文章配图、自建参考图、修改风格、新增个人风格、画幅、字体和失败重做流程见：
 
 - [普通用户手册](USER-GUIDE.zh-CN.md)
+- [验证说明](docs/VERIFICATION.zh-CN.md)
 
 默认优先使用 GPT Image 2。正常使用时，Agent 会自动选择当前可用的图片工具；只有它明确说没有可用图片工具时，才需要查看[图片工具接入说明](IMAGE-TOOL-SETUP.zh-CN.md)。
 
@@ -95,3 +100,7 @@ Agent 可以读取用户交给它的 Obsidian Markdown 文章，再把内容交�
 - 自动检查不能替代用户本人看图。
 
 项目代码使用 MIT License。工作流方法派生自 MIT 许可的 Ian Xiaohei Illustrations，并依法保留许可证与署名。本项目不分发 Ian 的小黑角色或上游示例图。
+
+## 独立发行说明
+
+IP Pic 是从更大的工作流中独立拆分的公开 Skill，已完成自动化合同、安全、隐私与真实图片链路测试。不同 Agent、图片模型、字体和运行环境仍可能造成视觉差异；建议先运行阿拓示例，再用自己的文章和授权角色测试。发现可复现的问题时，请提交原文、运行环境和失败现象，但不要提交凭证或无权公开的素材。

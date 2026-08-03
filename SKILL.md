@@ -9,17 +9,13 @@ metadata:
 
 # IP 配图
 
-**ORCHESTRATOR SKILL**
-
-**INVOKES:** 本地编译器与一个图片后端。
-
 **USE FOR:** IP 配图、自定义角色配图、文章人物插画、IP 静态关键帧。
 
 **DO NOT USE FOR:** 知识卡片、封面、海报或发布平台。
 
 ## 流程
 
-1. 按[用户选择](references/user-choice-flow.md)确认模式、画布、风格和角色权利。
+1. 按[用户选择](references/user-choice-flow.md)确认业务类型、交付模式、画布、风格和角色权利。用户禁止默认时，明确列出这四项逐项确认，不得只问是否展开。
 2. 按[工作流内核](references/workflow-kernel.md)导演、编译和渲染；后端不得改写计划。
 3. direct 融合中文；two-step 先做无字图再加字。
 4. 执行[质量检查](references/qa-checklist.md)，最后由用户看图。

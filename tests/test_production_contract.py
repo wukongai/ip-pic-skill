@@ -74,6 +74,9 @@ class ProductionContractTests(unittest.TestCase):
         self.assertIn("[能力与资源](references/README.md)", skill)
         self.assertIn("USE FOR:", skill)
         self.assertIn("DO NOT USE FOR:", skill)
+        for required_selection in ("业务类型", "交付模式", "画布", "风格"):
+            self.assertIn(required_selection, skill)
+        self.assertIn("不得只问是否展开", skill)
         index = (ROOT / "references" / "README.md").read_text(encoding="utf-8")
         for reference in (ROOT / "references").glob("*.md"):
             if reference.name != "README.md":

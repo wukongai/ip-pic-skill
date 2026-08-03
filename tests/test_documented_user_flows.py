@@ -28,6 +28,8 @@ class DocumentedUserFlowTests(unittest.TestCase):
             "IMAGE-TOOL-SETUP.en.md",
             "MAINTAINER-GUIDE.zh-CN.md",
             "MAINTAINER-GUIDE.en.md",
+            "docs/VERIFICATION.zh-CN.md",
+            "docs/VERIFICATION.en.md",
             "references/customization.md",
             "examples/article-two-step-brief.json",
             "scripts/compose_publish_layout.py",
@@ -210,6 +212,27 @@ class DocumentedUserFlowTests(unittest.TestCase):
         english_guide = (ROOT / "USER-GUIDE.en.md").read_text(encoding="utf-8")
         self.assertIn("IMAGE-TOOL-SETUP.zh-CN.md", chinese_guide)
         self.assertIn("IMAGE-TOOL-SETUP.en.md", english_guide)
+
+    def test_user_guide_is_direct_primary_and_honest_about_extracted_release(self) -> None:
+        chinese = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
+        readme = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+        required_phrases = (
+            "默认优先使用一次图文融合",
+            "逐段分析",
+            "每张图与对应段落",
+            "表情、动作和视线",
+            "从更大的工作流中独立拆分",
+            "不同 Agent、图片模型、字体和运行环境",
+            "可复现的问题",
+            "docs/VERIFICATION.zh-CN.md",
+            "IP-PIC-ILLUSTRATION:",
+        )
+        surfaces = chinese + "\n" + readme
+        for phrase in required_phrases:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, surfaces)
+        self.assertNotIn("没有时间做端到端测试", surfaces)
+        self.assertNotIn("未经测试", surfaces)
 
     def test_technical_manual_is_retained_for_maintainers(self) -> None:
         chinese = (ROOT / "MAINTAINER-GUIDE.zh-CN.md").read_text(

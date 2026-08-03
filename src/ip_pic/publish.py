@@ -257,8 +257,15 @@ def compose_publish_layout(*, manifest_path: Path, font_path: str = "") -> Path:
         raise ImageFactoryError("标题带比例过小，无法建立安全区")
 
     canvas = Image.new("RGB", (width, height), background)
-    visual = ImageOps.fit(source, (visual_box["w"], visual_box["h"]), method=Image.Resampling.LANCZOS)
-    canvas.paste(visual, (visual_box["x"], visual_box["y"]))
+    visual = ImageOps.contain(
+        source,
+        (visual_box["w"], visual_box["h"]),
+        method=Image.Resampling.LANCZOS,
+    )
+    visual_x = visual_box["x"] + (visual_box["w"] - visual.width) // 2
+    visual_y = visual_box["y"] + (visual_box["h"] - visual.height) // 2
+    canvas.paste(visual, (visual_x, visual_y))
+    visual_render_box = _box(visual_x, visual_y, visual.width, visual.height)
     draw = ImageDraw.Draw(canvas)
     font_cfg = extension.get("fonts") if isinstance(extension.get("fonts"), dict) else {}
     font_indices = extension.get("font_indices") if isinstance(extension.get("font_indices"), dict) else {}
@@ -380,11 +387,18 @@ def compose_publish_layout(*, manifest_path: Path, font_path: str = "") -> Path:
         "size": f"{width}x{height}",
         "platform": manifest.get("platform"),
         "layout_profile": profile,
+        "visual_fit_mode": "contain",
         "extension_id": extension["id"],
         "background": {"mode": "match_visual", "color": background, "matched_color": matched_color, "provenance": background_provenance},
-        "zones": zones,
+        "zones": {**zones, "visual_rendered": visual_render_box},
         "text": text_results,
-        "quality_gates": {"source_preserved": True, "title_band_matches_visual": background.upper() == matched_color.upper(), "zone_overlap": False, "text_clipped": False},
+        "quality_gates": {
+            "source_preserved": True,
+            "visual_source_fully_visible": True,
+            "title_band_matches_visual": background.upper() == matched_color.upper(),
+            "zone_overlap": False,
+            "text_clipped": False,
+        },
     }
     result_path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return result_path

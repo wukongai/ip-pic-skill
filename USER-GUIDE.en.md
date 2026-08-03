@@ -4,6 +4,10 @@ IP Pic helps writers use an original or licensed recurring character to illustra
 
 Open Codex, Claude Code, WorkBuddy, or another Agent and send it the examples below. The Agent handles installation, content planning, direction, prompts, rendering, and checks.
 
+Direct-integrated image and text is the default. Use the text-free-then-publish path only when you need a fixed font or want to change text without redrawing an accepted character scene.
+
+<!-- IP-PIC-ILLUSTRATION:hero-user-journey Add an original IP illustration showing article -> Agent -> paragraph-related integrated images. -->
+
 ## 1. Ask your Agent to install and begin
 
 ```text
@@ -70,6 +74,17 @@ Use the same Ato to illustrate my currently open Obsidian article.
 
 The Agent analyzes the article and first tells you how many images it recommends and what each one expresses. After approval, it renders the set and shows every image. It should not illustrate every paragraph mechanically or ask you to write image prompts.
 
+For strict paragraph-by-paragraph review, say:
+
+```text
+Analyze this article paragraph by paragraph.
+Before rendering, list each paragraph's meaning and the planned scene, expression, action, and gaze.
+After rendering, show which paragraph each image belongs to.
+Do not approve an image that is unrelated to its source paragraph.
+```
+
+<!-- IP-PIC-ILLUSTRATION:article-paragraph-map Add an original IP example of several paragraphs becoming distinct scenes and performances. -->
+
 After you approve every image, you may say:
 
 ```text
@@ -114,6 +129,14 @@ To use only one reference:
 
 ```text
 Use only the front-view character image I just attached. Do not include the others.
+```
+
+You can also change performance without changing the approved content:
+
+```text
+Keep the content and style. Change only the character performance:
+use a realization expression, lean slightly forward, and look at the completion marker.
+Create a new version without overwriting the old image.
 ```
 
 ### Build a stronger reference set
@@ -324,6 +347,14 @@ IP Pic creates static keyframes only. It does not animate, lip-sync, narrate, or
 - Character profiles, references, and personal styles stay in your project, not the public Skill.
 - Rejected images never become future references automatically.
 - The Agent must explain and ask before a route may create additional API charges.
+
+## About this standalone release
+
+IP Pic was extracted from a larger production workflow into a standalone public Skill. The release is covered by automated contract, privacy, security, template, style, batch, retry, and real-image tests. Different agents, image models, fonts, and environments can still produce visual differences.
+
+Run the Ato short-passage example first, then test your article and an authorized character. Report reproducible issues with the public input, agent, image-tool type, failed image, and visible symptom. Never include credentials or references you are not allowed to publish. See [Verification Notes](docs/VERIFICATION.en.md).
+
+<!-- IP-PIC-ILLUSTRATION:release-feedback Add an original IP illustration of user review and retrying only failed items. -->
 
 ## If the Agent gets stuck
 
