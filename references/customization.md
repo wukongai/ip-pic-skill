@@ -3,7 +3,7 @@
 本页回答三个问题：
 
 1. 用户能否换风格和字体？可以。
-2. 用户能否修改已有样式？可以，但要在个人 fork 中做。
+2. 用户能否修改并保存自己的角色、风格和人物表演？可以，优先使用项目级定制，不需要 fork。
 3. 用户能否新增第七种风格？可以，但修改后不再是官方固定六风格的原版等价发行物。
 
 ## 一、无需修改 Skill 的定制
@@ -15,10 +15,38 @@
 - 修改标题、摘要、要点、画布和构图。
 - 在 `direct-integrated` 与 `two-step-publish` 之间选择。
 - 为 `two-step-publish` 指定有使用权的中文字体。
+- 在当前项目保存不可变版本的私人角色、参考图、个人风格和导演预设。
 
 这是普通用户优先选择。
 
-## 二、创建个人 fork
+## 二、项目级角色、个人风格与导演预设
+
+用户用自然语言描述，Agent 负责整理草稿。确定性入口是：
+
+```text
+scripts/manage_ip_pic_project.py
+```
+
+工作流固定为：
+
+1. `plan-create` 或 `plan-activate` 生成预览，不改变活动配置；
+2. Agent 向用户展示名称、版本、角色连续性、风格覆盖或人物表演；
+3. 用户明确确认后执行 `apply --confirm`；
+4. 编译时传入 `--project-root`。
+
+私人状态只写：
+
+```text
+<project-root>/.ip-pic/
+```
+
+角色、个人风格和导演预设分别版本化。更新创建新的 `vNNNN`，切回旧版本只改变活动指针，不覆盖或删除历史文件。
+
+个人风格必须继承六种内置文章风格之一，只能覆盖线条、材质、配色、形状、背景处理和表面语气。导演预设可以保存动作、基础表情、个性化表情描述、强度、面部线索、视线、头部姿态和身体姿态。本次文章明确填写的动作或表演优先于项目预设。
+
+项目定制不会把第七种风格写入官方 `profiles/render-styles.json`，因此仍保持官方六风格合同。只有必须修改模板、内置风格、标题带或源代码时才创建个人 fork。
+
+## 三、创建个人 fork
 
 先退出原 Skill 目录，在其父目录执行：
 
@@ -39,7 +67,7 @@ python3 scripts/verify_release.py
 
 `verify_release.py` 验证的是官方发行合同。个人 fork 新增风格后，它可能按设计失败；不要删除该门禁来伪装官方通过。
 
-## 三、修改已有文章风格
+## 四、修改内置文章风格
 
 注册表在：
 
@@ -91,7 +119,7 @@ python3 -c "from pathlib import Path; from ip_pic.styles import list_styles; pri
 
 再对同一中性角色、同一内容重新生成六风格对照图并人工验收。修改内置 profile 后，这个个人 fork 的视觉语义已经不同于官方等价版本。
 
-## 四、新增第七种文章风格
+## 五、新增第七种文章风格
 
 1. 复制一个最接近的 profile 为新文件，例如 `my-style-v1.json`。
 2. 把 profile 内 `id` 改为唯一值，例如 `my-style`。
@@ -103,7 +131,7 @@ python3 -c "from pathlib import Path; from ip_pic.styles import list_styles; pri
 
 新增第七种后，官方 `verify_release.py` 和“恰好六风格”测试应当失败。这不是运行时不能加载，而是在提醒你：它已经是个人 fork，不能冒充官方原版等价包。
 
-## 五、修改 two-step 标题带
+## 六、修改 two-step 标题带
 
 内置标题带：
 
@@ -131,7 +159,7 @@ python3 scripts/compose_publish_layout.py \
 
 Windows/Linux 的文章 two-step 必须显式传 `--font-path`；原版默认标题带使用 macOS 字体路径。始终为自定义字体指定新的 layout manifest 和 final，避免覆盖旧结果或回执。
 
-## 六、修改 direct-integrated 字体样式
+## 七、修改 direct-integrated 字体样式
 
 此模式的字是图像模型一次生成，不是本机字体渲染。任务级别不能通过字体文件精确控制。
 
@@ -142,7 +170,7 @@ Windows/Linux 的文章 two-step 必须显式传 `--font-path`；原版默认标
 3. 对六种风格做真实生成对照。
 4. 检查文字可读、只保留一条强调线、没有楷体/儿童体/细字重漂移。
 
-## 七、修改视频风格或字体
+## 八、修改视频风格或字体
 
 文章 style registry 不控制视频。视频使用正式模板：
 
@@ -161,13 +189,20 @@ Windows 必须显式配置；Linux 只有脚本列出的 Noto CJK 路径存在�
 
 新增视频视觉结构或文字 recipe 需要个人 fork、模板测试和真实安全区回归；它不是在文章 registry 增加一行就能完成的。
 
-## 八、回退
+## 九、回退
 
 任务级输入出错：
 
 - 保留旧输出。
 - 修正 brief。
 - 使用新 id 和新输出目录重新编译。
+
+项目级定制出错：
+
+- 不应用尚未确认的计划；
+- 用 `list` 和 `show` 查看已有版本；
+- 用 `plan-activate` 生成切回旧版的预览；
+- 用户确认后再 `apply --confirm`，不删除新旧版本。
 
 个人 fork 改坏：
 

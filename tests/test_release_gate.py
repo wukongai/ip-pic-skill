@@ -15,6 +15,44 @@ from ip_pic.release import verify_release  # noqa: E402
 
 
 class ReleaseGateTests(unittest.TestCase):
+    def test_project_customization_runtime_is_in_the_public_candidate(self) -> None:
+        required = (
+            "scripts/manage_ip_pic_project.py",
+            "src/ip_pic/project_assets.py",
+            "src/ip_pic/project_store.py",
+            "src/ip_pic/project_resolver.py",
+            "examples/project-customization/character-draft.json",
+            "examples/project-customization/style-draft.json",
+            "examples/project-customization/director-draft.json",
+            "tests/test_project_assets.py",
+            "tests/test_project_store.py",
+            "tests/test_project_compile.py",
+            "tests/test_user_customization_journey.py",
+        )
+        self.assertEqual(
+            [relative for relative in required if not (ROOT / relative).is_file()],
+            [],
+        )
+        parity = json.loads(
+            (ROOT / "parity" / "ip-parity-manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        mapped = {
+            item.get("target")
+            for item in parity["entries"]
+            if item.get("capability") == "project-customization-runtime"
+        }
+        self.assertEqual(
+            mapped,
+            {
+                "src/ip_pic/project_assets.py",
+                "src/ip_pic/project_store.py",
+                "src/ip_pic/project_resolver.py",
+                "scripts/manage_ip_pic_project.py",
+            },
+        )
+
     def test_public_candidate_passes_static_release_gate(self) -> None:
         report = verify_release(ROOT)
         self.assertEqual(report.errors, ())

@@ -32,6 +32,10 @@ class DocumentedUserFlowTests(unittest.TestCase):
             "docs/VERIFICATION.en.md",
             "references/customization.md",
             "examples/article-two-step-brief.json",
+            "examples/project-customization/character-draft.json",
+            "examples/project-customization/style-draft.json",
+            "examples/project-customization/director-draft.json",
+            "scripts/manage_ip_pic_project.py",
             "scripts/compose_publish_layout.py",
         )
         missing = [path for path in required if not (ROOT / path).is_file()]
@@ -76,7 +80,7 @@ class DocumentedUserFlowTests(unittest.TestCase):
             "JSON",
             "Skill 安装目录",
             "metadata.version",
-            "0.3.0-rc.2",
+            "0.3.0-rc.3",
             "临时检查位置",
             "安装名称保持",
             "全局 Skill",
@@ -250,6 +254,8 @@ class DocumentedUserFlowTests(unittest.TestCase):
         self.assertIn("https://github.com/wukongai/ip-pic-skill", chinese)
         self.assertIn("帮我安装并使用这个配图工具", chinese)
         self.assertIn("给这篇文章配图", chinese)
+        self.assertIn("自然语言保存和版本化", chinese)
+        self.assertIn("角色、个人风格和导演预设", chinese)
         self.assertNotIn("python3 -m venv", chinese)
         self.assertNotIn("pip install", chinese)
 
@@ -259,6 +265,41 @@ class DocumentedUserFlowTests(unittest.TestCase):
         self.assertIn("MAINTAINER-GUIDE.zh-CN.md", root_entry)
         self.assertIn("给这篇文章配图", root_entry)
         self.assertNotIn("```bash", root_entry)
+
+    def test_natural_language_customization_is_a_real_confirmed_runtime(self) -> None:
+        guide = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
+        root_entry = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        maintainer = (ROOT / "MAINTAINER-GUIDE.zh-CN.md").read_text(
+            encoding="utf-8"
+        )
+
+        for phrase in (
+            "把 IP Pic 调成你的专属工作流",
+            "确认保存",
+            "角色、参考图、个人风格和导演预设",
+            "表情、动作、视线和身体姿态",
+            "新版本",
+            "切回旧版本",
+            "当前写作项目的 `.ip-pic/`",
+            "不需要自己打开或编辑",
+        ):
+            with self.subTest(surface="guide", phrase=phrase):
+                self.assertIn(phrase, guide)
+
+        for phrase in (
+            "scripts/manage_ip_pic_project.py",
+            "先展示预览",
+            "用户明确确认",
+            "不得修改 Skill 安装目录",
+            "--project-root",
+        ):
+            with self.subTest(surface="skill", phrase=phrase):
+                self.assertIn(phrase, root_entry)
+
+        self.assertIn("plan-create", maintainer)
+        self.assertIn("plan-activate", maintainer)
+        self.assertIn("apply --confirm", maintainer)
+        self.assertNotIn("python3 scripts/manage_ip_pic_project.py", guide)
 
     def test_agent_first_guide_closes_obsidian_and_two_step_journeys(self) -> None:
         guide = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
@@ -293,7 +334,7 @@ class DocumentedUserFlowTests(unittest.TestCase):
             "写作项目只是一个保存文章和图片的文件夹",
             "IP Pic 教程项目",
             "保存为“<角色名称>-参考图-02”",
-            "请把当前项目中的个人风格“<名称>”复制到“<新项目>”",
+            "准备在“<新项目>”登记同名风格",
         )
         for phrase in required_phrases:
             with self.subTest(phrase=phrase):

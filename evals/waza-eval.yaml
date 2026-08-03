@@ -2,7 +2,7 @@ schemaVersion: "1.2"
 name: ip-pic-structural-readiness
 description: Offline Waza contract smoke suite; real agent behavior is covered by Skill Up.
 skill: ip-pic
-version: "0.3.0-rc.2"
+version: "0.3.0-rc.3"
 config:
   trials_per_task: 1
   timeout_seconds: 60

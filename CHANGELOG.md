@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.0-rc.3
+
+- Added a real project-local customization runtime for reusable private
+  characters, authorized references, personal render styles, and director
+  presets covering expression, action, gaze, head pose, and body pose.
+- Added preview-before-apply confirmation, immutable versions, active-version
+  switching, rollback, tamper and revision checks, path confinement, symlink
+  rejection, atomic registry writes, and redacted change receipts.
+- Integrated project selections with the original director and compiler while
+  preserving task-level overrides, official styles, templates, text modes, and
+  provider-neutral render handoff behavior.
+- Added public Agent-facing examples, a complete novice lifecycle test, and
+  natural-language user-guide flows that do not require terminal or JSON work.
+
 ## 0.3.0-rc.2
 
 - Restored the original agent-first onboarding journey: give the public address

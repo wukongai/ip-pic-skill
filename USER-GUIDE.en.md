@@ -97,6 +97,64 @@ Before editing, tell me which article and positions will change, and preserve a 
 
 Your host Agent performs this file operation. IP Pic itself does not manage Obsidian or publish content.
 
+## Make IP Pic your own reusable workflow
+
+Your Agent can save and keep improving characters, references, personal styles, and director presets for you. You describe the result, approve a preview, and review the final image; you do not need to open or edit configuration files.
+
+Private settings live in the current writing project's `.ip-pic/` area, outside the public Skill. Before every save, the Agent must show a plain-language preview of the character anchors, reference purposes, style changes, or expression, action, gaze, and body pose. It writes only after you explicitly confirm.
+
+To save a character:
+
+```text
+These are character references I created or am licensed to use.
+Organize the character as "Xiao He" and show me the appearance and continuity anchors first.
+After I confirm, save it and make it this project's default character.
+```
+
+To save a personal style:
+
+```text
+Create "Warm Learning Linework" from Minimal Lineart:
+make the lines slightly heavier, the palette warmer, and keep a light paper grain.
+Show me the save preview first. After I confirm, make it the default style.
+```
+
+To save reusable performance direction:
+
+```text
+Save a director preset called "Careful Breakdown":
+lean slightly forward, move a workflow card with the right hand,
+use a focused expression, and look at the current step.
+Preview it first and save only after I confirm.
+```
+
+Changes create new versions and never overwrite the old version:
+
+```text
+Change Xiao He's jacket to blue and keep every other continuity anchor.
+Show me the new profile version, then save and activate it after I confirm.
+```
+
+To inspect or roll back:
+
+```text
+List every version of "Xiao He" and the current default. Explain the differences without changing anything.
+```
+
+```text
+Switch "Xiao He" back to the previous version. Tell me the exact version first and wait for my confirmation.
+```
+
+Normal article use remains one sentence:
+
+```text
+Use "Xiao He", "Warm Learning Linework", and "Careful Breakdown" to illustrate this article:
+
+<paste article or provide the Obsidian file>
+```
+
+Settings stay in one project. For another project, ask the Agent to read the confirmed source version and prepare a new save preview in the target project. Confirm again before anything private is registered there.
+
 ## 4. Use your own character and references
 
 Attach one to five character images that you own or are licensed to use, then say:
@@ -256,14 +314,14 @@ Reduce the paper grain and make the character lines slightly heavier.
 Keep everything else. Save it as "<style name>-02" without overwriting the previous version.
 ```
 
-Personal styles stay in the current project by default. When changing projects, ask the Agent to copy or register the style in the new project while preserving versions and avoiding overwrite. A style changes visual treatment; it must not silently change character identity, article meaning, canvas, or text mode.
+Personal styles stay in the current project by default. For another project, ask the Agent to read the confirmed source version and prepare a new registration preview in the target project; confirm again before saving. A style changes visual treatment; it must not silently change character identity, article meaning, canvas, or text mode.
 
 For a different project:
 
 ```text
-Copy my personal style "<name>" from the current project to "<new project>".
-Preserve its name and version, and do not overwrite a style with the same name.
-Afterward, report the source and new save location.
+Read my personal style "<name>" from the current project and prepare the same named style in "<new project>".
+Show the source version and target save preview first.
+After I confirm, save it without overwriting a style with the same name.
 ```
 
 ## 7. Change the text treatment

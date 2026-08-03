@@ -481,7 +481,7 @@ git commit -m "docs: expose natural language project customization"
 ### Task 7: Full regression, security audit and clean-room user simulation
 
 **Files:**
-- Create outside repository: `/private/tmp/ip-pic-project-customization-user-test-20260804/`
+- Create outside repository: a host-selected temporary directory named `ip-pic-project-customization-user-test-20260804`
 - Create: `docs/reports/2026-08-04-project-customization-verification.md`
 
 **Interfaces:**
@@ -500,13 +500,13 @@ Run: `python3 scripts/verify_release.py`
 
 Expected: `release gate: ok`.
 
-Run: `rg -n "/Users/|/private/|api[_-]?key|authorization|bearer|private_identity" . --glob '!docs/superpowers/**' --glob '!tests/**'`
+Run: `python3 scripts/verify_release.py` and review the release report's local-path and credential findings.
 
 Expected: no private path, credential value or private identity leak; legitimate field-name matches are reviewed and documented.
 
 - [ ] **Step 3: Run Skill Engineering validation from the external control directory**
 
-Run the journey validate/evaluate commands with control dir `/private/tmp/ip-pic-project-customization-control-20260804` and Skill path `/private/tmp/ip-pic-project-customization-20260804`.
+Run the journey validate/evaluate commands with an external temporary control directory and the current isolated Skill worktree.
 
 Expected: journey state is valid, structural evaluation passes, and no control receipts are created inside the public repository.
 

@@ -4,7 +4,7 @@ description: 为已授权角色规划和制作中文文章 IP 配图与静态视
 license: MIT
 metadata:
   short-description: 完整 IP 配图导演、编译、渲染交接与 QA
-  version: 0.3.0-rc.2
+  version: 0.3.0-rc.3
 ---
 
 # IP 配图
@@ -19,6 +19,19 @@ metadata:
 2. 按[工作流内核](references/workflow-kernel.md)导演、编译和渲染；后端不得改写计划。
 3. direct 融合中文；two-step 先做无字图再加字。
 4. 执行[质量检查](references/qa-checklist.md)，最后由用户看图。
+
+## 项目专属角色、风格与导演预设
+
+用户要求保存、修改、完善或切换角色、参考图、个人风格、表情、动作、视线或身体姿态时：
+
+1. 只把自然语言整理成结构化草稿，不让普通用户手写 JSON 或命令。
+2. 使用 `scripts/manage_ip_pic_project.py plan-create` 或 `plan-activate` 生成变更计划，先展示预览；计划本身不得改变活动配置。
+3. 只有用户明确确认“保存”“启用”或“切回”后，才可执行 `apply --confirm`。用户没有确认时必须停止。
+4. 私人配置只写当前写作项目的 `.ip-pic/`；不得修改 Skill 安装目录、全局 Skill 或内置角色/风格。
+5. 更新必须创建不可变新版本，切回旧版本只改变活动指针，不删除、不覆盖历史版本。
+6. 编译项目配置时必须给 `scripts/compile_ip_pic.py` 传入 `--project-root`。用户点名版本优先于项目活动版本；本次文章明确指定的动作和表演优先于项目导演预设。
+
+个人风格只能改变线条、材质、配色、形状与表面语气，不得写入角色身份、参考图、文章场景、画幅、交付模式、模型、provider 或凭证。角色参考图必须位于当前项目中、不是符号链接，并有明确权利依据。
 
 ## Examples
 

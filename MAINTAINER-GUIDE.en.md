@@ -166,6 +166,63 @@ The explicit font uses face index 0. Visually inspect glyph coverage, wrapping, 
 
 The original default article title-band uses a macOS font path. On Windows or Linux, always supply `--font-path` on the first two-step composition, even if another Chinese system font is installed. Do not try to overwrite an already-created final.
 
+## Project-local customization runtime
+
+Ordinary writers do not run this section. Agents and maintainers use this deterministic interface to keep private characters, styles, and director presets in the writing project's `.ip-pic/`, never in the installed Skill.
+
+Create a preview first:
+
+```bash
+python3 scripts/manage_ip_pic_project.py plan-create \
+  --project-root "/path/to/writing-project" \
+  --kind character \
+  --draft "/path/to/writing-project/character-draft.json" \
+  --activate
+```
+
+Show the normalized preview and target version to the user. Apply only after explicit confirmation:
+
+```bash
+python3 scripts/manage_ip_pic_project.py apply \
+  --project-root "/path/to/writing-project" \
+  --plan "/path/to/writing-project/.ip-pic/plans/plan-id.json" \
+  --confirm
+```
+
+Use the same plan/apply sequence for `style` and `director`. Each update creates a new immutable `vNNNN`. List and inspect without changing state:
+
+```bash
+python3 scripts/manage_ip_pic_project.py list \
+  --project-root "/path/to/writing-project"
+
+python3 scripts/manage_ip_pic_project.py show \
+  --project-root "/path/to/writing-project" \
+  --kind character \
+  --id ato-guide \
+  --version v0001
+```
+
+Rollback is another confirmed plan:
+
+```bash
+python3 scripts/manage_ip_pic_project.py plan-activate \
+  --project-root "/path/to/writing-project" \
+  --kind character \
+  --id ato-guide \
+  --version v0001
+```
+
+Compile a brief containing `project_customization` with:
+
+```bash
+python3 scripts/compile_ip_pic.py \
+  --brief "/path/to/writing-project/article-brief.json" \
+  --project-root "/path/to/writing-project" \
+  --output-dir "/path/to/writing-project/outputs/article-01"
+```
+
+Project references must be authorized ordinary files inside the project. A personal style may change only render treatment; identity, references, scene, canvas, delivery mode, model, provider, and credential fields are rejected. Plan tampering, revision drift, symlinks, unconfirmed apply, and overwrites fail closed.
+
 ## 8. Use your own character
 
 The public package contains text-only profiles for original tutorial characters and no character reference images.

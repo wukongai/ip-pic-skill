@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ip-pic"
-version = "0.3.0rc2"
+version = "0.3.0rc3"
 description = "Exact-parity, privacy-sanitized IP illustration Skill"
 readme = "README.en.md"
 requires-python = ">=3.10"
@@ -17,6 +17,7 @@ dev = ["pytest>=8.0"]
 
 [project.scripts]
 ip-pic-compile = "ip_pic.cli:main"
+ip-pic-project = "ip_pic.project_cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

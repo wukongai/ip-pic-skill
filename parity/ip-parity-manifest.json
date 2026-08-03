@@ -106,6 +106,10 @@
 
     {"source":"src/image_factory/errors.py","target":"src/ip_pic/errors.py","decision":"copy","capability":"errors"},
     {"source":"src/image_factory/character_performance.py","target":"src/ip_pic/character_performance.py","decision":"copy","capability":"character-performance-runtime"},
+    {"source":"skills/ip-illustration-factory/references/character-style-lock.md","target":"src/ip_pic/project_assets.py","decision":"sanitize","capability":"project-customization-runtime"},
+    {"source":"skills/ip-illustration-factory/references/character-style-lock.md","target":"src/ip_pic/project_store.py","decision":"sanitize","capability":"project-customization-runtime"},
+    {"source":"src/image_factory/ip_director.py","target":"src/ip_pic/project_resolver.py","decision":"sanitize","capability":"project-customization-runtime"},
+    {"source":"skills/ip-illustration-factory/SKILL.md","target":"scripts/manage_ip_pic_project.py","decision":"sanitize","capability":"project-customization-runtime"},
     {"source":"src/image_factory/ip_director.py","target":"src/ip_pic/director.py","decision":"sanitize","capability":"director-runtime"},
     {"source":"src/image_factory/ip_style_variants.py","target":"src/ip_pic/styles.py","decision":"sanitize","capability":"style-runtime"},
     {"source":"src/image_factory/delivery_modes.py","target":"src/ip_pic/delivery_modes.py","decision":"sanitize","capability":"delivery-runtime"},

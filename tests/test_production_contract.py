@@ -70,7 +70,7 @@ class ProductionContractTests(unittest.TestCase):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
         frontmatter = yaml.safe_load(skill.split("---", 2)[1])
         self.assertEqual(frontmatter["license"], "MIT")
-        self.assertEqual(frontmatter["metadata"]["version"], "0.3.0-rc.2")
+        self.assertEqual(frontmatter["metadata"]["version"], "0.3.0-rc.3")
         self.assertIn("[能力与资源](references/README.md)", skill)
         self.assertIn("USE FOR:", skill)
         self.assertIn("DO NOT USE FOR:", skill)

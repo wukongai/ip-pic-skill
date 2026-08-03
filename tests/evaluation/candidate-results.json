@@ -2,7 +2,7 @@
   "schema_version": "1",
   "suite_id": "ip-pic-release-readiness-v1",
   "subject": "ip-pic-exact-parity-candidate",
-  "subject_fingerprint": "0.3.0-rc.2-working-tree",
+  "subject_fingerprint": "0.3.0-rc.3-working-tree",
   "runs": {
     "direct-integrated-contract": {
       "status": "completed",

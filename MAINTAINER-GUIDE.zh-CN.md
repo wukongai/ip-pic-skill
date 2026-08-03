@@ -367,6 +367,98 @@ python3 scripts/compose_publish_layout.py \
 
 macOS 可直接使用原版默认字体层级。文章 two-step 在 Windows 或 Linux 上第一次合成就必须显式传 `--font-path`，即使系统里另装了中文字体也不要依赖自动发现；当前默认标题带引用的是 macOS 字体路径。不要等默认命令失败后再覆盖同一 final。
 
+## 项目级定制运行时：让 Agent 保存角色、风格和导演预设
+
+普通用户不执行这一节。Agent 或维护者使用下面的确定性入口，把私人配置写到用户写作项目的 `.ip-pic/`，而不是 Skill 安装目录。
+
+三类资产分别是：
+
+- `character`：角色 profile、权利依据、连续性锚点和项目内参考图；
+- `style`：继承一个内置风格，只覆盖线条、材质、配色、形状和表面语气；
+- `director`：动作、基础表情、个性化表情描述、强度、面部线索、视线、头部与身体姿态。
+
+先把公开草稿复制到用户项目再修改。角色草稿中的参考图路径必须相对用户项目，真实存在且不是符号链接：
+
+```bash
+mkdir -p "/你的写作项目/customization-drafts"
+cp examples/project-customization/character-draft.json "/你的写作项目/customization-drafts/"
+cp examples/project-customization/style-draft.json "/你的写作项目/customization-drafts/"
+cp examples/project-customization/director-draft.json "/你的写作项目/customization-drafts/"
+```
+
+先生成角色保存预览，不改变 registry 或活动角色：
+
+```bash
+python3 scripts/manage_ip_pic_project.py plan-create \
+  --project-root "/你的写作项目" \
+  --kind character \
+  --draft "/你的写作项目/customization-drafts/character-draft.json" \
+  --activate
+```
+
+命令输出 `status: preview`、目标 `version`、`content_hash` 和 `plan_path`。Agent 必须先把草稿内容和目标版本用自然语言展示给用户。用户没有明确确认时，不运行 apply。
+
+确认后使用刚才返回的计划路径：
+
+```bash
+python3 scripts/manage_ip_pic_project.py apply \
+  --project-root "/你的写作项目" \
+  --plan "/你的写作项目/.ip-pic/plans/计划编号.json" \
+  --confirm
+```
+
+`apply --confirm` 会创建不可变版本、更新活动指针并生成不含角色正文的回执。风格和导演使用同一流程，只把 `--kind` 分别改成 `style`、`director`，并传入对应草稿。
+
+只读列出项目配置：
+
+```bash
+python3 scripts/manage_ip_pic_project.py list \
+  --project-root "/你的写作项目"
+```
+
+查看一个具体版本：
+
+```bash
+python3 scripts/manage_ip_pic_project.py show \
+  --project-root "/你的写作项目" \
+  --kind character \
+  --id ato-guide \
+  --version v0001
+```
+
+修改角色、风格或导演时重新执行 `plan-create`，系统会分配下一个 `vNNNN`，绝不覆盖旧版。切回旧版也先生成预览：
+
+```bash
+python3 scripts/manage_ip_pic_project.py plan-activate \
+  --project-root "/你的写作项目" \
+  --kind character \
+  --id ato-guide \
+  --version v0001
+```
+
+用户确认后，再对返回的计划执行 `apply --confirm`。回退只改变活动指针，旧版和新版文件都保留。
+
+使用项目配置编译时必须带 `--project-root`，brief 的 `project_customization` 点名角色、风格和导演 ID；也可以指定 `active`：
+
+```bash
+python3 scripts/compile_ip_pic.py \
+  --brief "/你的写作项目/article-brief.json" \
+  --project-root "/你的写作项目" \
+  --output-dir "/你的写作项目/outputs/article-01" \
+  --print-prompt
+```
+
+项目导演预设只填补本次任务没有明确写出的动作和人物表演；文章自己的显式要求优先。个人风格必须来自 `user-explicit` 的选择，不能冒充官方推荐。项目绝对路径不会进入 prompt；已授权参考图绝对路径只进入本地受控 handoff。
+
+必须失败关闭的情况：
+
+- 用户未确认就 apply；
+- `.ip-pic`、计划或参考图是符号链接；
+- 参考图位于项目外或不存在；
+- 计划 hash 被修改，或生成计划后 registry revision 已改变；
+- 版本目标已存在；
+- 个人风格出现角色身份、参考图、场景、画幅、交付模式、模型、provider 或凭证字段。
+
 ## 第 8 步：使用自己的 IP 形象素材
 
 公开示例默认只有阿拓文字 profile，不带人物图片。正式测试自己的 IP 时，请同时准备：

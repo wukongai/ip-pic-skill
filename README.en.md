@@ -8,6 +8,8 @@ Give it to Codex, Claude Code, WorkBuddy, or another compatible Agent and start 
 
 Direct-integrated image and text is the default. For full articles, the Agent analyzes paragraph meaning, plans scene, expression, action, and gaze, and verifies that every image remains associated with its source paragraph.
 
+It can also save and version your own characters, personal styles, and director presets through natural language. Let the Agent remember authorized references, expressions, actions, gaze, and body poses; review every save preview, create immutable new versions, and switch back when needed. Private configuration stays in your writing project.
+
 <!-- IP-PIC-ILLUSTRATION:readme-hero Add an original IP visual of a writer, an Agent, and a continuous article illustration set. -->
 
 ## Start in 30 seconds
@@ -69,7 +71,8 @@ Keep accepted images and retry only failed items.
 - original heavy Chinese display type, two blue text levels, and one emphasis line;
 - one image for short content and continuous multi-image article sets;
 - square, landscape, and portrait static video keyframes;
-- character continuity, retries, and per-image approval.
+- character continuity, retries, and per-image approval;
+- confirmed project-local characters, personal styles, director presets, immutable versions, and rollback.
 
 For one-pass integrated text, the original visual contract uses heavy, upright Chinese display type with one irregular hand-drawn emphasis line.
 

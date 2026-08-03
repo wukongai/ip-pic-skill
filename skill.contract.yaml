@@ -37,6 +37,12 @@ inputs:
   - name: expert_composition_overrides
     type: json
     required: false
+  - name: project_root
+    type: path
+    required: false
+  - name: project_customization
+    type: json
+    required: false
 
 outputs:
   - name: selection_receipt
@@ -60,6 +66,12 @@ outputs:
   - name: qa_receipt
     type: ip-pic-image-qa/v1
     required: true
+  - name: project_change_plan
+    type: ip-pic-project-change-plan/v1
+    required: false
+  - name: project_change_receipt
+    type: ip-pic-project-change-receipt/v1
+    required: false
 
 profiles:
   governance:
@@ -101,6 +113,10 @@ stops:
     condition: 参考图计划尚未生成或素材不满足要求。
   - name: visual_qa_failure
     condition: 逐图 QA 未通过或尚未完成人工视觉验收。
+  - name: unconfirmed_project_change
+    condition: 用户尚未明确确认项目角色、风格或导演预设的保存或切换预览。
+  - name: unsafe_project_asset
+    condition: 项目资产越界、符号链接、权利不明、计划篡改、revision 漂移或试图覆盖不可变版本。
 
 forbidden:
   - private_identity_or_reference_assets
@@ -113,6 +129,15 @@ forbidden:
 
 state:
   files:
+    - name: project_registry
+      path: <project-root>/.ip-pic/registry.json
+      required: false
+    - name: project_change_plan
+      path: <project-root>/.ip-pic/plans/<plan-id>.json
+      required: false
+    - name: project_change_receipt
+      path: <project-root>/.ip-pic/receipts/<change-id>.json
+      required: false
     - name: selection_receipt
       path: <output-dir>/image_brief.json#selection_receipt
       required: true
@@ -126,6 +151,10 @@ state:
       path: <output-dir>/qa-receipt.json
       required: false
   approvals:
+    - name: project_customization_apply
+      required_before:
+        - project_asset_write
+        - project_active_pointer_change
     - name: render_apply
       required_before:
         - remote_render
@@ -144,6 +173,12 @@ state:
       when: 自动 QA 与用户真实看图均通过。
 
 scripts:
+  - path: scripts/manage_ip_pic_project.py
+    required_flags:
+      - plan-create
+      - plan-activate
+      - apply
+      - --project-root
   - path: scripts/compile_ip_pic.py
     required_flags:
       - --brief
