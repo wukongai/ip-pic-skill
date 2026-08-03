@@ -189,8 +189,8 @@ def _write_new_json(path: Path, value: dict[str, Any]) -> None:
 
 def _atomic_replace_json(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
-    token = uuid.uuid4().hex
-    temporary = path.with_name(f".{path.name}.{token}.tmp")
+    nonce = uuid.uuid4().hex
+    temporary = path.with_name(f".{path.name}.{nonce}.tmp")
     try:
         _write_new_json(temporary, value)
         os.replace(temporary, path)
@@ -332,18 +332,18 @@ def _draft_from_content(kind: str, content: dict[str, Any]) -> dict[str, Any]:
 def _project_lock(project_root: Path) -> Iterator[None]:
     state = _state_root(project_root, create=True)
     lock = state / ".lock"
-    token = uuid.uuid4().hex
+    nonce = uuid.uuid4().hex
     try:
         descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
     except FileExistsError as exc:
         raise ProjectStoreError("项目定制正在由另一个任务修改，请稍后重试") from exc
     try:
-        os.write(descriptor, token.encode("ascii"))
+        os.write(descriptor, nonce.encode("ascii"))
         os.close(descriptor)
         yield
     finally:
         try:
-            if not lock.is_symlink() and lock.read_text(encoding="utf-8") == token:
+            if not lock.is_symlink() and lock.read_text(encoding="utf-8") == nonce:
                 lock.unlink()
         except FileNotFoundError:
             pass
@@ -558,4 +558,3 @@ def resolve_asset(
     if value.get("id") != canonical_id or value.get("version") != requested_version:
         raise ProjectStoreError("资产版本内容与 registry 不一致")
     return value
-
