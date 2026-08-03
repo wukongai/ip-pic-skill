@@ -49,7 +49,12 @@ def _text(value: Any, field: str) -> str:
     return value.strip()
 
 
-def require_confirmed_selection(root: Path, brief: dict[str, Any]) -> Selection | None:
+def require_confirmed_selection(
+    root: Path,
+    brief: dict[str, Any],
+    *,
+    project_style_id: str | None = None,
+) -> Selection | None:
     scene = str(brief.get("scene") or "").strip()
     if scene != "ip_article_illustration":
         return None
@@ -73,7 +78,14 @@ def require_confirmed_selection(root: Path, brief: dict[str, Any]) -> Selection 
     brief_mode = str(brief.get("delivery_mode") or "").strip()
     if brief_mode and brief_mode != values["delivery_mode"]:
         raise IPPicError("selection_receipt.delivery_mode conflicts with brief.delivery_mode")
-    style = resolve_style(root, values["style_variant_id"])["id"]
+    if project_style_id is not None and values["style_variant_id"] == project_style_id:
+        if source != "user-explicit":
+            raise IPPicError(
+                "project style（个人风格）必须由用户明确选择，不能冒充 published recommendation"
+            )
+        style = project_style_id
+    else:
+        style = resolve_style(root, values["style_variant_id"])["id"]
     publish_extension_id = None
     if values["delivery_mode"] == "two-step-publish":
         publish_extension_id = _text(

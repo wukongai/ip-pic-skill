@@ -33,6 +33,7 @@ def main() -> int:
     parser.add_argument("--brief", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--template")
+    parser.add_argument("--project-root", type=Path)
     parser.add_argument("--print-prompt", action="store_true")
     args = parser.parse_args()
     root = _project_root()
@@ -43,6 +44,7 @@ def main() -> int:
         args.output_dir,
         template_id=args.template,
         write=True,
+        project_root=args.project_root,
     )
     for key, value in result["paths"].items():
         print(f"{key}: {value}")

@@ -13,9 +13,10 @@ from .canvas import resolve_size
 from .errors import IPPicError
 from .handoff import build_render_handoff
 from .profiles import load_character_profile
+from .project_resolver import apply_project_customization
 from .references import compile_reference_plan
 from .selection import Selection, require_confirmed_selection
-from .styles import resolve_style
+from .styles import resolve_project_style, resolve_style
 from .templates import list_templates, resolve_template
 
 
@@ -394,6 +395,7 @@ def _manifest(
     output_dir: Path,
     size: str,
     selection: Selection | None,
+    project_customization: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     item_id = brief["id"]
     raw = output_dir / "image" / f"{item_id}.png"
@@ -436,6 +438,10 @@ def _manifest(
             "attachment_evidence_is_visual_qa": False,
         },
     }
+    if project_customization:
+        manifest["project_customization"] = copy.deepcopy(
+            project_customization
+        )
     if _text(brief["visual"].get("style_variant_id")):
         manifest["style_variant_id"] = brief["visual"]["style_variant_id"]
     if reference_plan.get("selection_required"):
@@ -558,9 +564,23 @@ def compile_request(
     *,
     template_id: str | None = None,
     write: bool = True,
+    project_root: Path | None = None,
 ) -> dict[str, Any]:
     root = root.resolve()
-    scene = _text(input_brief.get("scene"))
+    if input_brief.get("project_customization") not in (None, "", {}):
+        if project_root is None:
+            raise IPPicError(
+                "brief 使用 project_customization 时必须提供 project_root / --project-root"
+            )
+    project_context: dict[str, Any] = {}
+    working_brief = copy.deepcopy(input_brief)
+    if project_root is not None:
+        working_brief, project_context = apply_project_customization(
+            root,
+            Path(project_root),
+            working_brief,
+        )
+    scene = _text(working_brief.get("scene"))
     template = (
         resolve_template(root, template_id)
         if template_id
@@ -568,8 +588,15 @@ def compile_request(
     )
     if template.get("scene") != scene:
         raise IPPicError("render style or template must not change the business scene")
-    brief = normalize_brief(input_brief, template)
-    selection = require_confirmed_selection(root, brief)
+    brief = normalize_brief(working_brief, template)
+    project_style_id = project_context.get("project_style_id")
+    selection = require_confirmed_selection(
+        root,
+        brief,
+        project_style_id=(
+            project_style_id if isinstance(project_style_id, str) else None
+        ),
+    )
     style_profile = None
     if selection is not None:
         brief["delivery_mode"] = selection.delivery_mode
@@ -579,7 +606,16 @@ def compile_request(
             brief["composition"]["publish_extension"] = (
                 selection.publish_extension_id
             )
-        style_profile = resolve_style(root, selection.style_variant_id)
+        if (
+            isinstance(project_style_id, str)
+            and selection.style_variant_id == project_style_id
+        ):
+            style_profile = resolve_project_style(
+                root,
+                project_context["_style_asset"],
+            )
+        else:
+            style_profile = resolve_style(root, selection.style_variant_id)
         size = resolve_size(selection.canvas, _text(template.get("size")))
     else:
         size = _text(brief["composition"].get("size")) or _text(template.get("size"))
@@ -589,7 +625,16 @@ def compile_request(
             if style_file:
                 style_id = Path(style_file).stem.removesuffix("-v1")
         if style_id:
-            style_profile = resolve_style(root, style_id)
+            if (
+                isinstance(project_style_id, str)
+                and style_id == project_style_id
+            ):
+                style_profile = resolve_project_style(
+                    root,
+                    project_context["_style_asset"],
+                )
+            else:
+                style_profile = resolve_style(root, style_id)
             brief["visual"]["style_variant_id"] = style_profile["id"]
     output = (output_dir or root / "outputs" / brief["id"]).resolve()
     prompt_path = output / f"{brief['id']}.prompt.md"
@@ -601,6 +646,7 @@ def compile_request(
         output_dir=output,
         size=size,
         selection=selection,
+        project_customization=project_context.get("public"),
     )
     paths = {
         "brief": str(output / "image_brief.json"),

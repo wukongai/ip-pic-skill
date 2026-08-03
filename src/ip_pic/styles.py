@@ -95,3 +95,34 @@ def resolve_style(root: Path, value: str) -> dict[str, Any]:
         if requested in {_normalize(str(item)) for item in candidates}:
             return _profile(root, entry)
     raise StyleError(f"unknown style: {value}")
+
+
+def resolve_project_style(
+    root: Path,
+    project_style: dict[str, Any],
+) -> dict[str, Any]:
+    """Merge one validated project style over an immutable official base."""
+
+    if project_style.get("schema_version") != "ip-pic-project-style/v1":
+        raise StyleError("project style schema is invalid")
+    if project_style.get("scope") != "render-style-only":
+        raise StyleError("project style scope is invalid")
+    base = resolve_style(root, str(project_style.get("base_style_id") or ""))
+    overrides = project_style.get("overrides")
+    if not isinstance(overrides, dict) or not overrides:
+        raise StyleError("project style overrides must be a non-empty object")
+    leaked = sorted(_nested_keys(overrides).intersection(FORBIDDEN_KEYS))
+    if leaked:
+        raise StyleError(f"project style contains forbidden keys: {leaked}")
+    result = copy.deepcopy(base)
+    result.update(
+        {
+            "id": f"project:{project_style['id']}@{project_style['version']}",
+            "display_name": project_style["display_name"],
+            "aliases": copy.deepcopy(project_style.get("aliases", [])),
+            "base_style_id": base["id"],
+            "project_overrides": copy.deepcopy(overrides),
+            "scope": "render-style-only",
+        }
+    )
+    return result
