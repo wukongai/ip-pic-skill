@@ -1,0 +1,18 @@
+{
+  "id": "warm-learning",
+  "display_name": "温暖学习线稿",
+  "aliases": [
+    "温暖线稿"
+  ],
+  "base_style_id": "minimal-lineart",
+  "overrides": {
+    "line": "相对粗一点、端正、清晰，保留自然手绘感",
+    "palette": [
+      "暖黄",
+      "低饱和青绿",
+      "少量砖红强调"
+    ],
+    "material": "轻微纸张颗粒，主体边缘保持清楚",
+    "surface_tone": "温暖、成熟、适合知识讲解"
+  }
+}

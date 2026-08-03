@@ -1,0 +1,39 @@
+{
+  "id": "ato-guide",
+  "display_name": "学习向导阿拓",
+  "aliases": [
+    "阿拓"
+  ],
+  "profile": {
+    "schema_version": "ip-character-profile/v1",
+    "ownership": {
+      "status": "project-original-tutorial",
+      "basis": "用户项目中的原创教程角色与已授权参考图"
+    },
+    "identity": {
+      "name": "学习向导阿拓",
+      "description": "帮助内容创作者拆解复杂知识的成年学习向导"
+    },
+    "appearance": {
+      "description": "黑色短发、圆角眼镜、芥末色短外套和青色内搭"
+    },
+    "personality": [
+      "耐心",
+      "清晰",
+      "善于把抽象内容变成可操作步骤"
+    ],
+    "continuity_anchors": [
+      "黑色短发",
+      "圆角眼镜",
+      "芥末色短外套与青色内搭"
+    ],
+    "references": [
+      {
+        "id": "ato-front-v1",
+        "path": "assets/ato-reference.png",
+        "purpose": "identity",
+        "authorized": true
+      }
+    ]
+  }
+}

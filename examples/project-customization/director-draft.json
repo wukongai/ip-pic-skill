@@ -1,0 +1,22 @@
+{
+  "id": "careful-explain",
+  "display_name": "认真拆解",
+  "aliases": [
+    "认真讲解"
+  ],
+  "preset": {
+    "action": "把当前步骤卡移到流程板中央，另一只手扶住待处理卡片",
+    "character_performance": {
+      "expression_preset": "focused-operate",
+      "expression_description": "认真判断下一步，眉眼克制但不紧张",
+      "intensity": "balanced",
+      "facial_cues": [
+        "轻收眉",
+        "闭口专注"
+      ],
+      "gaze_target": "看向流程板上的当前步骤",
+      "head_pose": "lean-in",
+      "body_pose": "身体微微前倾，重心稳定落在工作台一侧"
+    }
+  }
+}
