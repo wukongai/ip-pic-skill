@@ -9,7 +9,7 @@
 ## 边界
 
 - 原版 Image Factory 只读，不修改、不切换、不把公开候选接回原版工作流。
-- 所有改动只发生在隔离候选和 `/Users/aim5/Documents/CodingProject/test-table/ip-pic-e2e`。
+- 所有改动只发生在隔离候选和专用 `test-table/ip-pic-e2e` 测试项目。
 - 不修改 Global Skill。
 - 不 push、不 tag、不创建 GitHub Release。
 - 不读取、复制或记录任何私有凭证、provider、adapter、余额、fallback 或内部路由配置。
