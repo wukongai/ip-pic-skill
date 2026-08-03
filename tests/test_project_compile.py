@@ -205,6 +205,9 @@ class ProjectCompileTests(unittest.TestCase):
         self.assertEqual(performance["gaze_target"], "最终结论卡")
         self.assertEqual(performance["expression_description"], "轻微微笑但保持笃定")
         self.assertEqual(performance["body_pose"], "身体前倾，重心落在工作台一侧")
+        default_action = result["director_plan"]["provenance"]["default_plan"]["action"]
+        self.assertNotEqual(default_action, "双手举起最终结论卡")
+        self.assertNotIn(default_action, result["prompt"])
 
     def test_project_style_must_be_user_explicit(self) -> None:
         brief = article_brief()

@@ -128,6 +128,32 @@ class DirectorParityTests(unittest.TestCase):
             ["action", "character_performance", "orientation"],
         )
 
+    def test_explicit_action_drives_subject_and_must_show_without_default_conflict(
+        self,
+    ) -> None:
+        brief = _brief(0)
+        explicit_action = "把当前步骤卡移到流程板中央"
+        brief["composition"] = {"action": explicit_action}
+
+        result = director.merge_missing(brief)
+        default_action = result["director"]["provenance"]["default_plan"]["action"]
+
+        self.assertNotEqual(explicit_action, default_action)
+        self.assertIn(explicit_action, result["visual"]["subject"])
+        self.assertTrue(
+            any(
+                explicit_action in item
+                for item in result["visual"]["must_show"]
+            )
+        )
+        self.assertNotIn(default_action, result["visual"]["subject"])
+        self.assertFalse(
+            any(
+                default_action in item
+                for item in result["visual"]["must_show"]
+            )
+        )
+
     def test_sequence_rotates_family_action_orientation_expression_and_gaze(self) -> None:
         plans = [director.plan(_brief(index))["composition"] for index in range(12)]
 

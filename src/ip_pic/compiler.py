@@ -157,6 +157,9 @@ def normalize_brief(brief: dict[str, Any], template: dict[str, Any]) -> dict[str
 def _prompt_brief(brief: dict[str, Any]) -> dict[str, Any]:
     value = copy.deepcopy(brief)
     value.pop("source_content", None)
+    director_value = value.get("director")
+    if isinstance(director_value, dict):
+        director_value.pop("provenance", None)
     visual = value.get("visual")
     if isinstance(visual, dict):
         assets = visual.get("authorized_assets")

@@ -241,14 +241,33 @@ def merge_missing(brief: dict[str, Any], template: dict[str, Any] | None = None)
             merged_visual["authorized_assets"] = default_assets
     if not existing_visual.get("metaphors"):
         merged_visual["metaphors"] = director_visual["metaphors"]
-    if not existing_visual.get("must_show"):
-        merged_visual["must_show"] = director_visual["must_show"]
-    if not _text(existing_visual.get("subject")):
-        merged_visual["subject"] = director_visual["subject"]
     if not _text(existing_composition.get("action")):
         merged_composition["action"] = director_composition["action"]
     if not isinstance(existing_composition.get("character_performance"), dict):
         merged_composition["character_performance"] = director_composition["character_performance"]
+    actual_action = _text(merged_composition.get("action"))
+    if not _text(existing_visual.get("subject")):
+        headline = _text(
+            (
+                brief.get("content")
+                if isinstance(brief.get("content"), dict)
+                else {}
+            ).get("headline")
+        ) or "当前内容"
+        merged_visual["subject"] = (
+            f"围绕“{headline}”，{_identity_label(brief)}亲自{actual_action}，"
+            "让人物、物件和信息路径组成一个可读的同场景隐喻。"
+        )
+    if not existing_visual.get("must_show"):
+        merged_visual["must_show"] = [
+            f"角色必须完成动作：{actual_action}",
+            (
+                "角色朝向："
+                f"{_text(merged_composition.get('orientation'))}；"
+                "视觉主锚点："
+                f"{_text(merged_composition.get('visual_anchor_position'))}"
+            ),
+        ]
     explicit_composition_keys = sorted(
         key for key in existing_composition if key in director_composition and existing_composition.get(key) not in (None, "", [])
     )
