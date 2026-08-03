@@ -17,6 +17,16 @@ Automated verification covers:
 
 Real-image sampling also verified that one six-paragraph article can produce six distinct direct-integrated illustrations that remain associated with their source paragraphs. Chinese headlines, supporting copy, heavy display lettering, and one hand-drawn emphasis line appeared in the real images. A mismatch in expression or gaze must still be treated as a retry even when the text is correct.
 
+## Current candidate real-image status
+
+The 2026-08-03 pre-release run generated 19 first-attempt samples with Codex Image Tool and performed three targeted retries:
+
+- the recommended article `direct-integrated` path passed 6/6;
+- 11/19 currently selected final images passed;
+- the eight remaining retry items are all secondary `two-step-publish` or static-video combinations, with issues such as ineffective square-canvas whitespace, a model-rendered placeholder frame, low text contrast, or crowded text/subject placement.
+
+This candidate is therefore suitable for Beta testing with article direct-integrated work as the recommended path. Full structural coverage must not be read as full human visual acceptance of every combination.
+
 ## What automation cannot guarantee
 
 Image generation is stochastic. Different agents, image models, fonts, systems, and reference images can affect:
