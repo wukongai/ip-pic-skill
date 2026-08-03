@@ -30,7 +30,15 @@ EXPRESSION_ALIASES = {
 }
 INTENSITIES = {"subtle", "balanced", "strong"}
 HEAD_POSES = {"neutral", "slight-tilt", "lean-in", "turn-back"}
-ALLOWED_FIELDS = {"expression_preset", "intensity", "gaze_target", "facial_cues", "head_pose"}
+ALLOWED_FIELDS = {
+    "expression_preset",
+    "expression_description",
+    "intensity",
+    "gaze_target",
+    "facial_cues",
+    "head_pose",
+    "body_pose",
+}
 
 
 def _text(value: Any) -> str:
@@ -65,24 +73,40 @@ def normalize(value: Any) -> dict[str, Any] | None:
     head_pose = _text(value.get("head_pose")) or "neutral"
     if head_pose not in HEAD_POSES:
         raise ImageFactoryError(f"未知 head_pose {head_pose!r}，可选：{', '.join(sorted(HEAD_POSES))}")
-    return {
+    expression_description = _text(value.get("expression_description"))
+    if len(expression_description) > 120:
+        raise ImageFactoryError("expression_description 最多 120 个字符")
+    body_pose = _text(value.get("body_pose"))
+    if len(body_pose) > 120:
+        raise ImageFactoryError("body_pose 最多 120 个字符")
+    result = {
         "expression_preset": preset,
         "intensity": intensity,
         "gaze_target": gaze_target,
         "facial_cues": [_text(item) for item in cues],
         "head_pose": head_pose,
     }
+    if expression_description:
+        result["expression_description"] = expression_description
+    if body_pose:
+        result["body_pose"] = body_pose
+    return result
 
 
 def prompt_lines(value: dict[str, Any]) -> list[str]:
     preset_id = str(value["expression_preset"])
     preset = EXPRESSION_PRESETS[preset_id]
     cues = value.get("facial_cues") or preset["cues"]
-    return [
+    lines = [
         f"- 表情预设: {preset_id}（{preset['label']}）",
         f"- 表现强度: {value['intensity']}",
         f"- 视线目标: {value['gaze_target']}",
         f"- 面部线索: {'、'.join(cues)}",
         f"- 头部姿态: {value['head_pose']}",
-        "- 表情必须保持成熟身份锚点，并服务当前动作与认知隐喻。",
     ]
+    if value.get("expression_description"):
+        lines.append(f"- 个性化表情描述: {value['expression_description']}")
+    if value.get("body_pose"):
+        lines.append(f"- 身体姿态: {value['body_pose']}")
+    lines.append("- 表情必须保持成熟身份锚点，并服务当前动作与认知隐喻。")
+    return lines
