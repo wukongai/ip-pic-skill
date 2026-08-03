@@ -66,7 +66,7 @@
   },
   "style": {
     "visual_style": "playful ugly-cute handmade wool-felt editorial scene, visible fibers, irregular blanket stitches, chunky hand-cut shapes, shallow tactile relief and mature deadpan humor; one cohesive material system",
-    "character_rendering": "recognizable mature Chinese woman as a coherent felt character: black low ponytail, narrow rectangular glasses, burgundy top, deep-navy jacket, long black wide-leg trousers; adult proportions, never baby-faced",
+    "character_rendering": "translate only the authorized visual.ip_profile into a coherent felt character; preserve its declared proportions and continuity anchors without adding a fixed persona or wardrobe",
     "stage_language": {
       "decision": "three-way felt control dial with one chosen lever and two rejected branches",
       "process": "three sequential felt rollers or stepping modules with clear input-output order",

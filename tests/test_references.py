@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import sys
 import tempfile
 import unittest
@@ -59,6 +60,29 @@ class ReferenceStrategyTests(unittest.TestCase):
         self.assertEqual(plan["selected_asset_count"], 1)
         self.assertEqual(plan["selected_assets"][0]["purpose"], "identity")
         self.assertFalse(plan["selection_required"])
+
+    def test_handoff_preserves_authorized_asset_id_and_sha256(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            assets = self._assets(root)
+            identity = next(item for item in assets if item["purpose"] == "identity")
+            identity["sha256"] = hashlib.sha256(
+                Path(identity["path"]).read_bytes()
+            ).hexdigest()
+            prompt = root / "prompt.md"
+            prompt.write_text("public prompt", encoding="utf-8")
+            plan = compile_reference_plan(
+                item_id="with-digest",
+                template={"reference_strategy": {"type": "primary_reference"}},
+                brief={"visual": {}},
+                authorized_assets=assets,
+                prompt_file=prompt,
+                size="1536x864",
+                output_dir=root / "output",
+            )
+        selected = plan["selected_assets"][0]
+        self.assertEqual(selected["id"], "identity")
+        self.assertEqual(selected["sha256"], identity["sha256"])
 
     def test_native_multi_reference_preserves_all_authorized_assets(self) -> None:
         with tempfile.TemporaryDirectory() as temp:

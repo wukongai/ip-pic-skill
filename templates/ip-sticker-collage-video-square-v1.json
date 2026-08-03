@@ -51,7 +51,7 @@
   },
   "style": {
     "visual_style": "analog cut-paper and die-cut sticker editorial collage, matte paper fibers, torn edges, white sticker contours used selectively, screen-print halftone, slightly misregistered cyan-red ink, layered paper shadows, witty adult energy",
-    "character_rendering": "recognizable mature Chinese woman as a coherent full-body paper collage character; black low ponytail, narrow rectangular glasses, burgundy top, deep-navy jacket, long black wide-leg trousers",
+    "character_rendering": "translate only the authorized visual.ip_profile into a coherent full-body paper collage character; do not add fixed hair, glasses, clothing, gender or persona anchors",
     "palette": "warm paper, burgundy, cobalt, orange, black and off-white; maximum two saturated accents",
     "sticker_rule": "贴画是统一材质系统，不是随机图标墙；人物不可缩成角落贴纸。"
   },

@@ -51,7 +51,7 @@
   },
   "style": {
     "visual_style": "museum-quality art-book printmaking, carved linocut contours, monotype grain, opaque gouache color fields, deckled paper texture, asymmetric modern composition, expressive negative space, tactile and original without imitating any named artist",
-    "character_rendering": "recognizable mature Chinese woman reduced into elegant carved contours and flat gouache planes; black low ponytail, narrow glasses, burgundy top and navy jacket remain identifiable",
+    "character_rendering": "render the authorized character only from visual.ip_profile identity, appearance and continuity anchors; preserve adult-readable proportions without adding a fixed persona or wardrobe",
     "palette": "charcoal black, bone white, oxblood, indigo, muted ochre and one orange accent",
     "art_rule": "艺术感来自构成、留白和材料痕迹，不是随机抽象或故作高深。"
   },

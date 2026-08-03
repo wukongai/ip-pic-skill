@@ -75,10 +75,12 @@ def resolve_strategy(template: dict[str, Any], brief: dict[str, Any]) -> dict[st
 
 def _handoff_asset(asset: dict[str, Any], *, required_default: bool = True) -> dict[str, Any]:
     return {
+        "id": _as_text(asset.get("id")),
         "path": _as_text(asset.get("path")),
         "purpose": _as_text(asset.get("purpose")) or "content",
         "ownership": _as_text(asset.get("ownership")) or "authorized",
         "required": bool(asset.get("required", required_default)),
+        "sha256": _as_text(asset.get("sha256")),
     }
 
 
@@ -113,6 +115,13 @@ def _authorized_asset(raw: Any, index: int) -> dict[str, Any]:
             "required": bool(asset.get("required", True)),
         }
     )
+    digest = _as_text(asset.get("sha256"))
+    if digest:
+        import hashlib
+
+        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        if digest != actual:
+            raise ImageFactoryError(f"authorized_assets[{index}].sha256 与文件不一致")
     return asset
 
 

@@ -20,10 +20,12 @@ def build_render_handoff(
             continue
         normalized.append(
             {
+                "id": str(asset.get("id") or ""),
                 "path": str(asset.get("path") or ""),
                 "purpose": str(asset.get("purpose") or "content"),
                 "ownership": str(asset.get("ownership") or "authorized"),
                 "required": bool(asset.get("required", True)),
+                "sha256": str(asset.get("sha256") or ""),
             }
         )
     return {

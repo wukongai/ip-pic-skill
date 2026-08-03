@@ -72,7 +72,7 @@
   },
   "style": {
     "visual_style": "minimal editorial black line art on pure white: economical slightly wobbly hand-drawn ink contours, open shapes, sparse grounding marks, huge uninterrupted negative space, one low-tech absurd physical metaphor, one thin orange action path and at most one tiny red or blue cue; crisp and intelligent, never messy, never commercial vector, never textured illustration",
-    "character_rendering": "recognizable mature Chinese woman reduced to economical black contours: low ponytail, narrow rectangular glasses, short jacket silhouette and long wide-leg trousers; adult anatomy and core action remain clear, with at most tiny burgundy or navy identity strokes",
+    "character_rendering": "reduce the authorized visual.ip_profile to economical readable contours; preserve its declared anatomy and core action without adding fixed hair, glasses, clothing, gender or palette anchors",
     "object_rendering": "熟悉物件的轮廓必须一眼可认，怪诞感来自它们被迫组成一个低科技机制，不是乱线、抽象符号或 UI。",
     "background": "#FFFFFF pure white; no paper grain, cream tint, gradient, rendered shadow, room, landscape or decorative pattern",
     "palette": "ink black #1D1D1D dominates; orange #F28C28 for the only action path; optional tiny red #D94A45 or blue #3F7FBF state cue"

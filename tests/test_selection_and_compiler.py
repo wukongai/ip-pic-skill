@@ -192,6 +192,43 @@ class SelectionAndCompilerTests(unittest.TestCase):
                 written["manifest"]["video_text_overlay"],
             )
 
+    def test_video_uses_explicit_style_and_never_injects_template_character(self) -> None:
+        brief = json.loads(
+            (ROOT / "examples" / "video-square-brief.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        brief["visual"]["style_variant_id"] = "sticker-collage"
+        brief["visual"]["ip_profile"] = {
+            "schema_version": "ip-character-profile/v1",
+            "id": "project-ato",
+            "ownership": {"status": "user-owned", "basis": "authorized"},
+            "identity": {"name": "项目阿拓", "description": "project identity"},
+            "appearance": {"description": "短发圆框眼镜黄外套"},
+            "personality": ["专注"],
+            "continuity_anchors": ["短发", "圆框眼镜", "黄外套"],
+            "references": [],
+            "public_profile_resolution": {
+                "mode": "project-profile-only",
+                "do_not_load_or_merge": "tutorial-ato-v1",
+            },
+        }
+        result = compile_request(
+            ROOT,
+            brief,
+            template_id="ip-sticker-collage-video-square-v1",
+            write=False,
+        )
+        self.assertEqual(
+            result["manifest"]["brief"]["style_variant_id"],
+            "sticker-collage",
+        )
+        self.assertEqual(result["manifest"]["style_variant_id"], "sticker-collage")
+        for forbidden in ("mature Chinese woman", "low ponytail", "burgundy top", "navy jacket"):
+            self.assertNotIn(forbidden, result["prompt"])
+        for forbidden in ("public_profile_resolution", "do_not_load_or_merge", "tutorial-ato-v1"):
+            self.assertNotIn(forbidden, result["prompt"])
+
     def test_all_six_styles_keep_structure_canvas_delivery_and_director(self) -> None:
         baseline = None
         for style in (

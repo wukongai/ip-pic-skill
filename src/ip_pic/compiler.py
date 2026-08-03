@@ -134,6 +134,7 @@ def normalize_brief(brief: dict[str, Any], template: dict[str, Any]) -> dict[str
                 "reference_strategy": copy.deepcopy(
                     visual.get("reference_strategy")
                 ),
+                "style_variant_id": _text(visual.get("style_variant_id")),
                 "ip_profile": visual.get("ip_profile"),
             },
             "composition": copy.deepcopy(composition),
@@ -170,6 +171,9 @@ def _prompt_brief(brief: dict[str, Any]) -> dict[str, Any]:
             ]
         profile = visual.get("ip_profile")
         if isinstance(profile, dict) and isinstance(profile.get("references"), list):
+            profile.pop("public_profile_resolution", None)
+            profile.pop("source_priority", None)
+            profile.pop("scope", None)
             profile["references"] = [
                 {
                     key: item.get(key)
@@ -432,6 +436,8 @@ def _manifest(
             "attachment_evidence_is_visual_qa": False,
         },
     }
+    if _text(brief["visual"].get("style_variant_id")):
+        manifest["style_variant_id"] = brief["visual"]["style_variant_id"]
     if reference_plan.get("selection_required"):
         manifest["render_candidates"] = reference_plan.get("candidates", [])
     else:
@@ -577,6 +583,14 @@ def compile_request(
         size = resolve_size(selection.canvas, _text(template.get("size")))
     else:
         size = _text(brief["composition"].get("size")) or _text(template.get("size"))
+        style_id = _text(brief["visual"].get("style_variant_id"))
+        if not style_id:
+            style_file = _text(template.get("render_style_profile"))
+            if style_file:
+                style_id = Path(style_file).stem.removesuffix("-v1")
+        if style_id:
+            style_profile = resolve_style(root, style_id)
+            brief["visual"]["style_variant_id"] = style_profile["id"]
     output = (output_dir or root / "outputs" / brief["id"]).resolve()
     prompt_path = output / f"{brief['id']}.prompt.md"
     prompt = compile_prompt(template, brief, size, style_profile)
