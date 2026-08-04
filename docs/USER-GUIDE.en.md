@@ -410,7 +410,7 @@ IP Pic creates static keyframes only. It does not animate, lip-sync, narrate, or
 
 IP Pic was extracted from a larger production workflow into a standalone public Skill. The release is covered by automated contract, privacy, security, template, style, batch, retry, and real-image tests. Different agents, image models, fonts, and environments can still produce visual differences.
 
-Run the Ato short-passage example first, then test your article and an authorized character. Report reproducible issues with the public input, agent, image-tool type, failed image, and visible symptom. Never include credentials or references you are not allowed to publish. See [Verification Notes](docs/VERIFICATION.en.md).
+Run the Ato short-passage example first, then test your article and an authorized character. Report reproducible issues with the public input, agent, image-tool type, failed image, and visible symptom. Never include credentials or references you are not allowed to publish. See [Verification Notes](VERIFICATION.en.md).
 
 <!-- IP-PIC-ILLUSTRATION:release-feedback Add an original IP illustration of user review and retrying only failed items. -->
 

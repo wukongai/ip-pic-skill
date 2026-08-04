@@ -858,7 +858,7 @@ Agent 编排入口使用 `ip_pic.batch`：
 对 Agent 说：
 
 ```text
-请按 ip-pic 的 USER-GUIDE.zh-CN.md 和 references/full-rebuild-playbook.md
+请按 ip-pic 的 docs/USER-GUIDE.zh-CN.md 和 references/full-rebuild-playbook.md
 处理这组 IP 配图。先展示 shot plan；使用全新输出目录；
 保留成功项，只重试失败项；任何被否决图片不得进入下一轮参考图；
 结构测试不能代替我的逐图视觉验收。
