@@ -12,6 +12,13 @@ from PIL import Image
 
 
 ROOT = Path(__file__).resolve().parents[1]
+DOCS = ROOT / "docs"
+USER_GUIDE_ZH = DOCS / "USER-GUIDE.zh-CN.md"
+USER_GUIDE_EN = DOCS / "USER-GUIDE.en.md"
+IMAGE_TOOL_GUIDE_ZH = DOCS / "IMAGE-TOOL-SETUP.zh-CN.md"
+IMAGE_TOOL_GUIDE_EN = DOCS / "IMAGE-TOOL-SETUP.en.md"
+MAINTAINER_GUIDE_ZH = DOCS / "MAINTAINER-GUIDE.zh-CN.md"
+MAINTAINER_GUIDE_EN = DOCS / "MAINTAINER-GUIDE.en.md"
 sys.path.insert(0, str(ROOT / "src"))
 
 from ip_pic.compiler import compile_request  # noqa: E402
@@ -20,14 +27,28 @@ from ip_pic.publish import FONT_CANDIDATES, compose_publish_layout  # noqa: E402
 
 
 class DocumentedUserFlowTests(unittest.TestCase):
-    def test_beginner_guides_and_customization_reference_exist(self) -> None:
-        required = (
+    def test_long_form_guides_live_under_docs_not_repository_root(self) -> None:
+        guide_names = (
             "USER-GUIDE.zh-CN.md",
             "USER-GUIDE.en.md",
             "IMAGE-TOOL-SETUP.zh-CN.md",
             "IMAGE-TOOL-SETUP.en.md",
             "MAINTAINER-GUIDE.zh-CN.md",
             "MAINTAINER-GUIDE.en.md",
+        )
+        for name in guide_names:
+            with self.subTest(name=name):
+                self.assertTrue((DOCS / name).is_file())
+                self.assertFalse((ROOT / name).exists())
+
+    def test_beginner_guides_and_customization_reference_exist(self) -> None:
+        required = (
+            "docs/USER-GUIDE.zh-CN.md",
+            "docs/USER-GUIDE.en.md",
+            "docs/IMAGE-TOOL-SETUP.zh-CN.md",
+            "docs/IMAGE-TOOL-SETUP.en.md",
+            "docs/MAINTAINER-GUIDE.zh-CN.md",
+            "docs/MAINTAINER-GUIDE.en.md",
             "docs/VERIFICATION.zh-CN.md",
             "docs/VERIFICATION.en.md",
             "references/customization.md",
@@ -42,7 +63,7 @@ class DocumentedUserFlowTests(unittest.TestCase):
         self.assertEqual(missing, [])
 
     def test_beginner_guide_is_agent_first_and_restores_original_journey(self) -> None:
-        guide = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
+        guide = USER_GUIDE_ZH.read_text(encoding="utf-8")
         required_phrases = (
             "https://github.com/wukongai/ip-pic-skill",
             "帮我安装并使用这个配图工具",
@@ -67,8 +88,8 @@ class DocumentedUserFlowTests(unittest.TestCase):
         user_surfaces = "\n".join(
             (ROOT / relative).read_text(encoding="utf-8")
             for relative in (
-                "USER-GUIDE.zh-CN.md",
-                "USER-GUIDE.en.md",
+                "docs/USER-GUIDE.zh-CN.md",
+                "docs/USER-GUIDE.en.md",
                 "README.zh-CN.md",
                 "README.en.md",
             )
@@ -109,8 +130,8 @@ class DocumentedUserFlowTests(unittest.TestCase):
         )
 
     def test_first_example_is_one_short_prompt_and_agent_handles_setup(self) -> None:
-        chinese = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
-        english = (ROOT / "USER-GUIDE.en.md").read_text(encoding="utf-8")
+        chinese = USER_GUIDE_ZH.read_text(encoding="utf-8")
+        english = USER_GUIDE_EN.read_text(encoding="utf-8")
 
         chinese_example = chinese.split("## 第二步：直接运行示例", 1)[1].split(
             "## 第三步：", 1
@@ -141,8 +162,8 @@ class DocumentedUserFlowTests(unittest.TestCase):
         user_surfaces = "\n".join(
             (ROOT / relative).read_text(encoding="utf-8")
             for relative in (
-                "USER-GUIDE.zh-CN.md",
-                "USER-GUIDE.en.md",
+                "docs/USER-GUIDE.zh-CN.md",
+                "docs/USER-GUIDE.en.md",
                 "README.zh-CN.md",
                 "README.en.md",
             )
@@ -162,10 +183,8 @@ class DocumentedUserFlowTests(unittest.TestCase):
                 self.assertNotIn(phrase, user_surfaces)
 
     def test_optional_image_tool_setup_explains_all_real_routes(self) -> None:
-        chinese = (ROOT / "IMAGE-TOOL-SETUP.zh-CN.md").read_text(
-            encoding="utf-8"
-        )
-        english = (ROOT / "IMAGE-TOOL-SETUP.en.md").read_text(encoding="utf-8")
+        chinese = IMAGE_TOOL_GUIDE_ZH.read_text(encoding="utf-8")
+        english = IMAGE_TOOL_GUIDE_EN.read_text(encoding="utf-8")
 
         chinese_phrases = (
             "默认推荐使用 GPT Image 2",
@@ -210,15 +229,13 @@ class DocumentedUserFlowTests(unittest.TestCase):
             with self.subTest(language="en", phrase=phrase):
                 self.assertIn(phrase, english)
 
-        chinese_guide = (ROOT / "USER-GUIDE.zh-CN.md").read_text(
-            encoding="utf-8"
-        )
-        english_guide = (ROOT / "USER-GUIDE.en.md").read_text(encoding="utf-8")
+        chinese_guide = USER_GUIDE_ZH.read_text(encoding="utf-8")
+        english_guide = USER_GUIDE_EN.read_text(encoding="utf-8")
         self.assertIn("IMAGE-TOOL-SETUP.zh-CN.md", chinese_guide)
         self.assertIn("IMAGE-TOOL-SETUP.en.md", english_guide)
 
     def test_user_guide_is_direct_primary_and_honest_about_extracted_release(self) -> None:
-        chinese = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
+        chinese = USER_GUIDE_ZH.read_text(encoding="utf-8")
         readme = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
         required_phrases = (
             "默认优先使用一次图文融合",
@@ -239,10 +256,8 @@ class DocumentedUserFlowTests(unittest.TestCase):
         self.assertNotIn("未经测试", surfaces)
 
     def test_technical_manual_is_retained_for_maintainers(self) -> None:
-        chinese = (ROOT / "MAINTAINER-GUIDE.zh-CN.md").read_text(
-            encoding="utf-8"
-        )
-        english = (ROOT / "MAINTAINER-GUIDE.en.md").read_text(encoding="utf-8")
+        chinese = MAINTAINER_GUIDE_ZH.read_text(encoding="utf-8")
+        english = MAINTAINER_GUIDE_EN.read_text(encoding="utf-8")
         self.assertIn("python3 scripts/compile_ip_pic.py", chinese)
         self.assertIn("python3 scripts/compile_ip_pic.py", english)
         self.assertIn("two-step-publish", chinese)
@@ -267,11 +282,9 @@ class DocumentedUserFlowTests(unittest.TestCase):
         self.assertNotIn("```bash", root_entry)
 
     def test_natural_language_customization_is_a_real_confirmed_runtime(self) -> None:
-        guide = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
+        guide = USER_GUIDE_ZH.read_text(encoding="utf-8")
         root_entry = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-        maintainer = (ROOT / "MAINTAINER-GUIDE.zh-CN.md").read_text(
-            encoding="utf-8"
-        )
+        maintainer = MAINTAINER_GUIDE_ZH.read_text(encoding="utf-8")
 
         for phrase in (
             "把 IP Pic 调成你的专属工作流",
@@ -302,7 +315,7 @@ class DocumentedUserFlowTests(unittest.TestCase):
         self.assertNotIn("python3 scripts/manage_ip_pic_project.py", guide)
 
     def test_agent_first_guide_closes_obsidian_and_two_step_journeys(self) -> None:
-        guide = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
+        guide = USER_GUIDE_ZH.read_text(encoding="utf-8")
         required_phrases = (
             "按照当前 Obsidian 项目已有的附件规则",
             "把图片链接插入刚才规划的文章位置",
@@ -321,7 +334,7 @@ class DocumentedUserFlowTests(unittest.TestCase):
     def test_beginner_guide_closes_project_style_and_asset_version_gaps(
         self,
     ) -> None:
-        guide = (ROOT / "USER-GUIDE.zh-CN.md").read_text(encoding="utf-8")
+        guide = USER_GUIDE_ZH.read_text(encoding="utf-8")
         required_phrases = (
             "安装与自检通过",
             "当前写作项目和图片保存位置",
@@ -344,7 +357,10 @@ class DocumentedUserFlowTests(unittest.TestCase):
         self.assertIn("首次使用时，Agent 可能先问图片保存到哪个项目", readme)
 
     def test_beginner_guides_link_only_to_existing_local_files(self) -> None:
-        for relative in ("USER-GUIDE.zh-CN.md", "USER-GUIDE.en.md"):
+        for relative in (
+            "docs/USER-GUIDE.zh-CN.md",
+            "docs/USER-GUIDE.en.md",
+        ):
             with self.subTest(guide=relative):
                 text = (ROOT / relative).read_text(encoding="utf-8")
                 for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", text):
