@@ -245,7 +245,7 @@ class DocumentedUserFlowTests(unittest.TestCase):
             "从更大的工作流中独立拆分",
             "不同 Agent、图片模型、字体和运行环境",
             "可复现的问题",
-            "docs/VERIFICATION.zh-CN.md",
+            "VERIFICATION.zh-CN.md",
             "IP-PIC-ILLUSTRATION:",
         )
         surfaces = chinese + "\n" + readme
@@ -265,7 +265,7 @@ class DocumentedUserFlowTests(unittest.TestCase):
 
     def test_readme_routes_writers_to_agent_first_guide(self) -> None:
         chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
-        self.assertIn("USER-GUIDE.zh-CN.md", chinese)
+        self.assertIn("docs/USER-GUIDE.zh-CN.md", chinese)
         self.assertIn("https://github.com/wukongai/ip-pic-skill", chinese)
         self.assertIn("帮我安装并使用这个配图工具", chinese)
         self.assertIn("给这篇文章配图", chinese)
@@ -277,7 +277,7 @@ class DocumentedUserFlowTests(unittest.TestCase):
     def test_root_skill_keeps_technical_work_inside_the_agent(self) -> None:
         root_entry = (ROOT / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("普通用户可直接说", root_entry)
-        self.assertIn("MAINTAINER-GUIDE.zh-CN.md", root_entry)
+        self.assertIn("docs/MAINTAINER-GUIDE.zh-CN.md", root_entry)
         self.assertIn("给这篇文章配图", root_entry)
         self.assertNotIn("```bash", root_entry)
 
@@ -356,20 +356,35 @@ class DocumentedUserFlowTests(unittest.TestCase):
         readme = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
         self.assertIn("首次使用时，Agent 可能先问图片保存到哪个项目", readme)
 
-    def test_beginner_guides_link_only_to_existing_local_files(self) -> None:
-        for relative in (
-            "docs/USER-GUIDE.zh-CN.md",
-            "docs/USER-GUIDE.en.md",
-        ):
-            with self.subTest(guide=relative):
-                text = (ROOT / relative).read_text(encoding="utf-8")
+    def test_active_markdown_links_resolve_after_docs_migration(self) -> None:
+        active_documents = (
+            ROOT / "README.zh-CN.md",
+            ROOT / "README.en.md",
+            ROOT / "SKILL.md",
+            ROOT / "references" / "README.md",
+            USER_GUIDE_ZH,
+            USER_GUIDE_EN,
+            IMAGE_TOOL_GUIDE_ZH,
+            IMAGE_TOOL_GUIDE_EN,
+            MAINTAINER_GUIDE_ZH,
+            MAINTAINER_GUIDE_EN,
+            DOCS / "VERIFICATION.zh-CN.md",
+            DOCS / "VERIFICATION.en.md",
+        )
+        for document in active_documents:
+            with self.subTest(document=document.relative_to(ROOT)):
+                text = document.read_text(encoding="utf-8")
                 for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", text):
                     if "://" in target or target.startswith("#"):
                         continue
                     clean = target.split("#", 1)[0]
+                    resolved = (document.parent / clean).resolve()
                     self.assertTrue(
-                        (ROOT / clean).exists(),
-                        f"{relative} links to missing local path: {target}",
+                        resolved.exists(),
+                        (
+                            f"{document.relative_to(ROOT)} links to missing "
+                            f"path: {target}"
+                        ),
                     )
 
     def test_contract_declares_only_real_cli_paths(self) -> None:

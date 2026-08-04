@@ -42,10 +42,10 @@ Read my current Obsidian article and choose the moments worth illustrating.
 
 Guides:
 
-- [Writer User Guide](USER-GUIDE.en.md)
+- [Writer User Guide](docs/USER-GUIDE.en.md)
 - [Verification Notes](docs/VERIFICATION.en.md)
 
-GPT Image 2 is preferred by default. During normal use, the Agent selects an available image tool automatically. Open [Image Tool Setup](IMAGE-TOOL-SETUP.en.md) only when the Agent explicitly says no image tool is available.
+GPT Image 2 is preferred by default. During normal use, the Agent selects an available image tool automatically. Open [Image Tool Setup](docs/IMAGE-TOOL-SETUP.en.md) only when the Agent explicitly says no image tool is available.
 
 ## Natural-language choices
 

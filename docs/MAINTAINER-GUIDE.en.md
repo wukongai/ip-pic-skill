@@ -227,7 +227,7 @@ Project references must be authorized ordinary files inside the project. A perso
 
 The public package contains text-only profiles for original tutorial characters and no character reference images.
 
-Copy [examples/article-brief.json](examples/article-brief.json) to a new work file. Replace `visual.ip_profile` with a non-sensitive public description and a rights declaration. Accepted ownership statuses are:
+Copy [examples/article-brief.json](../examples/article-brief.json) to a new work file. Replace `visual.ip_profile` with a non-sensitive public description and a rights declaration. Accepted ownership statuses are:
 
 - `user-owned`
 - `licensed`
@@ -273,7 +273,7 @@ The prompt must begin with a text-free raw instruction and end with `无字视�
 
 Article and video style selection are not the same interface. Articles use `selection_receipt.style_variant_id`; video keyframes use existing video templates. The current video compiler does not consume the article selection receipt to switch style.
 
-Square style templates are listed in [references/customization.md](references/customization.md). Portrait structures include `custom-ip-handdrawn-video-portrait-v1`, `ip-editorial-video-v3`, and `ip-editorial-video-subtitle-safe-v4`.
+Square style templates are listed in [references/customization.md](../references/customization.md). Portrait structures include `custom-ip-handdrawn-video-portrait-v1`, `ip-editorial-video-v3`, and `ip-editorial-video-subtitle-safe-v4`.
 
 For video font overrides, add top-level `font_path` and optional `headline_font_path` to `video-text-overlay.json`, then validate it with `python3 -m json.tool outputs/manual-video-square-01/video-text-overlay.json`. A 9:16 headline uses `font_path`; a 1:1 headline may use `headline_font_path`. Windows requires an explicit Chinese font path. Linux only auto-falls back when one of the Noto CJK paths listed by the script exists; explicit paths are more reproducible. Verify the result on the target operating system. If a final already exists, copy the overlay and change its top-level `output_dir` to a new directory. Keep `items[0].output_file` as the filename; do not add `output` or `result_receipt`, because the composer creates the receipt automatically inside the new output directory.
 
@@ -294,7 +294,7 @@ python3 scripts/qa_ip_pic.py \
 
 `checks_passed` still produces `visual_acceptance=pending_human` and `approved_for_release=false`. Automated structure is not human visual approval. Use `--fail-check` to record failures; the receipt identifies `render` or `publish-layout` as the retry scope.
 
-See [references/qa-checklist.md](references/qa-checklist.md).
+See [references/qa-checklist.md](../references/qa-checklist.md).
 
 ## 12. Retry and rebuild
 
@@ -314,7 +314,7 @@ python3 scripts/compose_publish_layout.py \
 - Never use rejected output as a later reference.
 - The Agent-level batch API provides `build_shot_plan`, `run_batch`, `retry_failed`, and `rebuild_batch`. It preserves successful items and rebuilds into a clean directory.
 
-See [references/full-rebuild-playbook.md](references/full-rebuild-playbook.md).
+See [references/full-rebuild-playbook.md](../references/full-rebuild-playbook.md).
 
 ## 13. Customize or add styles
 
@@ -322,7 +322,7 @@ Safe task-level customization—choosing a built-in style, supplying an authoriz
 
 Editing a render-style profile, adding a seventh style, adding a title band, or changing video typography requires a personal fork. That fork is no longer the official fixed-six exact-parity distribution. Keep the MIT attribution, back up first, run all tests, and perform fresh visual regression.
 
-Follow [references/customization.md](references/customization.md).
+Follow [references/customization.md](../references/customization.md).
 
 ## Final release checklist
 
@@ -335,4 +335,4 @@ Follow [references/customization.md](references/customization.md).
 - Automated tests pass.
 - A human opened and accepted every final image.
 
-Use [references/README.md](references/README.md) for the complete capability index.
+Use [references/README.md](../references/README.md) for the complete capability index.

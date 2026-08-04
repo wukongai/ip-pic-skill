@@ -265,7 +265,7 @@ prepare 成功时 request 中应是 `status: awaiting_host`、`rendered: false`�
 
 ### direct-integrated：一次直出图文融合
 
-示例 [examples/article-brief.json](examples/article-brief.json) 使用此模式。
+示例 [examples/article-brief.json](../examples/article-brief.json) 使用此模式。
 
 必须达到：
 
@@ -770,7 +770,7 @@ python3 scripts/qa_ip_pic.py \
 - `visual_acceptance` 仍是 `pending_human`。
 - `approved_for_release` 仍是 `false`。
 
-这表示机器合同检查完成，不代表用户已经批准视觉发布。人工最终验收见 [references/qa-checklist.md](references/qa-checklist.md)。
+这表示机器合同检查完成，不代表用户已经批准视觉发布。人工最终验收见 [references/qa-checklist.md](../references/qa-checklist.md)。
 
 two-step 必须检查 final，不是 raw：
 
@@ -864,7 +864,7 @@ Agent 编排入口使用 `ip_pic.batch`：
 结构测试不能代替我的逐图视觉验收。
 ```
 
-批量完整合同见 [references/full-rebuild-playbook.md](references/full-rebuild-playbook.md)。
+批量完整合同见 [references/full-rebuild-playbook.md](../references/full-rebuild-playbook.md)。
 
 ## 第 13 步：用户能否修改样式或新增风格
 
@@ -890,7 +890,7 @@ Agent 编排入口使用 `ip_pic.batch`：
 - 新增标题带。
 - 修改视频文字样式。
 
-修改后的 fork 不再是官方固定六风格的原版等价发行物。必须保留许可证、备份、运行测试并自行承担视觉回归。完整步骤见 [references/customization.md](references/customization.md)。
+修改后的 fork 不再是官方固定六风格的原版等价发行物。必须保留许可证、备份、运行测试并自行承担视觉回归。完整步骤见 [references/customization.md](../references/customization.md)。
 
 新增第七种文章风格的最小步骤：
 
@@ -935,4 +935,4 @@ python3 scripts/verify_release.py
 - 自动测试通过。
 - 用户本人已真实看图并明确接受。
 
-更多原理与合同从 [references/README.md](references/README.md) 进入。
+更多原理与合同从 [references/README.md](../references/README.md) 进入。

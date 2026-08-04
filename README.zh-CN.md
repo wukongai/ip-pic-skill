@@ -42,10 +42,10 @@ https://github.com/wukongai/ip-pic-skill
 
 完整的文章配图、自建参考图、修改风格、新增个人风格、画幅、字体和失败重做流程见：
 
-- [普通用户手册](USER-GUIDE.zh-CN.md)
+- [普通用户手册](docs/USER-GUIDE.zh-CN.md)
 - [验证说明](docs/VERIFICATION.zh-CN.md)
 
-默认优先使用 GPT Image 2。正常使用时，Agent 会自动选择当前可用的图片工具；只有它明确说没有可用图片工具时，才需要查看[图片工具接入说明](IMAGE-TOOL-SETUP.zh-CN.md)。
+默认优先使用 GPT Image 2。正常使用时，Agent 会自动选择当前可用的图片工具；只有它明确说没有可用图片工具时，才需要查看[图片工具接入说明](docs/IMAGE-TOOL-SETUP.zh-CN.md)。
 
 ## 用户可以选择什么
 

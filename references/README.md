@@ -4,8 +4,8 @@
 
 ## 手册入口
 
-- [普通用户：把任务交给 Agent](../USER-GUIDE.zh-CN.md)
-- [Agent、开发者与维护者：命令和扩展](../MAINTAINER-GUIDE.zh-CN.md)
+- [普通用户：把任务交给 Agent](../docs/USER-GUIDE.zh-CN.md)
+- [Agent、开发者与维护者：命令和扩展](../docs/MAINTAINER-GUIDE.zh-CN.md)
 
 ## 选择、导演与角色
 

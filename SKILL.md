@@ -35,9 +35,9 @@ metadata:
 
 ## Examples
 
-普通用户可直接说“使用阿拓示例给这段文字配 1 张图”或“给这篇文章配图”。Agent 自动完成其余步骤，详见[用户手册](USER-GUIDE.zh-CN.md)。
+普通用户可直接说“使用阿拓示例给这段文字配 1 张图”或“给这篇文章配图”。Agent 自动完成其余步骤，详见[用户手册](docs/USER-GUIDE.zh-CN.md)。
 
-技术见[维护者手册](MAINTAINER-GUIDE.zh-CN.md)，完整规则见[能力与资源](references/README.md)，许可见[NOTICE](NOTICE.md)。
+技术见[维护者手册](docs/MAINTAINER-GUIDE.zh-CN.md)，完整规则见[能力与资源](references/README.md)，许可见[NOTICE](NOTICE.md)。
 
 ## Error handling
 
